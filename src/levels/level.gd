@@ -8,9 +8,9 @@ var end_point = Vector2(480, 1050)
 
 
 func _ready():
-    yield(get_tree(), "idle_frame")
-    print(character.global_position)
-    var path = nav_2d.get_simple_path(character.global_position, end_point, true)
-    print(path)
-    character.path = path
-    line_2d.points = path
+	yield(get_tree(), "idle_frame")
+	print(character.global_position)
+	var path = nav_2d.get_simple_path(character.global_position, end_point, true)
+	print(path)
+	character.path = path
+	line_2d.points = path
