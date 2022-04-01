@@ -75,19 +75,17 @@ region_enabled = true
 region_rect = Rect2( 1275, 637.5, 70, 70 )
 region_filter_clip = true
 
-[node name="PathFollow2D" type="PathFollow2D" parent="."]
-
-[node name="TestEnemy" type="KinematicBody2D" parent="PathFollow2D"]
+[node name="TestEnemy" type="KinematicBody2D" parent="."]
 position = Vector2( 97, 45 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Sprite" type="Sprite" parent="PathFollow2D/TestEnemy"]
+[node name="Sprite" type="Sprite" parent="TestEnemy"]
 texture = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/TestEnemy"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestEnemy"]
 position = Vector2( 1, 0.5 )
 shape = SubResource( 7 )
 
