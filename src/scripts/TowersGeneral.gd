@@ -22,7 +22,8 @@ func track_enemy():
 	#for the animation of the turret aiming at the enemy
 	
 	#print (enemy)
-	$FacingDirection.look_at(enemy.position)
+	if enemy:
+		$FacingDirection.look_at(enemy.position)
 
 
 func fire_primary():
