@@ -12,6 +12,7 @@ script = ExtResource( 2 )
 [node name="TurretBase" type="Sprite" parent="."]
 position = Vector2( 2, 2 )
 texture = ExtResource( 1 )
+offset = Vector2( 32, 32 )
 region_enabled = true
 region_rect = Rect2( 1282.14, 450.513, 64, 64 )
 
@@ -21,6 +22,7 @@ region_rect = Rect2( 1282.14, 450.513, 64, 64 )
 position = Vector2( 11, -3 )
 rotation = 1.5708
 texture = ExtResource( 1 )
+offset = Vector2( 32, -32 )
 region_enabled = true
 region_rect = Rect2( 1213.52, 640.664, 64, 64 )
 region_filter_clip = true
@@ -31,6 +33,7 @@ position = Vector2( 41, 0 )
 [node name="Range" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+position = Vector2( 32, 32 )
 shape = SubResource( 8 )
 
 [connection signal="body_entered" from="Range" to="." method="_on_Range_body_entered"]
