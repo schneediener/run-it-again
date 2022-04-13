@@ -4,8 +4,9 @@ var map_node
 
 var build_mode = false
 var build_valid = false
-var build_location
+var build_location = null
 var build_type
+var build_tile
 
 func _ready():
 	map_node = get_node("SeanMap")
@@ -27,9 +28,12 @@ func _unhandled_input(event):
 
 
 func initiate_build_mode(tower_type):
+	if build_mode == true:
+		cancel_build_mode()
 	build_type = tower_type
 	build_mode = true
 	get_node("UserInterface").set_tower_preview(build_type, get_global_mouse_position())
+
 
 
 func update_tower_preview():
@@ -40,13 +44,27 @@ func update_tower_preview():
 	
 	if tower_exclusion.get_cellv(current_tile) == -1:
 		get_node("UserInterface").update_tower_preview(tile_position, "ad54ff3c")
+		if build_valid != true:
+			build_valid = true
+		build_location = tile_position
+		build_tile = current_tile
 	else:
 		get_node("UserInterface").update_tower_preview(tile_position, "adff4545")
+		if build_valid:
+			build_valid = false
 
 
 func cancel_build_mode():
-	pass
+	build_mode = false
+	get_node("UserInterface/TowerPreview").free()
 
 
 func verify_and_build():
-	pass
+	if build_valid:
+		var new_tower = load("res://src/scenes/towers/" + build_type + "T1.tscn").instance()
+		new_tower.position = build_location
+		map_node.get_node("Towers").add_child(new_tower, true)
+		map_node.get_node("TowerExclusion").set_cellv(build_tile, 9)
+		cancel_build_mode()
+	else:
+		OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')

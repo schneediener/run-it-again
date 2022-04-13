@@ -34,9 +34,11 @@ func fire_primary():
 func _on_Range_body_entered(body):
 	
 	enemy_array.append(body)
+	print ("entered")
 
 
 
 func _on_Range_body_exited(body):
 	enemy_array.erase(body)
+	print("left")
 

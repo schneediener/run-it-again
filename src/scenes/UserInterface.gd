@@ -2,8 +2,9 @@ extends CanvasLayer
 
 func set_tower_preview(tower_type, mouse_position):
 	print (tower_type)
-
+	
 	var drag_tower = load("res://src/scenes/towers/" + tower_type + "T1.tscn").instance()
+	
 # Method for setting drag_tower by name doesn't feel good, but it's cleaner than my alternative at the moment, see below
 #	var drag_tower = null
 #	if tower_type == "gun":
@@ -20,6 +21,7 @@ func set_tower_preview(tower_type, mouse_position):
 	control.set_name("TowerPreview")
 	add_child(control, true)
 	move_child(get_node("TowerPreview"), 0)
+	get_node("TowerPreview/DragTower/Range").visible = true
 
 func update_tower_preview(new_position, color):
 	var tower_preview = get_node("TowerPreview")
