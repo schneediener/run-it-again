@@ -5,10 +5,11 @@ onready var nav_2d: Navigation2D = $Navigation2D
 onready var line_2d: Line2D = $Line2D
 
 var path
-var end_point = Vector2(1632, 1113)
+onready var end_point = get_node("ExitPoint").position
 
 
 func _ready():
+	#print(end_point, $ExitPoint.position)
 	pass
 	
 func spawn_new_enemy():
@@ -37,3 +38,7 @@ func create_path(character):
 
 func _on_Timer_timeout():
 	spawn_new_enemy()
+
+
+func _on_DamageZone_body_entered(body):
+	pass # Replace with function body.

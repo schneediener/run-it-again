@@ -7,13 +7,39 @@ var build_valid = false
 var build_location = null
 var build_type
 var build_tile
+var current_health = 5 #setget update_current_health
 
 func _ready():
+	
+	$UserInterface/HealthBar.value = current_health
 	map_node = get_node("SeanMap")
 	
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 			i.connect("pressed", self, "initiate_build_mode", [i.get_name()])
+	
+	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+	
 
+func _on_DamageZone_body_entered(body):
+	take_damage()
+	body.queue_free()
+
+#func update_current_health(new_health):
+#	current_health = new_health
+#	$UserInterface/HealthBar.value = current_health
+
+
+
+func take_damage():
+	current_health = current_health-1
+	$UserInterface/HealthBar.value = current_health
+	print("hello", current_health, $UserInterface/HealthBar.value)
+	if current_health <= 0:
+		game_over()
+
+func game_over():
+	OS.alert('Game Over - Also make Sean change me to a nicer message in-game!', 'Error')
+	get_tree().quit()
 
 func _process(delta):
 	if build_mode:
