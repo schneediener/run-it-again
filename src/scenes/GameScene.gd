@@ -38,7 +38,7 @@ func initiate_build_mode(tower_type):
 
 func update_tower_preview():
 	var mouse_position = get_global_mouse_position()
-	var tower_exclusion = map_node.get_node("TowerExclusion")
+	var tower_exclusion = map_node.get_node("Navigation2D/TowerExclusion")
 	var current_tile = tower_exclusion.world_to_map(mouse_position)
 	var tile_position = tower_exclusion.map_to_world(current_tile)
 	
@@ -64,7 +64,7 @@ func verify_and_build():
 		var new_tower = load("res://src/scenes/towers/" + build_type + "T1.tscn").instance()
 		new_tower.position = build_location
 		map_node.get_node("Towers").add_child(new_tower, true)
-		map_node.get_node("TowerExclusion").set_cellv(build_tile, 9)
+		map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
 		cancel_build_mode()
 	else:
 		OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')

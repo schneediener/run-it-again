@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://tutorial_assets/PNG/Retina/treeGreen_twigs.png" type="Texture" id=1]
 [ext_resource path="res://tutorial_assets/PNG/Default size/crateWood.png" type="Texture" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://tutorial_assets/PNG/Default size/treeGreen_large.png" type="Texture" id=9]
 [ext_resource path="res://tutorial_assets/PNG/Default size/treeBrown_large.png" type="Texture" id=10]
 [ext_resource path="res://Empty.png" type="Texture" id=11]
-[ext_resource path="res://src/scenes/enemies/TestEnemy.tscn" type="PackedScene" id=12]
 [ext_resource path="res://src/scenes/levels/SeanMap.gd" type="Script" id=13]
 
 [sub_resource type="TileSet" id=1]
@@ -62,74 +61,59 @@
 2/shapes = [  ]
 2/z_index = 0
 
-[sub_resource type="NavigationPolygon" id=3]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-
-[sub_resource type="NavigationPolygon" id=4]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-
-[sub_resource type="NavigationPolygon" id=5]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-
 [sub_resource type="NavigationPolygon" id=6]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
+vertices = PoolVector2Array( 24, 0, 40, 0, 40, 64, 24, 64 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
 [sub_resource type="NavigationPolygon" id=7]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
+vertices = PoolVector2Array( 0, 24, 64, 24, 64, 40, 0, 40 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=8]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
+[sub_resource type="NavigationPolygon" id=26]
+vertices = PoolVector2Array( 0, 24, 24, 24, 24, 0, 40, 0, 40, 24, 64, 24, 64, 40, 40, 40, 40, 64, 24, 64, 24, 40, 0, 40 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ) ]
+
+[sub_resource type="NavigationPolygon" id=5]
+vertices = PoolVector2Array( 0, 0, 21.33, 0, 21.33, 21.33, 0, 21.33 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=9]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+[sub_resource type="NavigationPolygon" id=24]
+vertices = PoolVector2Array( 64, 24, 40, 24, 40, 0, 24, 0, 24, 64, 40, 64, 40, 40, 64, 40 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6, 7 ) ]
 
-[sub_resource type="NavigationPolygon" id=10]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+[sub_resource type="NavigationPolygon" id=27]
+vertices = PoolVector2Array( 24, 64, 24, 32, 24, 24, 64, 24, 64, 40, 40, 40, 40, 64 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6 ) ]
 
-[sub_resource type="NavigationPolygon" id=11]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+[sub_resource type="NavigationPolygon" id=25]
+vertices = PoolVector2Array( 0, 24, 24, 24, 24, 0, 40, 0, 40, 64, 24, 64, 24, 40, 0, 40 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6, 7 ) ]
 
-[sub_resource type="NavigationPolygon" id=12]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+[sub_resource type="NavigationPolygon" id=28]
+vertices = PoolVector2Array( 0, 24, 40, 24, 40, 64, 24, 64, 24, 40, 0, 40 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ) ]
 
-[sub_resource type="NavigationPolygon" id=13]
-vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
+[sub_resource type="NavigationPolygon" id=29]
+vertices = PoolVector2Array( 64, 24, 40, 24, 40, 0, 24, 0, 24, 24, 0, 24, 0, 40, 64, 40 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6, 7 ) ]
+
+[sub_resource type="NavigationPolygon" id=30]
+vertices = PoolVector2Array( 64, 40, 24, 40, 24, 0, 40, 0, 40, 24, 64, 24 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ) ]
+
+[sub_resource type="NavigationPolygon" id=31]
+vertices = PoolVector2Array( 0, 24, 64, 24, 64, 40, 40, 40, 40, 64, 24, 64, 24, 40, 0, 40 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6, 7 ) ]
+
+[sub_resource type="NavigationPolygon" id=32]
+vertices = PoolVector2Array( 24, 0, 24, 24, 0, 24, 0, 40, 40, 40, 40, 0 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ) ]
+
+[sub_resource type="NavigationPolygon" id=17]
+vertices = PoolVector2Array( 17.1991, 18.3565, 36.875, 25.3009, 28.7731, 35.1389, 16.6204, 40.9259 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
 [sub_resource type="TileSet" id=2]
-0/name = "terrainTiles_default.png 0"
-0/texture = ExtResource( 3 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 64, 0, 384, 128 )
-0/tile_mode = 1
-0/autotile/bitmask_mode = 1
-0/autotile/bitmask_flags = [ Vector2( 0, 0 ), 146, Vector2( 1, 0 ), 56, Vector2( 1, 1 ), 186, Vector2( 2, 0 ), 178, Vector2( 2, 1 ), 176, Vector2( 3, 0 ), 154, Vector2( 3, 1 ), 152, Vector2( 4, 0 ), 58, Vector2( 4, 1 ), 50, Vector2( 5, 0 ), 184, Vector2( 5, 1 ), 26 ]
-0/autotile/icon_coordinate = Vector2( 0, 0 )
-0/autotile/tile_size = Vector2( 64, 64 )
-0/autotile/spacing = 0
-0/autotile/occluder_map = [  ]
-0/autotile/navpoly_map = [ Vector2( 0, 0 ), SubResource( 3 ), Vector2( 1, 0 ), SubResource( 4 ), Vector2( 1, 1 ), SubResource( 5 ), Vector2( 2, 0 ), SubResource( 6 ), Vector2( 2, 1 ), SubResource( 7 ), Vector2( 3, 0 ), SubResource( 8 ), Vector2( 3, 1 ), SubResource( 9 ), Vector2( 4, 0 ), SubResource( 10 ), Vector2( 4, 1 ), SubResource( 11 ), Vector2( 5, 0 ), SubResource( 12 ), Vector2( 5, 1 ), SubResource( 13 ) ]
-0/autotile/priority_map = [  ]
-0/autotile/z_index_map = [  ]
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape_one_way = false
-0/shape_one_way_margin = 0.0
-0/shapes = [  ]
-0/z_index = 0
 1/name = "treeBrown_large.png 1"
 1/texture = ExtResource( 7 )
 1/tex_offset = Vector2( 0, 0 )
@@ -222,6 +206,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 7/tile_mode = 0
 7/occluder_offset = Vector2( 0, 0 )
 7/navigation_offset = Vector2( 0, 0 )
+7/navigation = SubResource( 17 )
 7/shape_offset = Vector2( 0, 0 )
 7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 7/shape_one_way = false
@@ -256,23 +241,23 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 9/shape_one_way_margin = 0.0
 9/shapes = [  ]
 9/z_index = 0
-10/name = "terrainTiles_default.png 10"
+10/name = "SEAN_ROAD.png"
 10/texture = ExtResource( 3 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
-10/region = Rect2( 64, 0, 64, 64 )
+10/region = Rect2( 64, 0, 384, 128 )
 10/tile_mode = 1
-10/autotile/bitmask_mode = 0
-10/autotile/bitmask_flags = [  ]
+10/autotile/bitmask_mode = 1
+10/autotile/bitmask_flags = [ Vector2( 0, 0 ), 146, Vector2( 1, 0 ), 56, Vector2( 1, 1 ), 186, Vector2( 2, 0 ), 178, Vector2( 2, 1 ), 176, Vector2( 3, 0 ), 154, Vector2( 3, 1 ), 152, Vector2( 4, 0 ), 58, Vector2( 4, 1 ), 50, Vector2( 5, 0 ), 184, Vector2( 5, 1 ), 26 ]
 10/autotile/icon_coordinate = Vector2( 0, 0 )
 10/autotile/tile_size = Vector2( 64, 64 )
 10/autotile/spacing = 0
 10/autotile/occluder_map = [  ]
-10/autotile/navpoly_map = [  ]
+10/autotile/navpoly_map = [ Vector2( 0, 0 ), SubResource( 6 ), Vector2( 1, 0 ), SubResource( 7 ), Vector2( 1, 1 ), SubResource( 26 ), Vector2( 1, 2 ), SubResource( 5 ), Vector2( 2, 0 ), SubResource( 24 ), Vector2( 2, 1 ), SubResource( 27 ), Vector2( 3, 0 ), SubResource( 25 ), Vector2( 3, 1 ), SubResource( 28 ), Vector2( 4, 0 ), SubResource( 29 ), Vector2( 4, 1 ), SubResource( 30 ), Vector2( 5, 0 ), SubResource( 31 ), Vector2( 5, 1 ), SubResource( 32 ) ]
 10/autotile/priority_map = [  ]
 10/autotile/z_index_map = [  ]
 10/occluder_offset = Vector2( 0, 0 )
-10/navigation_offset = Vector2( 0, 0 )
+10/navigation_offset = Vector2( 10, 10 )
 10/shape_offset = Vector2( 0, 0 )
 10/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 10/shape_one_way = false
@@ -294,13 +279,31 @@ tile_data = PoolIntArray( -1, 1, 0, -65536, 1, 0, -65535, 1, 0, -65534, 1, 0, -6
 position = Vector2( 997, 597 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
+cell_size = 16.0
 
 [node name="TowerExclusion" type="TileMap" parent="Navigation2D"]
 tile_set = SubResource( 2 )
 format = 1
-tile_data = PoolIntArray( -65526, 7, 0, 29, 7, 0, 131071, 0, 0, 65536, 0, 1, 65537, 0, 1, 65538, 0, 1, 65539, 0, 1, 65540, 0, 65539, 131074, 7, 0, 131076, 0, 0, 131083, 0, 65538, 131084, 0, 1, 131085, 0, 1, 131086, 0, 5, 131087, 0, 1, 131088, 0, 1, 131089, 0, 1, 131090, 0, 1, 131091, 0, 1, 131092, 0, 1, 131093, 0, 1, 131094, 0, 1, 131095, 0, 1, 131096, 0, 1, 131097, 0, 65539, 196612, 0, 0, 196614, 1073741830, 0, 196616, 8, 0, 196619, 0, 0, 196622, 1073741824, 0, 196623, 8, 0, 196632, 7, 0, 196633, 0, 0, 262148, 0, 0, 262155, 0, 0, 262158, 1073741824, 0, 262163, 0, 65538, 262164, 0, 1, 262165, 0, 1, 262166, 0, 1, 262167, 0, 1, 262168, 0, 1, 262169, 0, 3, 262172, 1073741830, 0, 327684, 0, 0, 327690, 1073741829, 0, 327691, 0, 0, 327694, 1073741824, 0, 327695, 1073741830, 0, 327699, 0, 0, 327705, 0, 0, 393216, 0, 65538, 393217, 0, 1, 393218, 0, 1, 393219, 0, 1, 393220, 0, 65541, 393223, 0, 65538, 393224, 0, 1, 393225, 0, 1, 393226, 0, 1, 393227, 0, 65541, 393230, 1073741824, 0, 393235, 0, 0, 393241, 0, 0, 458752, 0, 0, 458759, 0, 0, 458761, 7, 0, 458766, 1073741824, 0, 458771, 0, 0, 458774, 0, 65538, 458775, 0, 1, 458776, 0, 1, 458777, 0, 65537, 458778, 0, 1, 458779, 0, 1, 458780, 0, 65539, 524288, 0, 0, 524291, 1073741829, 0, 524295, 0, 0, 524302, 1073741824, 0, 524307, 0, 0, 524310, 0, 0, 524312, 1073741828, 0, 524313, 0, 0, 524315, 7, 0, 524316, 0, 0, 589824, 0, 0, 589825, 8, 0, 589831, 0, 0, 589838, 1073741824, 0, 589841, 0, 65538, 589842, 0, 1, 589843, 0, 65541, 589846, 0, 0, 589847, 8, 0, 589849, 0, 0, 589852, 0, 0, 655360, 0, 65540, 655361, 0, 1, 655362, 0, 1, 655363, 0, 1, 655364, 0, 1, 655365, 0, 1, 655366, 0, 1, 655367, 0, 4, 655368, 0, 1, 655369, 0, 1, 655370, 0, 1, 655371, 0, 1, 655372, 0, 1, 655373, 0, 1, 655374, 0, 4, 655375, 0, 1, 655376, 0, 1, 655377, 0, 65541, 655379, 7, 0, 655382, 0, 0, 655385, 0, 0, 655388, 0, 0, 720918, 0, 0, 720921, 0, 0, 720924, 0, 0, 786454, 0, 0, 786457, 0, 0, 786460, 0, 0, 851973, 7, 0, 851990, 0, 0, 851993, 0, 0, 851995, 1073741830, 0, 851996, 0, 0, 917516, 8, 0, 917526, 0, 0, 917529, 0, 0, 917532, 0, 0, 983045, 1073741827, 0, 983051, 1073741830, 0, 983058, 1073741829, 0, 983062, 0, 0, 983065, 0, 0, 983068, 0, 0, 1048598, 0, 0, 1048601, 0, 0, 1048604, 0, 0, 1048605, 8, 0, 1114134, 0, 0, 1114137, 0, 0, 1114140, 0, 0 )
-
-[node name="TestEnemy" parent="." instance=ExtResource( 12 )]
-position = Vector2( 37, 91 )
+tile_data = PoolIntArray( -65526, 7, 0, 29, 7, 0, 131071, 10, 0, 65536, 10, 1, 65537, 10, 1, 65538, 10, 1, 65539, 10, 65539, 131074, 7, 0, 131075, 10, 0, 196611, 10, 0, 196614, 1073741830, 0, 196616, 8, 0, 196623, 8, 0, 196632, 7, 0, 262147, 10, 0, 262162, 0, 65538, 262163, 0, 1, 262164, 0, 1, 262165, 0, 1, 262166, 0, 1, 262167, 0, 1, 262168, 0, 1, 262169, 0, 65539, 262172, 1073741830, 0, 327683, 10, 0, 327690, 1073741829, 0, 327695, 1073741830, 0, 327698, 0, 0, 327705, 0, 0, 393219, 10, 0, 393224, 0, 65538, 393225, 0, 1, 393226, 0, 65539, 393234, 0, 0, 393241, 0, 0, 458754, 0, 65538, 458755, 10, 65540, 458756, 10, 1, 458757, 10, 1, 458758, 10, 1, 458759, 10, 65539, 458760, 0, 0, 458761, 7, 0, 458762, 0, 0, 458770, 0, 0, 458777, 0, 0, 524290, 0, 0, 524295, 10, 0, 524296, 0, 0, 524298, 0, 0, 524302, 10, 65538, 524303, 10, 1, 524304, 10, 1, 524305, 10, 1, 524306, 10, 1, 524307, 10, 1, 524308, 10, 65539, 524312, 1073741828, 0, 524313, 0, 0, 524315, 7, 0, 589825, 8, 0, 589826, 0, 0, 589831, 10, 0, 589832, 0, 0, 589834, 0, 0, 589838, 10, 0, 589844, 10, 0, 589847, 8, 0, 589849, 0, 0, 655362, 0, 0, 655367, 10, 0, 655368, 0, 0, 655370, 0, 0, 655374, 10, 0, 655379, 7, 0, 655380, 10, 0, 655385, 0, 0, 720898, 0, 0, 720903, 10, 0, 720904, 0, 0, 720906, 0, 0, 720910, 10, 0, 720916, 10, 0, 720921, 0, 0, 786434, 0, 65540, 786435, 0, 1, 786436, 0, 1, 786437, 0, 1, 786438, 0, 1, 786439, 10, 65540, 786440, 10, 1, 786441, 10, 1, 786442, 10, 1, 786443, 10, 1, 786444, 10, 1, 786445, 10, 1, 786446, 10, 3, 786452, 10, 2, 786453, 10, 1, 786454, 10, 1, 786455, 10, 1, 786456, 10, 1, 786457, 10, 1, 786458, 10, 65539, 786459, 0, 1, 786460, 0, 65539, 851973, 7, 0, 851978, 0, 65540, 851979, 0, 1, 851980, 0, 1, 851981, 0, 1, 851982, 10, 0, 851983, 0, 1, 851984, 0, 1, 851985, 0, 1, 851986, 0, 1, 851987, 0, 1, 851988, 10, 0, 851994, 10, 0, 851995, 1073741830, 0, 851996, 0, 0, 917516, 8, 0, 917518, 10, 0, 917524, 10, 0, 917526, 0, 0, 917530, 10, 0, 917532, 0, 0, 983045, 1073741827, 0, 983051, 1073741830, 0, 983054, 10, 0, 983058, 1073741829, 0, 983060, 10, 0, 983062, 0, 0, 983066, 10, 0, 983068, 0, 0, 1048590, 10, 65540, 1048591, 10, 1, 1048592, 10, 1, 1048593, 10, 1, 1048594, 10, 1, 1048595, 10, 1, 1048596, 10, 65541, 1048598, 0, 65540, 1048599, 0, 1, 1048600, 0, 1, 1048601, 0, 5, 1048602, 10, 0, 1048603, 0, 1, 1048604, 0, 65541, 1048605, 8, 0, 1114137, 0, 0, 1114138, 10, 0 )
 
 [node name="Line2D" type="Line2D" parent="."]
+points = PoolVector2Array( 668, 384 )
+width = 16.0
+default_color = Color( 0.4, 0.501961, 1, 0.545098 )
+joint_mode = 2
+sharp_limit = 500.0
+round_precision = 900
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Spawn" type="Position2D" parent="."]
+position = Vector2( 29, 95 )
+
+[node name="Timer" type="Timer" parent="Spawn"]
+wait_time = 2.0
+autostart = true
+
+[node name="EnemyContainer" type="Node2D" parent="."]
+
+[connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]

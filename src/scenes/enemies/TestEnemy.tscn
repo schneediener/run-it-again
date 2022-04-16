@@ -4,7 +4,7 @@
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 17, 18.5 )
+extents = Vector2( 31.5, 31.5 )
 
 [node name="TestEnemy" type="KinematicBody2D"]
 position = Vector2( 97, 45 )
@@ -17,5 +17,5 @@ __meta__ = {
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 1, 0.5 )
+position = Vector2( 0.5, -0.5 )
 shape = SubResource( 7 )
