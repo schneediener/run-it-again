@@ -75,6 +75,7 @@ value = 30.0
 allow_lesser = true
 texture_over = ExtResource( 7 )
 texture_progress = ExtResource( 6 )
+texture_progress_offset = Vector2( 3, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

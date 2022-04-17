@@ -33,6 +33,8 @@ region_filter_clip = true
 [node name="MuzzlePosition1" type="Position2D" parent="FacingDirection"]
 position = Vector2( 41, 0 )
 
+[node name="BulletContainer" type="Node2D" parent="FacingDirection"]
+
 [node name="Range" type="Area2D" parent="."]
 visible = false
 
@@ -45,5 +47,9 @@ shape = SubResource( 8 )
 scale = Vector2( 0.835484, 0.835484 )
 texture = ExtResource( 3 )
 
+[node name="FiringRate" type="Timer" parent="."]
+wait_time = 0.6
+
 [connection signal="body_entered" from="Range" to="." method="_on_Range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
+[connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]

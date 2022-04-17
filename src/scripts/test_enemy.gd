@@ -4,7 +4,7 @@ var speed = 400
 var velocity = Vector2()
 var path = PoolVector2Array()
 var distance_travelled = 0
-var health = 5
+var health = 10
 
 func _ready():
 	print(global_position)
@@ -26,3 +26,10 @@ func take_damage(damage):
 	health = health-damage
 	if health <= 0:
 		self.queue_free()
+
+
+func _on_HitDetection_body_entered(body):
+	
+	if body != self:
+		take_damage(2)
+		body.queue_free()

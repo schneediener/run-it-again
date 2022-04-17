@@ -4,7 +4,7 @@
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 31.5, 31.5 )
+extents = Vector2( 27, 26.5 )
 
 [node name="TestEnemy" type="KinematicBody2D"]
 position = Vector2( 97, 45 )
@@ -13,9 +13,18 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -0.5 )
+shape = SubResource( 7 )
+
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.5, -0.5 )
+[node name="HitDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection"]
+position = Vector2( 0, -0.5 )
+scale = Vector2( 1.2, 1.2 )
 shape = SubResource( 7 )
+
+[connection signal="body_entered" from="HitDetection" to="." method="_on_HitDetection_body_entered"]

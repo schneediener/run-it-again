@@ -8,6 +8,7 @@ var build_location = null
 var build_type
 var build_tile
 var current_health = 5 #setget update_current_health
+var tower_script = load("res://src/scripts/TowersGeneral.gd")
 
 func _ready():
 	
@@ -89,8 +90,10 @@ func verify_and_build():
 	if build_valid:
 		var new_tower = load("res://src/scenes/towers/" + build_type + "T1.tscn").instance()
 		new_tower.position = build_location
+		new_tower.built = true
 		map_node.get_node("Towers").add_child(new_tower, true)
 		map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
+		
 		cancel_build_mode()
 	else:
 		OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')
