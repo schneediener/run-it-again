@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/GunT1.gd" type="Script" id=2]
@@ -8,6 +8,9 @@
 
 [sub_resource type="CircleShape2D" id=8]
 radius = 250.0
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 32, 32 )
 
 [node name="GunT1" type="Node2D"]
 script = ExtResource( 2 )
@@ -50,6 +53,13 @@ texture = ExtResource( 3 )
 [node name="FiringRate" type="Timer" parent="."]
 wait_time = 0.6
 
+[node name="SelectArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+position = Vector2( 32, 32 )
+shape = SubResource( 10 )
+
 [connection signal="body_entered" from="Range" to="." method="_on_Range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
+[connection signal="input_event" from="SelectArea" to="." method="_on_SelectArea_input_event"]

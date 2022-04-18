@@ -3,15 +3,25 @@ extends Node2D
 var map_node
 
 var build_mode = false
+var sell_mode = false
 var build_valid = false
 var build_location = null
 var build_type
 var build_tile
-var current_health = 5 #setget update_current_health
+var current_health = 30 #setget update_current_health
+var current_gold = 500 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 
+func current_gold_set(value):
+	print(value)
+	current_gold = value
+	$UserInterface/GoldCounter.text = "$" + str(current_gold)
+
+func current_gold_get():
+	return current_gold
+
 func _ready():
-	
+	current_gold_set(current_gold)
 	$UserInterface/HealthBar.value = current_health
 	map_node = get_node("SeanMap")
 	
@@ -19,11 +29,37 @@ func _ready():
 			i.connect("pressed", self, "initiate_build_mode", [i.get_name()])
 	
 	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
-	
+	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+
+
+func _on_SelectArea_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton \
+	and event.button_index == BUTTON_LEFT \
+	and event.pressed:
+		print("Clicked")
+		return(self) # returns a reference to this node
+		pass
+#	var tower_value
+#	print("signal connected")
+#	if sell_mode:
+#		build_type = tower_instance.get_name()
+#
+#		if build_type == "Gun":
+#			tower_value = 100
+#		elif build_type == "Missile":
+#			tower_value = 150 #this is all lazy code
+#
+#		if tower_value:
+#			current_gold_set(current_gold+tower_value)
+#			tower_instance.queue_free()
 
 func _on_DamageZone_body_entered(body):
-	take_damage()
-	body.queue_free()
+	if body.get("type"):
+		if body.type == "bullet":
+			pass
+	else:
+		take_damage()
+		body.queue_free()
 
 #func update_current_health(new_health):
 #	current_health = new_health
@@ -34,7 +70,8 @@ func _on_DamageZone_body_entered(body):
 func take_damage():
 	current_health = current_health-1
 	$UserInterface/HealthBar.value = current_health
-	print("hello", current_health, $UserInterface/HealthBar.value)
+	print(current_health)
+	#print("hello", current_health, $UserInterface/HealthBar.value)
 	if current_health <= 0:
 		game_over()
 
@@ -57,6 +94,8 @@ func _unhandled_input(event):
 func initiate_build_mode(tower_type):
 	if build_mode == true:
 		cancel_build_mode()
+	if sell_mode == true:
+		sell_mode = false
 	build_type = tower_type
 	build_mode = true
 	get_node("UserInterface").set_tower_preview(build_type, get_global_mouse_position())
@@ -87,13 +126,33 @@ func cancel_build_mode():
 
 
 func verify_and_build():
-	if build_valid:
+	var tower_cost
+	
+	if build_type == "Gun":
+		tower_cost = 100
+	elif build_type == "Missile":
+		tower_cost = 150
+
+	if build_valid and current_gold >= tower_cost:
 		var new_tower = load("res://src/scenes/towers/" + build_type + "T1.tscn").instance()
 		new_tower.position = build_location
 		new_tower.built = true
 		map_node.get_node("Towers").add_child(new_tower, true)
 		map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
+		#new_tower.connect("input_event", self, "_on_SelectArea_input_event")
+		current_gold_set(current_gold-tower_cost)
 		
 		cancel_build_mode()
+	elif build_valid and current_gold < tower_cost:
+		OS.alert('NOT ENOUGH MOOLAH')
 	else:
 		OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')
+
+
+func _on_Sell_pressed():
+	initiate_sell_mode()
+	
+
+func initiate_sell_mode():
+	sell_mode = true
+	print("Sell Mode:" + str(sell_mode))

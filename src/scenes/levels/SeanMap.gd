@@ -25,12 +25,12 @@ func spawn_new_enemy():
 
 func create_path(character):
 	yield(get_tree(), "idle_frame")
-	print(character.global_position)
+	#print(character.global_position)
 	var path = nav_2d.get_simple_path(character.global_position, end_point, true)
-	print(path)
+	#print(path)
 	character.path = path
 	line_2d.points = path
-	print (line_2d.points)
+	#print (line_2d.points)
 
 #func give_path(enemy):
 #	enemy.path = path
