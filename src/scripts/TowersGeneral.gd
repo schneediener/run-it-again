@@ -8,6 +8,7 @@ onready var enemy_script = load("res://src/scripts/test_enemy.gd").new()
 var bullet
 var speed = 200
 onready var ready_to_fire = true
+onready var secondary = get_node("../../..")
 
 func _physics_process(_delta):
 	
@@ -43,6 +44,12 @@ func track_enemy():
 	if enemy:
 		$FacingDirection.look_at(enemy_position)
 
+func _on_SelectArea_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton \
+	and event.button_index == BUTTON_LEFT \
+	and event.pressed:
+		secondary.sell_tower(self)
+		print(secondary)
 
 func fire_primary():
 	if enemy and ready_to_fire:
