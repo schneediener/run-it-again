@@ -11,6 +11,7 @@ var build_tile
 var current_health = 30 #setget update_current_health
 var current_gold = 500 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
+var selected_tower 
 
 func current_gold_set(value):
 	print(value)
@@ -88,17 +89,32 @@ func _process(delta):
 
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel") and build_mode:
-		cancel_build_mode()
-	if event.is_action_pressed("ui_accept") and build_mode:
-		verify_and_build()
+	if event.is_action_pressed("ui_cancel"):
+		if selected_tower:
+			selected_tower.get_node("Upgrade").visible = false
+			selected_tower = null
+		if build_mode:
+			cancel_build_mode()
+		
+	if event.is_action_pressed("ui_accept"):
+		if selected_tower:
+			selected_tower.get_node("Upgrade").visible = false
+			selected_tower = null
+		if build_mode:
+			verify_and_build()
+		
+		get_tree().set_input_as_handled()
+
 
 
 func initiate_build_mode(tower_type):
-	if build_mode == true:
+	if build_mode:
 		cancel_build_mode()
-	if sell_mode == true:
+	if sell_mode:
 		sell_mode = false
+	if selected_tower:
+		selected_tower = null
+	
 	build_type = tower_type
 	build_mode = true
 	get_node("UserInterface").set_tower_preview(build_type, get_global_mouse_position())
@@ -125,6 +141,7 @@ func update_tower_preview():
 
 func cancel_build_mode():
 	build_mode = false
+	print("build mode false")
 	get_node("UserInterface/TowerPreview").free()
 
 
@@ -151,6 +168,27 @@ func verify_and_build():
 	else:
 		OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')
 
+
+func select_tower(tower_instance):
+	print("Select tower was run")
+	var new_tower = tower_instance
+	
+	if selected_tower:
+		var old_tower = selected_tower
+		
+		old_tower.get_node("Upgrade").visible = false
+		new_tower.get_node("Upgrade").visible = true
+		
+		selected_tower = new_tower
+		return
+	else:
+		selected_tower = new_tower
+		selected_tower.get_node("Upgrade").visible = true
+	
+
+	
+func get_selected_tower():
+	return(selected_tower)
 
 func _on_Sell_pressed():
 	initiate_sell_mode()

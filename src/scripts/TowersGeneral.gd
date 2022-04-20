@@ -8,7 +8,11 @@ onready var enemy_script = load("res://src/scripts/test_enemy.gd").new()
 var bullet
 var speed = 200
 onready var ready_to_fire = true
-onready var secondary = get_node("../../..")
+onready var game_scene = get_node("../../..")
+
+func _ready():
+	$Upgrade.visible = false
+	print("ready finished")
 
 func _physics_process(_delta):
 	
@@ -17,6 +21,8 @@ func _physics_process(_delta):
 		track_enemy()
 		if ready_to_fire == true:
 			fire_primary()
+	if game_scene.selected_tower != self and $Upgrade.visible:
+		$Upgrade.visible = false
 
 func _on_FiringRate_timeout():
 	ready_to_fire = true
@@ -37,6 +43,9 @@ func select_enemy(select_mode):
 #	if global_position.distance_to(path[0]) <= 16:
 #			path.remove(0)
 
+func _on_Upgrade_pressed():
+	pass
+	
 func track_enemy():
 	#for the animation of the turret aiming at the enemy
 	var enemy_position = enemy.position
@@ -44,12 +53,24 @@ func track_enemy():
 	if enemy:
 		$FacingDirection.look_at(enemy_position)
 
-func _on_SelectArea_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton \
-	and event.button_index == BUTTON_LEFT \
-	and event.pressed:
-		secondary.sell_tower(self)
-		print(secondary)
+func _on_SelectArea_pressed():
+	print("select button pressed!")
+	if game_scene.sell_mode:
+			game_scene.sell_tower(self)
+	else:
+			game_scene.select_tower(self)
+
+#func _on_SelectArea_input_event(viewport, event, shape_idx):
+#
+#	if event is InputEventMouseButton \
+#	and event.button_index == BUTTON_LEFT \
+#	and event.pressed:
+#		if game_scene.sell_mode:
+#			game_scene.sell_tower(self)
+#		else:
+#			game_scene.select_tower(self)
+
+
 
 func fire_primary():
 	if enemy and ready_to_fire:

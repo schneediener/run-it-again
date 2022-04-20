@@ -11,7 +11,7 @@ func set_tower_preview(tower_type, mouse_position):
 #		drag_tower = load("res://src/scenes/towers/GunT1.tscn").instance()
 #	else:
 #		drag_tower = load("res://src/scenes/towers/MissileT1.tscn").instance()
-
+	drag_tower.get_node("SelectTower").visible = false
 	drag_tower.set_name("DragTower")
 	drag_tower.modulate = Color("ad54ff3c")
 	
