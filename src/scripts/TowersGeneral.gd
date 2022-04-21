@@ -11,8 +11,12 @@ onready var ready_to_fire = true
 onready var game_scene = get_node("../../..")
 
 func _ready():
-	$Upgrade.visible = false
-	print("ready finished")
+	#$Upgrade.visible = false
+	#print("ready finished")
+	
+	if built:
+		$ButtonContainer/Upgrade/CostValue.text = "-$" + str(self.upgrade_value)
+		$ButtonContainer/Sell/SellValue.text = "+$" + str(self.sell_value)
 
 func _physics_process(_delta):
 	
@@ -21,8 +25,8 @@ func _physics_process(_delta):
 		track_enemy()
 		if ready_to_fire == true:
 			fire_primary()
-	if game_scene.selected_tower != self and $Upgrade.visible:
-		$Upgrade.visible = false
+#	if game_scene.selected_tower != self and $Upgrade.visible:
+#		$Upgrade.visible = false
 
 func _on_FiringRate_timeout():
 	ready_to_fire = true
@@ -42,8 +46,28 @@ func select_enemy(select_mode):
 	
 #	if global_position.distance_to(path[0]) <= 16:
 #			path.remove(0)
+func _on_Sell_pressed():
+	if built and self.sell_value:
+		game_scene.current_gold_set(game_scene.current_gold+self.sell_value)
+		game_scene.selected_tower = null
+		self.queue_free()
 
 func _on_Upgrade_pressed():
+	var current_tower = self
+	var new_tower = current_tower.upgrade_path.instance()
+	var cost = current_tower.upgrade_value
+	var current_gold = game_scene.current_gold
+	
+	if new_tower and game_scene.current_gold >= cost:
+		
+		game_scene.current_gold_set(current_gold-cost)
+		
+		self.get_parent().add_child(new_tower, true)
+		new_tower.position = current_tower.position
+		new_tower.built = true
+		game_scene.selected_tower = null
+		self.queue_free()
+	
 	pass
 	
 func track_enemy():
@@ -53,12 +77,10 @@ func track_enemy():
 	if enemy:
 		$FacingDirection.look_at(enemy_position)
 
-func _on_SelectArea_pressed():
+func _on_SelectTower_pressed():
 	print("select button pressed!")
-	if game_scene.sell_mode:
-			game_scene.sell_tower(self)
-	else:
-			game_scene.select_tower(self)
+	
+	game_scene.select_tower(self)
 
 #func _on_SelectArea_input_event(viewport, event, shape_idx):
 #

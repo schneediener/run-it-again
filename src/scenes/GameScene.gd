@@ -22,6 +22,7 @@ func current_gold_get():
 	return current_gold
 
 func _ready():
+	
 	current_gold_set(current_gold)
 	$UserInterface/HealthBar.value = current_health
 	map_node = get_node("SeanMap")
@@ -91,14 +92,14 @@ func _process(delta):
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:
-			selected_tower.get_node("Upgrade").visible = false
+			selected_tower.get_node("ButtonContainer").visible = false
 			selected_tower = null
 		if build_mode:
 			cancel_build_mode()
 		
 	if event.is_action_pressed("ui_accept"):
 		if selected_tower:
-			selected_tower.get_node("Upgrade").visible = false
+			selected_tower.get_node("ButtonContainer").visible = false
 			selected_tower = null
 		if build_mode:
 			verify_and_build()
@@ -176,14 +177,18 @@ func select_tower(tower_instance):
 	if selected_tower:
 		var old_tower = selected_tower
 		
-		old_tower.get_node("Upgrade").visible = false
-		new_tower.get_node("Upgrade").visible = true
+		old_tower.get_node("ButtonContainer").visible = false
+		new_tower.get_node("ButtonContainer").visible = true
+		if new_tower.upgrade_value == null:
+			new_tower.get_node("ButtonContainer/Upgrade").visible = false
 		
 		selected_tower = new_tower
 		return
 	else:
 		selected_tower = new_tower
-		selected_tower.get_node("Upgrade").visible = true
+		selected_tower.get_node("ButtonContainer").visible = true
+		if selected_tower.upgrade_value == null:
+			selected_tower.get_node("ButtonContainer/Upgrade").visible = false
 	
 
 	
