@@ -3,7 +3,7 @@ extends Node2D
 var map_node
 
 var build_mode = false
-var sell_mode = false
+#var sell_mode = false
 var build_valid = false
 var build_location = null
 var build_type
@@ -33,30 +33,29 @@ func _ready():
 	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 
-func sell_tower(tower_instance):
-	var tower_value
-	print("func started" + str(tower_instance))
-	
-	if sell_mode:
-		print("sell mode working")
-		build_type = tower_instance.tower_type
-		print(build_type)
-
-		if build_type == "GunT1":
-			tower_value = 100
-		elif build_type == "missile":
-			tower_value = 150 #this is all lazy code
-
-		if tower_value:
-			var tower_exclusion = map_node.get_node("Navigation2D/TowerExclusion")
-			var current_tile = tower_exclusion.world_to_map(get_global_mouse_position())
-			print("tower value working")
-			current_gold_set(current_gold+tower_value)
-			tower_instance.queue_free()
-			map_node.get_node("Navigation2D/TowerExclusion").set_cellv(current_tile, -1)
-			sell_mode = false
-			tower_value = null
-		
+#func sell_tower(tower_instance):    // Keeping around for the time being, just in case
+#	var tower_value
+#	print("func started" + str(tower_instance))
+#
+#	if sell_mode:
+#		print("sell mode working")
+#		build_type = tower_instance.tower_type
+#		print(build_type)
+#
+#		if build_type == "GunT1":
+#			tower_value = 100
+#		elif build_type == "missile":
+#			tower_value = 150 #this is all lazy code
+#
+#		if tower_value:
+#			var tower_exclusion = map_node.get_node("Navigation2D/TowerExclusion")
+#			var current_tile = tower_exclusion.world_to_map(get_global_mouse_position())
+#			print("tower value working")
+#			current_gold_set(current_gold+tower_value)
+#			tower_instance.queue_free()
+#			map_node.get_node("Navigation2D/TowerExclusion").set_cellv(current_tile, -1)
+#			sell_mode = false
+#			tower_value = null
 
 func _on_DamageZone_body_entered(body):
 	if body.get("type"):
@@ -111,8 +110,6 @@ func _unhandled_input(event):
 func initiate_build_mode(tower_type):
 	if build_mode:
 		cancel_build_mode()
-	if sell_mode:
-		sell_mode = false
 	if selected_tower:
 		selected_tower = null
 	
@@ -194,11 +191,3 @@ func select_tower(tower_instance):
 	
 func get_selected_tower():
 	return(selected_tower)
-
-func _on_Sell_pressed():
-	initiate_sell_mode()
-	
-
-func initiate_sell_mode():
-	sell_mode = true
-	print("Sell Mode:" + str(sell_mode))

@@ -47,9 +47,13 @@ func select_enemy(select_mode):
 #	if global_position.distance_to(path[0]) <= 16:
 #			path.remove(0)
 func _on_Sell_pressed():
+	var tower_exclusion = game_scene.map_node.get_node("Navigation2D/TowerExclusion")
+	var current_tile = tower_exclusion.world_to_map(self.position)
+	
 	if built and self.sell_value:
 		game_scene.current_gold_set(game_scene.current_gold+self.sell_value)
 		game_scene.selected_tower = null
+		game_scene.map_node.get_node("Navigation2D/TowerExclusion").set_cellv(current_tile, -1)
 		self.queue_free()
 
 func _on_Upgrade_pressed():
