@@ -4,7 +4,7 @@ var enemy_array = []
 var built = false
 var select_mode = "first"
 onready var enemy# = get_node("../../../SeanMap/TestEnemy")
-onready var enemy_script = load("res://src/scripts/test_enemy.gd").new()
+onready var enemy_script = load("res://src/scripts/test_enemy1.gd").new()
 var bullet
 var speed = 200
 onready var ready_to_fire = true
