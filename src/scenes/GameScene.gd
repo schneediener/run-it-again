@@ -22,7 +22,7 @@ func current_gold_get():
 	return current_gold
 
 func _ready():
-	
+#	$UserInterface/RemainingEnemies.text = map_node.
 	current_gold_set(current_gold)
 	$UserInterface/HealthBar.value = current_health
 	map_node = get_node("SeanMap")

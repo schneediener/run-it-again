@@ -95,3 +95,16 @@ fit_content_height = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RemainingEnemies" type="RichTextLabel" parent="UserInterface"]
+visible = false
+margin_left = 1754.0
+margin_top = 193.0
+margin_right = 2075.0
+margin_bottom = 273.0
+custom_fonts/normal_font = ExtResource( 8 )
+text = "400"
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
