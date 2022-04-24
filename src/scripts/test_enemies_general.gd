@@ -5,6 +5,7 @@ var path = PoolVector2Array()
 var distance_travelled = 0
 var health
 var health_perc
+var type = "enemy"
 onready var game_scene = get_node("../../..")
 
 func _ready():
@@ -59,6 +60,6 @@ func take_damage(damage):
 
 func _on_HitDetection_body_entered(body):
 	
-	if body != self:
+	if body.type == "bullet":
 		take_damage(body.damage)
 		body.queue_free()

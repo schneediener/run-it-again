@@ -17,7 +17,7 @@ var shader = ShaderMaterial.new()
 
 
 func current_gold_set(value):
-	print(value)
+#	print(value)
 	current_gold = value
 	$UserInterface/GoldCounter.text = "$" + str(current_gold)
 
@@ -42,8 +42,9 @@ func _ready():
 	
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 			i.connect("pressed", self, "initiate_build_mode", [i.get_name()])
+			i.connect("pressed", self, "initiate_build_mode", [i.get_name()])
 	
-	#get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 
 
 #func sell_tower(tower_instance):    // Keeping around for the time being, just in case
@@ -71,10 +72,10 @@ func _ready():
 #			tower_value = null
 
 func _on_DamageZone_body_entered(body):
-	if body.get("type"):
-		if body.type == "bullet":
-			pass
-	else:
+#	print("enemy left map!")
+#	print(body.type)
+	
+	if body.type == "enemy":
 		take_damage()
 		body.queue_free()
 
@@ -87,7 +88,7 @@ func _on_DamageZone_body_entered(body):
 func take_damage():
 	current_health = current_health-1
 	$UserInterface/HealthBar.value = current_health
-	print(current_health)
+#	print(current_health)
 	#print("hello", current_health, $UserInterface/HealthBar.value)
 	if current_health <= 0:
 		game_over()
@@ -159,7 +160,7 @@ func update_tower_preview():
 
 func cancel_build_mode():
 	build_mode = false
-	print("build mode false")
+#	print("build mode false")
 	get_node("UserInterface/TowerPreview").free()
 
 
@@ -188,7 +189,7 @@ func verify_and_build():
 
 
 func select_tower(tower_instance):
-	print("Select tower was run")
+#	print("Select tower was run")
 	var new_tower = tower_instance
 	var child_count = tower_instance.get_parent().get_child_count()
 
