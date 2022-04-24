@@ -31,12 +31,10 @@ func prepare_shader():
 	shader.set_shader_param("outline_color", Color(255,255,0))
 	
 func _ready():
-<<<<<<< Updated upstream
-	
-=======
+
 	prepare_shader()
 #	$UserInterface/RemainingEnemies.text = map_node.
->>>>>>> Stashed changes
+
 	current_gold_set(current_gold)
 	$UserInterface/HealthBar.value = current_health
 	map_node = get_node("SeanMap")
