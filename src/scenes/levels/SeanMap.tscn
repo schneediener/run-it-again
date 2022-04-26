@@ -298,7 +298,6 @@ __meta__ = {
 position = Vector2( 29, 95 )
 
 [node name="Timer" type="Timer" parent="Spawn"]
-wait_time = 0.5
 
 [node name="EnemyContainer" type="Node2D" parent="."]
 
