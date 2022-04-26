@@ -14,8 +14,7 @@ func _ready():
 #	print("modulate:" + str(self.modulate))
 	#$Upgrade.visible = false
 	#print("ready finished")
-	
-	if built:
+		$ButtonContainer.hide()
 		$ButtonContainer/Upgrade/CostValue.text = "-$" + str(self.upgrade_value)
 		$ButtonContainer/Sell/SellValue.text = "+$" + str(self.sell_value)
 
@@ -117,6 +116,7 @@ func fire_primary():
 	if enemy and ready_to_fire:
 		
 		var bullet = load("res://src/scenes/towers/Bullet.tscn").instance()
+		bullet.damage = self.damage
 		$FacingDirection/BulletContainer.add_child(bullet, false)
 		bullet.global_position = $FacingDirection/MuzzlePosition1.global_position
 #		bullet.destination = enemy.position

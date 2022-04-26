@@ -8,12 +8,27 @@ var build_valid = false
 var build_location = null
 var build_type
 var build_tile
+var build_tower
+var build_scene
 var current_health = 30 #setget update_current_health
 var current_gold = 500 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
 var SELECTSHADER = load("res://new_shader.tres")
 var shader = ShaderMaterial.new()
+
+func _ready():
+	prepare_shader()
+	current_gold_set(current_gold)
+	
+	$UserInterface/HealthBar.value = current_health
+	map_node = get_node("SeanMap")
+	
+	for i in get_tree().get_nodes_in_group("build_buttons"):
+			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
+			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
+	
+	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 
 
 func current_gold_set(value):
@@ -30,46 +45,6 @@ func prepare_shader():
 	shader.set_shader_param("sizex", 1000)
 	shader.set_shader_param("sizey", 1000)
 	shader.set_shader_param("outline_color", Color(255,255,0))
-	
-func _ready():
-
-	prepare_shader()
-#	$UserInterface/RemainingEnemies.text = map_node.
-
-	current_gold_set(current_gold)
-	$UserInterface/HealthBar.value = current_health
-	map_node = get_node("SeanMap")
-	
-	for i in get_tree().get_nodes_in_group("build_buttons"):
-			i.connect("pressed", self, "initiate_build_mode", [i.get_name()])
-			i.connect("pressed", self, "initiate_build_mode", [i.get_name()])
-	
-	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
-
-
-#func sell_tower(tower_instance):    // Keeping around for the time being, just in case
-#	var tower_value
-#	print("func started" + str(tower_instance))
-#
-#	if sell_mode:
-#		print("sell mode working")
-#		build_type = tower_instance.tower_type
-#		print(build_type)
-#
-#		if build_type == "GunT1":
-#			tower_value = 100
-#		elif build_type == "missile":
-#			tower_value = 150 #this is all lazy code
-#
-#		if tower_value:
-#			var tower_exclusion = map_node.get_node("Navigation2D/TowerExclusion")
-#			var current_tile = tower_exclusion.world_to_map(get_global_mouse_position())
-#			print("tower value working")
-#			current_gold_set(current_gold+tower_value)
-#			tower_instance.queue_free()
-#			map_node.get_node("Navigation2D/TowerExclusion").set_cellv(current_tile, -1)
-#			sell_mode = false
-#			tower_value = null
 
 func _on_DamageZone_body_entered(body):
 #	print("enemy left map!")
@@ -125,7 +100,7 @@ func _unhandled_input(event):
 
 
 
-func initiate_build_mode(tower_type):
+func initiate_build_mode(tower):
 	if build_mode:
 		cancel_build_mode()
 	if selected_tower:
@@ -134,9 +109,11 @@ func initiate_build_mode(tower_type):
 		selected_tower.get_node("FacingDirection/TurretSprite").set_material(null)
 		selected_tower = null
 	
-	build_type = tower_type
+	build_type = tower.get_name()
+	build_scene = tower
+	build_tower = tower.instance()
 	build_mode = true
-	get_node("UserInterface").set_tower_preview(build_type, get_global_mouse_position())
+	get_node("UserInterface").set_tower_preview(build_tower, get_global_mouse_position())
 
 
 
@@ -167,13 +144,10 @@ func cancel_build_mode():
 func verify_and_build():
 	var tower_cost
 	
-	if build_type == "Gun":
-		tower_cost = 100
-	elif build_type == "Missile":
-		tower_cost = 150
+	tower_cost = build_tower.buy_value
 
 	if build_valid and current_gold >= tower_cost:
-		var new_tower = load("res://src/scenes/towers/" + build_type + "T1.tscn").instance()
+		var new_tower = build_scene.instance()
 		new_tower.position = build_location
 		new_tower.built = true
 		map_node.get_node("Towers").add_child(new_tower, true)
@@ -192,9 +166,13 @@ func select_tower(tower_instance):
 #	print("Select tower was run")
 	var new_tower = tower_instance
 	var child_count = tower_instance.get_parent().get_child_count()
-
+	var tower_parent
 	
-	tower_instance.get_parent().move_child(tower_instance, child_count)
+	tower_parent = tower_instance.get_parent()
+	tower_parent.remove_child(tower_instance)
+	tower_parent.add_child(tower_instance, true)
+	
+	
 
 	
 	tower_instance.get_node("TurretBase").set_material(shader)

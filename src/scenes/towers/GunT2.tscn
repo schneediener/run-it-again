@@ -113,7 +113,7 @@ scale = Vector2( 3.5037, 3.42593 )
 texture = ExtResource( 7 )
 
 [node name="SellValue" type="RichTextLabel" parent="ButtonContainer/Sell"]
-margin_left = -133.0
+margin_left = -147.0
 margin_top = 20.0
 margin_right = 8.0
 margin_bottom = 70.0

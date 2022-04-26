@@ -53,7 +53,7 @@ scale = Vector2( 0.835484, 0.835484 )
 texture = ExtResource( 3 )
 
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 0.6
+wait_time = 1.322
 
 [node name="SelectTower" type="Button" parent="."]
 modulate = Color( 1, 1, 1, 0 )
@@ -64,7 +64,6 @@ __meta__ = {
 }
 
 [node name="ButtonContainer" type="Control" parent="."]
-visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -103,6 +102,7 @@ margin_right = 43.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 80, 80 )
 rect_scale = Vector2( 0.6, 0.6 )
+action_mode = 0
 texture_normal = ExtResource( 6 )
 texture_disabled = ExtResource( 8 )
 expand = true
