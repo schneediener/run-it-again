@@ -301,6 +301,8 @@ position = Vector2( 29, 95 )
 
 [node name="EnemyContainer" type="Node2D" parent="."]
 
+[node name="BulletContainer" type="Node2D" parent="."]
+
 [node name="Towers" type="Node2D" parent="."]
 
 [node name="ExitPoint" type="Position2D" parent="."]

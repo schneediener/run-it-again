@@ -1,17 +1,22 @@
 extends KinematicBody2D
 
 var type = "bullet"
-var speed = 900
+var speed = 1750
 var velocity = Vector2()
-var damage = 2
+var target_velocity = Vector2()
+var target
 
-func start(pos, dir):
-	rotation = dir
-	position = pos
-	velocity = Vector2(speed, 0).rotated(rotation)
+#func start(pos, dir):
+#	rotation = dir
+#	position = pos
+#	velocity = Vector2(speed, 0).rotated(rotation)
 
-func _physics_process(_delta):
-	position += Vector2(13, 0)
+func _physics_process(delta):
+	if is_instance_valid(target):
+		look_at(target.position)
+		var direction = global_position.direction_to(target.global_position)
+		target_velocity = target_velocity.move_toward(direction * speed, speed * 100)
+		move_and_slide(target_velocity)
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free() 
