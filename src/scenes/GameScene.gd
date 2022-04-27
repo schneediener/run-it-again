@@ -10,7 +10,7 @@ var build_type
 var build_tile
 var build_tower
 var build_scene
-var current_health = 30 #setget update_current_health
+var current_health = 15 #setget update_current_health
 var current_gold = 500 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
@@ -21,6 +21,7 @@ func _ready():
 	prepare_shader()
 	current_gold_set(current_gold)
 	
+	$UserInterface/HealthBar.max_value = current_health
 	$UserInterface/HealthBar.value = current_health
 	map_node = get_node("SeanMap")
 	
@@ -199,7 +200,6 @@ func select_tower(tower_instance):
 		selected_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
 		if selected_tower.upgrade_value == null:
 			selected_tower.get_node("ButtonContainer/Upgrade").visible = false
-	
 
 	
 func get_selected_tower():

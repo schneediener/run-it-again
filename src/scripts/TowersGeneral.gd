@@ -19,6 +19,11 @@ func _ready():
 		$ButtonContainer/Sell/SellValue.text = "+$" + str(self.sell_value)
 
 func _physics_process(_delta):
+	if game_scene.selected_tower and built:
+		if game_scene.selected_tower==self and is_instance_valid(game_scene.selected_tower):
+			$Range/RangeSprite.show()
+	elif built and $Range/RangeSprite.visible:
+		$Range/RangeSprite.hide()
 	maintain_upgrade_button()
 	if enemy_array.size() >= 1 and built:
 		select_enemy(select_mode)

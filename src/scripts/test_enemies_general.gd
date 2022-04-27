@@ -55,7 +55,7 @@ func get_distance():
 func take_damage(damage):
 	health = health-damage
 	if health <= 0:
-		game_scene.current_gold = game_scene.current_gold+self.gold_value
+		game_scene.current_gold = game_scene.current_gold+game_scene.map_node.income_per_kill*self.gold_multi
 		self.queue_free()
 
 func _on_HitDetection_body_entered(body):
