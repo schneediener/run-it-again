@@ -4,9 +4,10 @@
 [ext_resource path="res://src/scenes/towers/Bullet.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
-height = 10.0
+height = 28.0
 
 [node name="Bullet" type="KinematicBody2D" groups=["bullets"]]
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="BulletBlue1Outline" type="Sprite" parent="."]

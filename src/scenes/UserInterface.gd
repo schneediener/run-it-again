@@ -1,9 +1,9 @@
 extends CanvasLayer
 
 func set_tower_preview(tower_type, mouse_position):
-	print (tower_type)
+#	print (tower_type)
 	
-	var drag_tower = load("res://src/scenes/towers/" + tower_type + "T1.tscn").instance()
+	var drag_tower = tower_type
 	
 # Method for setting drag_tower by name doesn't feel good, but it's cleaner than my alternative at the moment, see below
 #	var drag_tower = null

@@ -268,6 +268,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
 [node name="SeanMap" type="Node2D"]
 script = ExtResource( 13 )
+wave_1 = [ "Wave 1", 20, 0, 0 ]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
@@ -297,10 +298,10 @@ __meta__ = {
 position = Vector2( 29, 95 )
 
 [node name="Timer" type="Timer" parent="Spawn"]
-wait_time = 2.0
-autostart = true
 
 [node name="EnemyContainer" type="Node2D" parent="."]
+
+[node name="BulletContainer" type="Node2D" parent="."]
 
 [node name="Towers" type="Node2D" parent="."]
 
@@ -312,6 +313,8 @@ position = Vector2( 1698, 1119 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitPoint/DamageZone"]
 position = Vector2( -2, -8 )
 shape = SubResource( 33 )
+
+[node name="WaveTimer" type="Timer" parent="."]
 
 [connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="ExitPoint/DamageZone" to="." method="_on_DamageZone_body_entered"]

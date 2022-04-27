@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/GunT1.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://tutorial_assets/UI/PNG/grey_arrowUpWhite.png" type="Texture" id=5]
 [ext_resource path="res://tutorial_assets/UI/PNG/blue_button12.png" type="Texture" id=6]
 [ext_resource path="res://tutorial_assets/UI/PNG/red_cross.png" type="Texture" id=7]
+[ext_resource path="res://tutorial_assets/UI/PNG/grey_button12.png" type="Texture" id=8]
 
 [sub_resource type="CanvasItemMaterial" id=9]
 
@@ -52,7 +53,7 @@ scale = Vector2( 0.835484, 0.835484 )
 texture = ExtResource( 3 )
 
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 0.6
+wait_time = 1.322
 
 [node name="SelectTower" type="Button" parent="."]
 modulate = Color( 1, 1, 1, 0 )
@@ -63,7 +64,6 @@ __meta__ = {
 }
 
 [node name="ButtonContainer" type="Control" parent="."]
-visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,6 +76,7 @@ margin_bottom = 44.0
 rect_min_size = Vector2( 80, 80 )
 rect_scale = Vector2( 0.6, 0.6 )
 texture_normal = ExtResource( 6 )
+texture_disabled = ExtResource( 8 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -101,7 +102,9 @@ margin_right = 43.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 80, 80 )
 rect_scale = Vector2( 0.6, 0.6 )
+action_mode = 0
 texture_normal = ExtResource( 6 )
+texture_disabled = ExtResource( 8 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false

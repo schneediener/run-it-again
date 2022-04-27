@@ -4,22 +4,22 @@ var enemy_array = []
 var built = false
 var select_mode = "first"
 onready var enemy# = get_node("../../../SeanMap/TestEnemy")
-onready var enemy_script = load("res://src/scripts/test_enemy.gd").new()
+onready var enemy_script = load("res://src/scripts/test_enemy1.gd").new()
 var bullet
 var speed = 200
 onready var ready_to_fire = true
 onready var game_scene = get_node("../../..")
 
 func _ready():
+#	print("modulate:" + str(self.modulate))
 	#$Upgrade.visible = false
 	#print("ready finished")
-	
-	if built:
+		$ButtonContainer.hide()
 		$ButtonContainer/Upgrade/CostValue.text = "-$" + str(self.upgrade_value)
 		$ButtonContainer/Sell/SellValue.text = "+$" + str(self.sell_value)
 
 func _physics_process(_delta):
-	
+	maintain_upgrade_button()
 	if enemy_array.size() >= 1 and built:
 		select_enemy(select_mode)
 		track_enemy()
@@ -27,6 +27,20 @@ func _physics_process(_delta):
 			fire_primary()
 #	if game_scene.selected_tower != self and $Upgrade.visible:
 #		$Upgrade.visible = false
+
+func maintain_upgrade_button():
+	var button = $ButtonContainer/Upgrade
+	var status
+	
+	if $ButtonContainer.visible and self.upgrade_value:
+		if game_scene.current_gold < self.upgrade_value:
+			status = "disabled"
+		else:
+			status = "enabled"
+		if status == "disabled" and button.modulate == Color(1,1,1,1):
+			button.modulate = (Color(0.44,0.44,0.44,1))
+		if status == "enabled" and button.modulate != Color(1,1,1,1):
+			button.modulate = Color(1,1,1,1)
 
 func _on_FiringRate_timeout():
 	ready_to_fire = true
@@ -82,7 +96,7 @@ func track_enemy():
 		$FacingDirection.look_at(enemy_position)
 
 func _on_SelectTower_pressed():
-	print("select button pressed!")
+#	print("select button pressed!")
 	
 	game_scene.select_tower(self)
 
@@ -99,11 +113,15 @@ func _on_SelectTower_pressed():
 
 
 func fire_primary():
+	var bullet_container = get_node("../../BulletContainer")
 	if enemy and ready_to_fire:
 		
 		var bullet = load("res://src/scenes/towers/Bullet.tscn").instance()
-		$FacingDirection/BulletContainer.add_child(bullet, false)
+		bullet.damage = self.damage
+		
+		bullet_container.add_child(bullet, false)
 		bullet.global_position = $FacingDirection/MuzzlePosition1.global_position
+		bullet.target = enemy
 #		bullet.destination = enemy.position
 		ready_to_fire = false
 		$FiringRate.start()
@@ -114,7 +132,7 @@ func _on_Range_body_entered(body):
 		pass
 	else:
 		enemy_array.append(body)
-		print ("entered")
+#		print ("entered")
 
 
 #func _on_SelectArea_input_event(viewport, event, shape_idx):
@@ -129,5 +147,5 @@ func _on_Range_body_exited(body):
 		pass
 	else:
 		enemy_array.erase(body)
-		print("left")
+#		print("left")
 
