@@ -61,5 +61,6 @@ func take_damage(damage):
 func _on_HitDetection_body_entered(body):
 	
 	if body.type == "bullet":
-		take_damage(body.damage)
-		body.queue_free()
+		var damage = body.damage
+		body.free()
+		take_damage(damage)
