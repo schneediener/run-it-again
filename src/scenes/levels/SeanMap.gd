@@ -16,11 +16,11 @@ var ready_to_finish
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, Lvl 2 Enemies.. , Lvl 3 Enemies..
 
 export var wave_1 = ["Wave 1",10,0,0,1]
-export var wave_2 = ["Wave 2",10,5,0,0.9]
+export var wave_2 = ["Wave 2",15,5,0,0.9]
 export var wave_3 = ["Wave 3",15,5,1,0.8]
-export var wave_4 = ["Wave 4",10,10,3,0.7]
-export var wave_5 = ["Wave 5",5,15,5,0.6]
-export var wave_6 = ["Wave 6",0,10,10,.5]
+export var wave_4 = ["Wave 4",15,10,3,0.7]
+export var wave_5 = ["Wave 5",15,15,5,0.6]
+export var wave_6 = ["Wave 6",20,10,10,.5]
 
 
 var enemy_roulette = []
@@ -160,6 +160,8 @@ func create_path(character):
 
 #func give_path(enemy):
 #	enemy.path = path
+
+
 
 
 func _on_Timer_timeout():
