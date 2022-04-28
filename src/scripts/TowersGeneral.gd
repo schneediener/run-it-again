@@ -55,8 +55,8 @@ func select_enemy(select_mode):
 	for i in enemy_array:
 		var path_distance = i.get_distance()
 		enemy_progress_array.append(path_distance)
-	var max_offset = enemy_progress_array.max()
-	var enemy_index = enemy_progress_array.find(max_offset)
+	var min_offset = enemy_progress_array.min()
+	var enemy_index = enemy_progress_array.find(min_offset)
 	if enemy != enemy_array[enemy_index]:
 		for n in $FacingDirection/BulletContainer.get_children():
 			n.free()
