@@ -4,21 +4,23 @@ onready var nav_2d: Navigation2D = $Navigation2D
 #onready var character: KinematicBody2D = $TestEnemy
 onready var line_2d: Line2D = $Line2D
 
+onready var game_scene = get_node("../")
 var path
 onready var end_point = get_node("ExitPoint").position
-export var income_per_wave = 50
+export var income_per_wave = 75
 export var income_per_kill = 5
 var max_waves = 6
+var ready_to_finish
 
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, Lvl 2 Enemies.. , Lvl 3 Enemies..
 
-export var wave_1 = ["Wave 1",10,0,0]
-export var wave_2 = ["Wave 2",10,5,0]
-export var wave_3 = ["Wave 3",15,5,1]
-export var wave_4 = ["Wave 4",10,10,3]
-export var wave_5 = ["Wave 5",5,15,5]
-export var wave_6 = ["Wave 6",0,10,10]
+export var wave_1 = ["Wave 1",10,0,0,1]
+export var wave_2 = ["Wave 2",15,5,0,0.9]
+export var wave_3 = ["Wave 3",15,5,1,0.8]
+export var wave_4 = ["Wave 4",15,10,3,0.7]
+export var wave_5 = ["Wave 5",15,15,5,0.6]
+export var wave_6 = ["Wave 6",20,10,10,.5]
 
 
 var enemy_roulette = []
@@ -45,8 +47,18 @@ func _ready():
 	start_new_wave()
 	pass
 
+func _process(_delta):
+	if ready_to_finish and $EnemyContainer.get_child_count()==0:
+		
+		finish_level()
+		ready_to_finish = false
+
 func start_new_wave():
 	$Spawn/Timer.stop()
+	
+	$Spawn/Timer.wait_time = float(current_wave[4])
+	print(str($Spawn/Timer.wait_time))
+
 	wave_list.erase(current_wave)
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
@@ -63,14 +75,19 @@ func start_new_wave():
 			$Spawn/Timer.emit_signal("timeout")
 			$Spawn/Timer.start()
 		elif current_wave == "finish":
-			finish_level()
+			ready_to_finish = true
 	else:
-		finish_level()
+		ready_to_finish = true
 	
 
 	
 	
 func finish_level():
+	$WaveTimer.wait_time = 2
+	$WaveTimer.start()
+	
+	yield($WaveTimer, "timeout")
+	
 	OS.alert("Congratulations! You won!", "Victory")
 	get_tree().quit()
 
@@ -96,8 +113,12 @@ func spawn_new_enemy():
 	var fast = load("res://src/scenes/enemies/FastEnemy.tscn")
 	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
 	var next_enemy
+	var spawn_1 = $Spawn
+	var spawn_2 = $Spawn/Spawn_2
+	var next_spawn
 	
 	if enemy_roulette.empty():
+		game_scene.current_gold=game_scene.current_gold+income_per_wave
 		start_new_wave()
 		return
 	
@@ -115,14 +136,15 @@ func spawn_new_enemy():
 	
 	if next_enemy:
 		$EnemyContainer.add_child(next_enemy, true)
-		next_enemy.global_position = $Spawn.position
+		
+		next_spawn = randi() % 3 + 1
+		if next_spawn != 3:
+			next_enemy.global_position = spawn_1.position
+		else:
+			next_enemy.global_position = spawn_2.position
 		enemy_roulette.erase(next_type)
 		
-		
-		if path:
-			next_enemy.path = path
-		else:
-			create_path(next_enemy)
+		create_path(next_enemy)
 	else:
 		push_error("no enemy")
 	
@@ -138,6 +160,8 @@ func create_path(character):
 
 #func give_path(enemy):
 #	enemy.path = path
+
+
 
 
 func _on_Timer_timeout():

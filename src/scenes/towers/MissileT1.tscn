@@ -16,6 +16,19 @@ radius = 414.011
 [node name="MissileT1" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="Range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+material = SubResource( 9 )
+position = Vector2( 32, 32 )
+shape = SubResource( 8 )
+
+[node name="RangeSprite" type="Sprite" parent="Range"]
+modulate = Color( 1, 1, 1, 0.52549 )
+position = Vector2( 32, 32 )
+scale = Vector2( 1.38065, 1.38065 )
+texture = ExtResource( 3 )
+
 [node name="TurretBase" type="Sprite" parent="."]
 position = Vector2( 2, 2 )
 texture = ExtResource( 1 )
@@ -39,20 +52,8 @@ position = Vector2( -17, 0 )
 
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
-[node name="Range" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
-material = SubResource( 9 )
-position = Vector2( 32, 32 )
-shape = SubResource( 8 )
-
-[node name="RangeSprite" type="Sprite" parent="Range/CollisionShape2D"]
-scale = Vector2( 1.38065, 1.38065 )
-texture = ExtResource( 3 )
-
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 1.5
+wait_time = 3.0
 
 [node name="SelectTower" type="Button" parent="."]
 modulate = Color( 1, 1, 1, 0 )
