@@ -17,19 +17,20 @@ region_rect = Rect2( 1280, 448, 64, 64 )
 [node name="Turret" type="Node2D" parent="."]
 
 [node name="Turret" type="Sprite" parent="Turret"]
+position = Vector2( -8, 0 )
 rotation = 1.5708
 texture = ExtResource( 2 )
 offset = Vector2( 0, -10 )
 region_enabled = true
-region_rect = Rect2( 1216, 640, 64, 64 )
+region_rect = Rect2( 1345, 640, 64, 64 )
 
 [node name="Muzzle" type="Position2D" parent="Turret"]
-position = Vector2( 50, 0 )
+position = Vector2( -15, 0 )
 
 [node name="Flash" type="Sprite" parent="Turret"]
 visible = false
-position = Vector2( 55, 0 )
-rotation = 1.5708
+position = Vector2( -30, 1 )
+rotation = 4.71239
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 1280, 768, 64, 64 )

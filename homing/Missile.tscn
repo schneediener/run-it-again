@@ -108,6 +108,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 rotation = 1.5708
 texture = ExtResource( 2 )
 region_enabled = true

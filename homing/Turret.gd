@@ -7,9 +7,11 @@ var buy_value = 150
 var upgrade_value = null
 var sell_value = 150
 var built = false
+var delay = 0.5
 
 export var rotation_speed = PI
-export var cooldown = 0.5
+export var cooldown = 1.5
+
 
 var target = null
 var can_shoot = true
@@ -21,7 +23,10 @@ func shoot():
 		m.start($Turret/Muzzle.global_transform, target)
 		flash()
 		can_shoot = false
+		$Turret.hide()
 		yield(get_tree().create_timer(cooldown), "timeout")
+		$Turret.show()
+		yield(get_tree().create_timer(delay), "timeout")
 		can_shoot = true
 
 func flash():
@@ -46,7 +51,7 @@ func _process(delta):
 	if target:
 		$Turret.look_at(target.global_position)
 		shoot()
-		
+
 func _on_Launcher_body_exited(body):
 	if body == target:
 		target = null
