@@ -29,7 +29,9 @@ func _physics_process(delta):
 	position += velocity * delta
 	
 func _on_Missile_body_entered(body):
-	explode()
+	if body.get("type"):
+		if body.type=="enemy":
+			explode()
 
 func _on_Lifetime_timeout():
 	explode()
