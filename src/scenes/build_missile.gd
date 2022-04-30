@@ -1,3 +1,3 @@
 extends TextureButton
 
-var related_tower = load("res://src/scenes/towers/MissileT1.tscn")
+var related_tower = load("res://homing/Turret.tscn")
