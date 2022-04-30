@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://homing/Turret.gd" type="Script" id=1]
 [ext_resource path="res://homing/assets/towerDefense_tilesheet.png" type="Texture" id=2]
+[ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 407.166
@@ -35,7 +36,12 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 1280, 768, 64, 64 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Range" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+
+[node name="RangeSprite" type="Sprite" parent="Range"]
+visible = false
+scale = Vector2( 1.34839, 1.34839 )
+texture = ExtResource( 3 )
 
 [connection signal="body_exited" from="." to="." method="_on_Launcher_body_exited"]

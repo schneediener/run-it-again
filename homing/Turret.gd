@@ -46,6 +46,8 @@ func find_target():
 		target = null
 			
 func _process(delta):
+	if !built:
+		return
 	if !target:
 		find_target()
 	if target:

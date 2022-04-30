@@ -151,6 +151,8 @@ func verify_and_build():
 		var new_tower = build_scene.instance()
 		new_tower.position = build_location
 		new_tower.built = true
+		if new_tower.get("can_shoot"):
+			new_tower.can_shoot = true
 		map_node.get_node("Towers").add_child(new_tower, true)
 		map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
 		#new_tower.connect("input_event", self, "_on_SelectArea_input_event")
