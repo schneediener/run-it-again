@@ -2,8 +2,9 @@
 
 [ext_resource path="res://src/scenes/enemies/BasicEnemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=2]
-[ext_resource path="res://src/scenes/towers/GunT1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/scenes/towers/CannonT1.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/scripts/level.gd" type="Script" id=7]
+
 
 [sub_resource type="NavigationPolygon" id=6]
 vertices = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )

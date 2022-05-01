@@ -1,8 +1,9 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://homing/Missile.gd" type="Script" id=1]
+[ext_resource path="res://src/scripts/Missile.gd" type="Script" id=1]
 [ext_resource path="res://homing/assets/towerDefense_tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://homing/assets/spr_smoke_strip24.png" type="Texture" id=3]
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 15.6842, 5.82576 )

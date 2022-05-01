@@ -8,11 +8,13 @@ var acceleration = Vector2.ZERO
 var target = null
 var damage = 10
 
-func start(_transform, _target):
+func start(_transform, _target, _tower_type):
 	global_transform = _transform
 	rotation += rand_range(-0.09, 0.09)
 	velocity = transform.x * speed
 	target = _target
+	if _tower_type == "LauncherT2":
+		steer_force = 300.0
 	
 func seek():
 	var steer = Vector2.ZERO
