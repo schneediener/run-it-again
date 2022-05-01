@@ -6,7 +6,11 @@ var distance_travelled = 0
 var health
 var health_perc
 var type = "enemy"
+var remaining_dist = 0
+
 onready var game_scene = get_node("../../..")
+
+var sean_test = true
 
 func _ready():
 	$HealthBar.value = self.max_health
@@ -18,7 +22,9 @@ func _ready():
 	
 func _physics_process(delta):
 	distance_travelled = distance_travelled+self.speed
+	
 	if path.size() > 0:
+		calc_remaining_dist()
 		var target = global_position.direction_to(path[0])
 		velocity = move_and_slide(target * self.speed) * delta
 		var path_distance = global_position.distance_to(path[0])
@@ -35,6 +41,21 @@ func calculate_health_perc():
 #	var perc = (health/self.max_health)*100
 	var perc = round((float(health)/self.max_health)* 100)
 	health_perc = perc
+	
+
+func calc_remaining_dist():
+	var temp_dist
+	var curr_index = 0
+	temp_dist = global_position.distance_to(path[0])
+	
+	for i in path:
+		curr_index = curr_index+1
+		if curr_index != path.size():
+			var distance = i.distance_to(path[curr_index])
+			temp_dist = temp_dist+distance
+	
+	remaining_dist=temp_dist
+
 func set_health_tint():
 	if health_perc == 100:
 		$HealthBar.visible = false
@@ -50,7 +71,7 @@ func set_health_tint():
 		$HealthBar.visible = false
 	
 func get_distance():
-	return distance_travelled
+	return remaining_dist
 
 func take_damage(damage):
 	var dead
