@@ -56,7 +56,7 @@ position = Vector2( 41, 5 )
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.55
 
 [node name="SelectTower" type="Button" parent="."]
 modulate = Color( 1, 1, 1, 0 )

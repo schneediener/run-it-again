@@ -268,8 +268,12 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
 [node name="SeanMap" type="Node2D"]
 script = ExtResource( 13 )
+<<<<<<< Updated upstream
 income_per_wave = 75
 income_per_kill = 10
+=======
+income_per_kill = 5
+>>>>>>> Stashed changes
 wave_1 = [ "Wave 1", 20, 0, 0, 1.0 ]
 wave_2 = [ "Wave 2", 20, 10, 0, 0.9 ]
 wave_3 = [ "Wave 3", 25, 15, 5, 0.8 ]

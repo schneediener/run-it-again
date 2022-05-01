@@ -7,8 +7,9 @@ onready var line_2d: Line2D = $Line2D
 onready var game_scene = get_node("../")
 var path
 onready var end_point = get_node("ExitPoint").position
-export var income_per_wave = 75
-export var income_per_kill = 5
+
+export var income_per_wave = 50
+export var income_per_kill = 1
 var max_waves = 6
 var ready_to_finish
 
