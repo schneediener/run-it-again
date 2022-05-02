@@ -124,6 +124,8 @@ func fire_primary():
 		
 		var bullet = load("res://src/scenes/towers/Bullet.tscn").instance()
 		bullet.damage = self.damage
+		if self.get("slow"):
+			bullet.slow = true
 		
 		bullet_container.add_child(bullet, false)
 		bullet.global_position = $FacingDirection/MuzzlePosition1.global_position

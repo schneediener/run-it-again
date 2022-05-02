@@ -27,7 +27,6 @@ func _ready():
 	
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
-			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
 	
 	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 

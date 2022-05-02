@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/scenes/levels/SeanMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=8]
 [ext_resource path="res://src/scripts/build_missile.gd" type="Script" id=9]
 [ext_resource path="res://src/scripts/build_gun.gd" type="Script" id=10]
+[ext_resource path="res://src/scripts/build_minigun.gd" type="Script" id=11]
+[ext_resource path="res://Gun spaceBuilding_019.png" type="Texture" id=12]
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 4 )
@@ -42,24 +44,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Gun" type="TextureButton" parent="UserInterface/HeadsUpDisplay/HBox_BuildMenu" groups=["build_buttons"]]
-margin_left = 105.0
-margin_right = 185.0
+[node name="Cannon" type="TextureButton" parent="UserInterface/HeadsUpDisplay/HBox_BuildMenu" groups=["build_buttons"]]
+margin_left = 50.0
+margin_right = 130.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
 texture_normal = ExtResource( 3 )
 expand = true
 script = ExtResource( 10 )
 
-[node name="Sprite" type="Sprite" parent="UserInterface/HeadsUpDisplay/HBox_BuildMenu/Gun"]
+[node name="Sprite" type="Sprite" parent="UserInterface/HeadsUpDisplay/HBox_BuildMenu/Cannon"]
 texture = ExtResource( 2 )
 offset = Vector2( 40, 40 )
 region_enabled = true
 region_rect = Rect2( 1215, 640.822, 65, 65 )
 
 [node name="Missile" type="TextureButton" parent="UserInterface/HeadsUpDisplay/HBox_BuildMenu" groups=["build_buttons"]]
-margin_left = 215.0
-margin_right = 295.0
+margin_left = 160.0
+margin_right = 240.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
 texture_normal = ExtResource( 3 )
@@ -70,6 +72,23 @@ script = ExtResource( 9 )
 texture = ExtResource( 2 )
 offset = Vector2( 40, 40 )
 region_enabled = true
+region_rect = Rect2( 1345, 640.822, 65, 65 )
+
+[node name="Minigun" type="TextureButton" parent="UserInterface/HeadsUpDisplay/HBox_BuildMenu" groups=["build_buttons"]]
+margin_left = 270.0
+margin_right = 350.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
+texture_normal = ExtResource( 3 )
+expand = true
+script = ExtResource( 11 )
+
+[node name="Sprite" type="Sprite" parent="UserInterface/HeadsUpDisplay/HBox_BuildMenu/Minigun"]
+modulate = Color( 0.698039, 0.698039, 0.698039, 1 )
+position = Vector2( -15, -8 )
+scale = Vector2( 1.4, 1.2 )
+texture = ExtResource( 12 )
+offset = Vector2( 40, 40 )
 region_rect = Rect2( 1345, 640.822, 65, 65 )
 
 [node name="HealthBar" type="TextureProgress" parent="UserInterface"]

@@ -48,7 +48,7 @@ func explode():
 	if units.size() > 0:
 		for unit in units:
 			if unit.type=="enemy":
-				unit.take_damage(damage)
+				unit.take_damage(damage, false)
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 	

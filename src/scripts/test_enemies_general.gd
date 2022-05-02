@@ -7,12 +7,16 @@ var health
 var health_perc
 var type = "enemy"
 var remaining_dist = 0
+onready var slow_timer = $SlowTimer
+var slowed = false
+onready var orig_speed = self.speed
 
 onready var game_scene = get_node("../../..")
 
 var sean_test = true
 
 func _ready():
+	
 	$HealthBar.value = self.max_health
 	$HealthBar.max_value = self.max_health
 	health=self.max_health
@@ -21,8 +25,10 @@ func _ready():
 #	print(global_position)
 	
 func _physics_process(delta):
-	distance_travelled = distance_travelled+self.speed
-	
+	if slowed:
+		self.speed = orig_speed*0.5
+	else:
+		self.speed = orig_speed
 	if path.size() > 0:
 		calc_remaining_dist()
 		var target = global_position.direction_to(path[0])
@@ -73,10 +79,17 @@ func set_health_tint():
 func get_distance():
 	return remaining_dist
 
-func take_damage(damage):
+func take_damage(damage, slow):
 	var dead
 	var new_gold
+	
+	if slow:
+		slow_timer.start()
+		if !slowed:
+			slowed = true
+		
 	health = health-damage
+	
 	if health <= 0 and !dead:
 		dead = true
 		print("inc p k:" + str(game_scene.map_node.income_per_kill))
@@ -87,9 +100,16 @@ func take_damage(damage):
 		print(new_gold)
 		self.queue_free()
 
+
+func _on_SlowTimer_timeout():
+	slowed = false
+
 func _on_HitDetection_body_entered(body):
 	
 	if body.type == "bullet":
 		var damage = body.damage
+		var slow
+		if body.get("slow"):
+			slow = true
 		body.free()
-		take_damage(damage)
+		take_damage(damage, slow)
