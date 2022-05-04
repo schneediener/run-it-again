@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://src/scenes/enemies/Shield.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://src/scripts/Shadow.gd" type="Script" id=2]
+[ext_resource path="res://RD3_MilliothVector.png" type="Texture" id=4]
+[ext_resource path="res://fire05.png" type="Texture" id=5]
+[ext_resource path="res://fire04.png" type="Texture" id=6]
+[ext_resource path="res://mindustry_salvo_tower.png" type="Texture" id=7]
+[ext_resource path="res://src/scripts/Dropship.gd" type="Script" id=8]
+[ext_resource path="res://RD3_Shadow.png" type="Texture" id=9]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 79.0063
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 189.003
+
+[node name="Dropship" type="Node2D"]
+script = ExtResource( 8 )
+
+[node name="Dropship" type="KinematicBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Dropship"]
+polygon = PoolVector2Array( -67, -35, -45, -53, -23, -62, -8, -65, 2, -67, 21, -65, 28, -64, 46, -58, 54, -53, 67, -40, 70, -29, 70, -23, 66, -20, 66, -16, 57, -14, 57, -6, 22, -6, 23, 1, 22, 5, 56, 5, 57, 14, 66, 16, 66, 20, 70, 21, 69, 30, 67, 35, 66, 39, 51, 53, 48, 51, 46, 53, 46, 56, 26, 64, 24, 60, 21, 60, 21, 64, 0, 67, -32, 60, -50, 50, -69, 36, -69, 28, -72, 22, -72, 13, -70, 9, -68, 7, -68, -8, -72, -11, -73, -24, -70, -29 )
+
+[node name="ShipSprite" type="Sprite" parent="Dropship"]
+rotation = 1.5708
+texture = ExtResource( 4 )
+
+[node name="Jet1" type="AnimatedSprite" parent="Dropship/ShipSprite"]
+position = Vector2( -18, 85 )
+rotation = 3.14159
+frames = SubResource( 1 )
+frame = 1
+playing = true
+
+[node name="Jet2" type="AnimatedSprite" parent="Dropship/ShipSprite"]
+position = Vector2( 18, 85 )
+rotation = 3.14159
+frames = SubResource( 1 )
+frame = 1
+playing = true
+
+[node name="Weapons" type="Node2D" parent="Dropship"]
+modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
+
+[node name="Gun1" type="Node2D" parent="Dropship/Weapons"]
+position = Vector2( -37, -34 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Sprite" type="Sprite" parent="Dropship/Weapons/Gun1"]
+texture = ExtResource( 7 )
+offset = Vector2( 10, 0 )
+
+[node name="Gun2" type="Node2D" parent="Dropship/Weapons"]
+position = Vector2( -37, 34 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Sprite" type="Sprite" parent="Dropship/Weapons/Gun2"]
+texture = ExtResource( 7 )
+offset = Vector2( 10, 0 )
+
+[node name="Shield" type="Area2D" parent="Dropship"]
+visible = false
+
+[node name="ShieldSprite" type="AnimatedSprite" parent="Dropship/Shield"]
+modulate = Color( 0, 0.945098, 0.952941, 1 )
+position = Vector2( 7.55099, -0.471938 )
+rotation = 1.5708
+scale = Vector2( 1.08521, 1.04134 )
+frames = ExtResource( 1 )
+frame = 2
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="Dropship/Shield"]
+shape = SubResource( 3 )
+
+[node name="Range" type="Area2D" parent="Dropship"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dropship/Range"]
+shape = SubResource( 4 )
+
+[node name="Shadow" type="Sprite" parent="."]
+show_behind_parent = true
+position = Vector2( -104, 58 )
+rotation = 1.5708
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 9 )
+script = ExtResource( 2 )
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

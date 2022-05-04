@@ -13,8 +13,12 @@ export var income_per_kill = 1
 var max_waves = 6
 var ready_to_finish
 
+onready var dropship1 = $Dropships/Path_Dropship1/PathFollow2D
+onready var dropship2 = $Dropships/Path_Dropship2/PathFollow2D
+onready var dropship3 = $Dropships/Path_Dropship3/PathFollow2D
 
-#Array is as follows: Wave Number, Lvl 1 Enemies per wave, Lvl 2 Enemies.. , Lvl 3 Enemies..
+
+#Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
 
 export var wave_1 = ["Wave 1",10,0,0,1]
 export var wave_2 = ["Wave 2",15,5,0,0.9]
@@ -113,6 +117,8 @@ func spawn_new_enemy():
 	var slow = load("res://src/scenes/enemies/SlowEnemy.tscn")
 	var fast = load("res://src/scenes/enemies/FastEnemy.tscn")
 	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
+	var tank = load("res://src/scenes/enemies/Tank.tscn")
+	
 	var next_enemy
 	var spawn_1 = $Spawn
 	var spawn_2 = $Spawn/Spawn_2

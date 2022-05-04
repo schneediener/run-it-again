@@ -54,7 +54,9 @@ func find_target():
 	var closest
 	var closest2
 	var units = $Range.get_overlapping_bodies()
-	
+	for unit in units:
+		if unit.type!="enemy":
+			units.erase(unit)
 	if units.size() == 0:
 		target = null
 		target2 = null

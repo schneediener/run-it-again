@@ -136,9 +136,7 @@ func fire_primary():
 
 func _on_Range_body_entered(body):
 
-	if body.is_in_group("bullets"):
-		pass
-	else:
+	if body.type=="enemy":
 		enemy_array.append(body)
 #		print ("entered")
 
