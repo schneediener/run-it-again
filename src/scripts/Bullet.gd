@@ -7,6 +7,7 @@ var target_velocity = Vector2()
 var target
 var direction
 var damage
+var slow
 
 #func start(pos, dir):
 #	rotation = dir

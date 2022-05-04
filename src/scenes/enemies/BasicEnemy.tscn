@@ -42,4 +42,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SlowTimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="HitDetection" to="." method="_on_HitDetection_body_entered"]
+[connection signal="timeout" from="SlowTimer" to="." method="_on_SlowTimer_timeout"]

@@ -1,0 +1,149 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://src/scripts/MinigunT1.gd" type="Script" id=1]
+[ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=2]
+[ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
+[ext_resource path="res://tutorial_assets/UI/PNG/grey_button12.png" type="Texture" id=4]
+[ext_resource path="res://tutorial_assets/UI/PNG/grey_arrowUpWhite.png" type="Texture" id=5]
+[ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=6]
+[ext_resource path="res://tutorial_assets/UI/PNG/red_cross.png" type="Texture" id=7]
+[ext_resource path="res://tutorial_assets/UI/PNG/blue_button12.png" type="Texture" id=8]
+[ext_resource path="res://homing/assets/towerDefense_tilesheet.png" type="Texture" id=9]
+[ext_resource path="res://Gun spaceBuilding_019.png" type="Texture" id=10]
+
+[sub_resource type="CanvasItemMaterial" id=9]
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 142.688
+
+[node name="MinigunT1" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+material = SubResource( 9 )
+position = Vector2( 32, 32 )
+shape = SubResource( 8 )
+
+[node name="RangeSprite" type="Sprite" parent="Range"]
+modulate = Color( 1, 1, 1, 0.52549 )
+position = Vector2( 32, 32 )
+scale = Vector2( 0.480645, 0.480645 )
+texture = ExtResource( 3 )
+
+[node name="TurretBase" type="Sprite" parent="."]
+position = Vector2( 2, 2 )
+texture = ExtResource( 6 )
+offset = Vector2( 32, 32 )
+region_enabled = true
+region_rect = Rect2( 1282.14, 450.513, 64, 64 )
+
+[node name="FacingDirection" type="Node2D" parent="."]
+position = Vector2( 32, 32 )
+
+[node name="TurretSprite" type="Sprite" parent="FacingDirection"]
+modulate = Color( 0.580392, 0.580392, 0.580392, 1 )
+position = Vector2( 9, 0 )
+rotation = 1.5708
+texture = ExtResource( 10 )
+region_rect = Rect2( 1213.52, 640.664, 64, 64 )
+region_filter_clip = true
+
+[node name="MuzzlePosition1" type="Position2D" parent="FacingDirection"]
+position = Vector2( 28, 0 )
+
+[node name="Flash" type="Sprite" parent="FacingDirection/MuzzlePosition1"]
+visible = false
+position = Vector2( 9, 0 )
+rotation = 1.5708
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 1343.5, 766, 64, 64 )
+
+[node name="BulletContainer" type="Node2D" parent="FacingDirection"]
+
+[node name="FiringRate" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="SelectTower" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 64.0
+margin_bottom = 64.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonContainer" type="Control" parent="."]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade" type="TextureButton" parent="ButtonContainer"]
+margin_left = 53.0
+margin_top = -36.0
+margin_right = 133.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 80, 80 )
+rect_scale = Vector2( 0.6, 0.6 )
+texture_normal = ExtResource( 8 )
+texture_disabled = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="ButtonContainer/Upgrade"]
+position = Vector2( 41, 40 )
+scale = Vector2( 3.6, 4.8 )
+texture = ExtResource( 5 )
+
+[node name="CostValue" type="RichTextLabel" parent="ButtonContainer/Upgrade"]
+margin_left = 90.0
+margin_top = 20.0
+margin_right = 257.0
+margin_bottom = 70.0
+custom_fonts/normal_font = ExtResource( 2 )
+text = "$100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sell" type="TextureButton" parent="ButtonContainer"]
+margin_left = -37.0
+margin_top = -36.0
+margin_right = 43.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 80, 80 )
+rect_scale = Vector2( 0.6, 0.6 )
+action_mode = 0
+texture_normal = ExtResource( 8 )
+texture_disabled = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="ButtonContainer/Sell"]
+position = Vector2( 40, 40 )
+scale = Vector2( 3.5037, 3.42593 )
+texture = ExtResource( 7 )
+
+[node name="SellValue" type="RichTextLabel" parent="ButtonContainer/Sell"]
+margin_left = -133.0
+margin_top = 20.0
+margin_right = 8.0
+margin_bottom = 70.0
+custom_fonts/normal_font = ExtResource( 2 )
+text = "$100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="body_entered" from="Range" to="." method="_on_Range_body_entered"]
+[connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
+[connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
+[connection signal="pressed" from="SelectTower" to="." method="_on_SelectTower_pressed"]
+[connection signal="pressed" from="ButtonContainer/Upgrade" to="." method="_on_Upgrade_pressed"]
+[connection signal="pressed" from="ButtonContainer/Sell" to="." method="_on_Sell_pressed"]

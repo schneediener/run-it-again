@@ -1,6 +1,6 @@
 extends "res://src/scripts/TowersGeneral.gd"
 
-var tower_type = "GunT2"
+var tower_type = "CannonT2"
 var upgrade_path = null
 var buy_value = null
 var upgrade_value = null

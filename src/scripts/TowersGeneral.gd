@@ -65,6 +65,7 @@ func select_enemy(select_mode):
 	
 #	if global_position.distance_to(path[0]) <= 16:
 #			path.remove(0)
+
 func _on_Sell_pressed():
 	var tower_exclusion = game_scene.map_node.get_node("Navigation2D/TowerExclusion")
 	var current_tile = tower_exclusion.world_to_map(self.position)
@@ -123,6 +124,8 @@ func fire_primary():
 		
 		var bullet = load("res://src/scenes/towers/Bullet.tscn").instance()
 		bullet.damage = self.damage
+		if self.get("slow"):
+			bullet.slow = true
 		
 		bullet_container.add_child(bullet, false)
 		bullet.global_position = $FacingDirection/MuzzlePosition1.global_position

@@ -11,7 +11,9 @@ func set_tower_preview(tower_type, mouse_position):
 #		drag_tower = load("res://src/scenes/towers/GunT1.tscn").instance()
 #	else:
 #		drag_tower = load("res://src/scenes/towers/MissileT1.tscn").instance()
-	drag_tower.get_node("SelectTower").visible = false
+	if drag_tower.get_node("SelectTower"):
+		drag_tower.get_node("SelectTower").visible = false
+	
 	drag_tower.set_name("DragTower")
 	drag_tower.modulate = Color("ad54ff3c")
 	
@@ -21,7 +23,8 @@ func set_tower_preview(tower_type, mouse_position):
 	control.set_name("TowerPreview")
 	add_child(control, true)
 	move_child(get_node("TowerPreview"), 0)
-	get_node("TowerPreview/DragTower/Range").visible = true
+	if get_node("TowerPreview/DragTower/Range"):
+		get_node("TowerPreview/DragTower/Range").visible = true
 
 func update_tower_preview(new_position, color):
 	var tower_preview = get_node("TowerPreview")
