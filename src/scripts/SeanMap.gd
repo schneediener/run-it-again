@@ -13,9 +13,9 @@ export var income_per_kill = 1
 var max_waves = 6
 var ready_to_finish
 
-onready var dropship1 = $Dropships/Path_Dropship1/PathFollow2D
-onready var dropship2 = $Dropships/Path_Dropship2/PathFollow2D
-onready var dropship3 = $Dropships/Path_Dropship3/PathFollow2D
+onready var ship_path_1 = $Dropships/Path_Dropship1/PathFollow2D
+onready var ship_path_2 = $Dropships/Path_Dropship2/PathFollow2D
+onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
 
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
