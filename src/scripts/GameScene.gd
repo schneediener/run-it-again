@@ -11,7 +11,7 @@ var build_tile
 var build_tower
 var build_scene
 var current_health = 15 #setget update_current_health
-var current_gold = 500 setget current_gold_set, current_gold_get
+var current_gold = 800 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
 var SELECTSHADER = load("res://new_shader.tres")

@@ -1,16 +1,19 @@
 extends Node2D
 
 var drop_point
-var speed
-var health
-var shield
-var health_max
-var shield_max
+var speed = 450
+var health = 30
+var shield = 10
+var max_health = 30
+var health_perc
+var max_shield = 10
 var type = "dropship"
 var landing = false
 var landed = false
 var velocity
+
 onready var game_scene = get_node("../../../../../")
+onready var enemy_script = preload("res://src/scripts/test_enemies_general.gd")
 
 var wave_1 = ["Wave 1",10,0,0,0,1]
 var wave_2 = ["Wave 2",10,3,0,0,.7]
@@ -19,10 +22,19 @@ var wave_list = [wave_1,wave_2,wave_3]
 
 var current_wave = null
 
+func _ready():
+	$HealthBar.value = self.max_health
+	$HealthBar.max_value = self.max_health
+	health=self.max_health
+	$HealthBar.set_as_toplevel(true)
+
 func _physics_process(delta):
+	$HealthBar.set_global_position(get_node("DropshipBody/ShipSprite").global_position+Vector2(-38,-62))
+	enemy_script.calculate_health_perc()
+	enemy_script.set_health_tint()
 	# Move along the "path" if there is path left
 	if get_parent().unit_offset!=1.0:
-		get_parent().offset += 450 * delta
+		get_parent().offset += speed * delta
 	
 	#If there is no path left, start landing
 	if get_parent().unit_offset==1.0 and !landing:

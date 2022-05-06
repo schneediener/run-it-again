@@ -7,6 +7,7 @@ func _ready():
 		print("Signal connect for _on_NewGameTest_pressed failed")
 	if get_node("MainMenu/Margin/VBoxContainer/SaveAndQuit").connect("pressed", self, "_on_SaveAndQuit_pressed") != OK:
 		print("Signal connect for _on_SaveAndQuit_pressed failed")
+	randomize()
 	
 
 func _on_NewGameSean_pressed():

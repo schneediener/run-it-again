@@ -68,6 +68,8 @@ func start_new_wave():
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
+		if current_wave[0] == "Wave 3":
+			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":
 			update_wave_counters()
 			
@@ -84,7 +86,19 @@ func start_new_wave():
 	else:
 		ready_to_finish = true
 	
-
+func spawn_dropship():
+	var dropship = load("res://src/scenes/enemies/Dropship.tscn").instance()
+	
+	var landing_site = randi() % 3 + 1
+	print(landing_site)
+	
+	match landing_site:
+		1:
+			$Dropships/Path_Dropship1/PathFollow2D.add_child(dropship)
+		2:
+			$Dropships/Path_Dropship2/PathFollow2D.add_child(dropship)
+		3:
+			$Dropships/Path_Dropship3/PathFollow2D.add_child(dropship)
 	
 	
 func finish_level():
