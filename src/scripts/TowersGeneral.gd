@@ -4,7 +4,7 @@ var enemy_array = []
 var built = false
 var select_mode = "first"
 onready var enemy# = get_node("../../../SeanMap/TestEnemy")
-onready var enemy_script = load("res://src/scripts/test_enemy1.gd").new()
+onready var enemy_script = load("res://src/scripts/test_enemies_general.gd")
 var bullet
 var speed = 200
 onready var ready_to_fire = true
@@ -53,7 +53,7 @@ func _on_FiringRate_timeout():
 func select_enemy(select_mode):
 	var enemy_progress_array = []
 	for i in enemy_array:
-		var path_distance = i.get_distance()
+		var path_distance = enemy_script.get_distance(i)
 		enemy_progress_array.append(path_distance)
 	var min_offset = enemy_progress_array.min()
 	var enemy_index = enemy_progress_array.find(min_offset)
@@ -96,10 +96,9 @@ func _on_Upgrade_pressed():
 	
 func track_enemy():
 	#for the animation of the turret aiming at the enemy
-	var enemy_position = enemy.position
 	#print (enemy)
 	if enemy:
-		$FacingDirection.look_at(enemy_position)
+		$FacingDirection.look_at(enemy.position)
 
 func _on_SelectTower_pressed():
 #	print("select button pressed!")

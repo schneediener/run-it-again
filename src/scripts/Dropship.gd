@@ -7,10 +7,11 @@ var shield = 10
 var max_health = 30
 var health_perc
 var max_shield = 10
-var type = "dropship"
+var type = "enemy"
 var landing = false
 var landed = false
 var velocity
+var gold_multi = 5
 
 onready var game_scene = get_node("../../../../../")
 onready var enemy_script = preload("res://src/scripts/test_enemies_general.gd")
