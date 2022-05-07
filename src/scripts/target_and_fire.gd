@@ -5,6 +5,7 @@ var weapon_type
 onready var target_method = "first"
 var current_target
 var target_array = []
+onready var game_scene = get_node("/root/SceneHandler/GameScene")
 onready var ready = true
 
 signal array_refreshed
@@ -195,15 +196,50 @@ func _on_target_acquired():
 		fire()
 
 func fire():
+	var projectile_container = game_scene.map_node.get_node("BulletContainer")
+	var projectile
+	var muzzle = self.get_node("FacingDirection/Muzzle")
+	var cooldown = self.get_node("FiringRate")
+	
 	match weapon_type:
 		"cannon":
-			shoot the bullet
+			projectile = load("res://src/scenes/projectiles/Bullet.tscn").instance()
 		"missile":
-			shoot the missile
-		"minigun":
-			shoot instant bullet
+			projectile = load("res://src/scenes/projectiles/Missile.tscn").instance()
+			projectile.start(muzzle.global_transform, current_target, self)
+		"gun":
+			current_target.health = current_target.health-self.damage
+			#to-do: current_target.play_gun_hit_animation()
 		"laser":
-			shoot the laser
+			pass #shoot the laser
+		"artillery":
+			pass #lob the shell
+	
+	if projectile:
+		projectile_container.add_child(projectile)
+	
+	flash()
+	ready = false
+	cooldown.start()
+
+func flash():
+	var flash_sprite1 = get_node("FacingDirection/Muzzle/Flash")
+	var flash_sprite2
+	
+	if self.muzzle_count == 2:
+		flash_sprite2 = get_node("FacingDirection/Muzzle2/Flash")
+	
+	flash_sprite1.show()
+	
+	if flash_sprite2:
+		flash_sprite2.show()
+		
+	yield(get_tree().create_timer(0.1), "timeout")
+	
+	flash_sprite1.hide()
+	
+	if flash_sprite2:
+		flash_sprite2.hide()
 
 func _on_FiringRate_timeout():
 	ready = true

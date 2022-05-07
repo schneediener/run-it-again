@@ -20,6 +20,7 @@ radius = 142.688
 script = ExtResource( 1 )
 
 [node name="Range" type="Area2D" parent="."]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 material = SubResource( 9 )
@@ -50,10 +51,10 @@ texture = ExtResource( 10 )
 region_rect = Rect2( 1213.52, 640.664, 64, 64 )
 region_filter_clip = true
 
-[node name="MuzzlePosition1" type="Position2D" parent="FacingDirection"]
+[node name="Muzzle" type="Position2D" parent="FacingDirection"]
 position = Vector2( 28, 0 )
 
-[node name="Flash" type="Sprite" parent="FacingDirection/MuzzlePosition1"]
+[node name="Flash" type="Sprite" parent="FacingDirection/Muzzle"]
 visible = false
 position = Vector2( 9, 0 )
 rotation = 1.5708

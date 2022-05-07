@@ -77,7 +77,7 @@ func set_health_tint():
 	else:
 		$HealthBar.visible = false
 	
-func get_distance(body):
+func get_distance():
 	return remaining_dist
 
 func take_damage(damage, slow):
@@ -106,9 +106,10 @@ func _on_SlowTimer_timeout():
 func _on_HitDetection_body_entered(body):
 	
 	if body.type == "bullet":
-		var damage = body.damage
-		var slow
-		if body.get("slow"):
-			slow = true
-		body.free()
-		take_damage(damage, slow)
+		if body.target==self:
+			var damage = body.damage
+			var slow
+			if body.get("slow"):
+				slow = true
+			body.free()
+			take_damage(damage, slow)
