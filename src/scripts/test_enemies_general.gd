@@ -6,6 +6,7 @@ var distance_travelled = 0
 var health
 var health_perc
 var type = "enemy"
+var subtype = "creep"
 var remaining_dist = 0
 onready var slow_timer = $SlowTimer
 var slowed = false
@@ -30,7 +31,7 @@ func _physics_process(delta):
 	else:
 		self.speed = orig_speed
 	if path.size() > 0:
-		calc_remaining_dist()
+		calc_remaining_dist(self)
 		var target = global_position.direction_to(path[0])
 		velocity = move_and_slide(target * self.speed) * delta
 		var path_distance = global_position.distance_to(path[0])
@@ -49,18 +50,18 @@ func calculate_health_perc():
 	health_perc = perc
 	
 
-func calc_remaining_dist():
+func calc_remaining_dist(body):
 	var temp_dist
 	var curr_index = 0
-	temp_dist = global_position.distance_to(path[0])
+	temp_dist = body.global_position.distance_to(path[0])
 	
-	for i in path:
+	for i in body.path:
 		curr_index = curr_index+1
-		if curr_index != path.size():
-			var distance = i.distance_to(path[curr_index])
+		if curr_index != body.path.size():
+			var distance = i.distance_to(body.path[curr_index])
 			temp_dist = temp_dist+distance
 	
-	remaining_dist=temp_dist
+	body.remaining_dist=temp_dist
 
 func set_health_tint():
 	if health_perc == 100:
@@ -83,7 +84,7 @@ func take_damage(damage, slow):
 	var dead
 	var new_gold
 	
-	if slow:
+	if slow and subtype=="creep":
 		slow_timer.start()
 		if !slowed:
 			slowed = true
@@ -92,8 +93,6 @@ func take_damage(damage, slow):
 	
 	if health <= 0 and !dead:
 		dead = true
-		print("inc p k:" + str(game_scene.map_node.income_per_kill))
-		print ("multi:" + str(self.gold_multi))
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
 		
 		game_scene.current_gold = game_scene.current_gold+new_gold
@@ -107,9 +106,10 @@ func _on_SlowTimer_timeout():
 func _on_HitDetection_body_entered(body):
 	
 	if body.type == "bullet":
-		var damage = body.damage
-		var slow
-		if body.get("slow"):
-			slow = true
-		body.free()
-		take_damage(damage, slow)
+		if body.target==self:
+			var damage = body.damage
+			var slow
+			if body.get("slow"):
+				slow = true
+			body.free()
+			take_damage(damage, slow)

@@ -6,13 +6,16 @@ var velocity = Vector2()
 var target_velocity = Vector2()
 var target
 var direction
+var orig_tower
 var damage
 var slow
 
-#func start(pos, dir):
-#	rotation = dir
-#	position = pos
-#	velocity = Vector2(speed, 0).rotated(rotation)
+func start(inc_muzzle, inc_target, inc_orig_tower):
+	
+	self.global_position = inc_muzzle
+	orig_tower = inc_orig_tower
+	damage = orig_tower.damage
+	target = inc_target
 
 func _physics_process(delta):
 	if is_instance_valid(target):

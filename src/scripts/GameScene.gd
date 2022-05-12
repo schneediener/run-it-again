@@ -11,7 +11,7 @@ var build_tile
 var build_tower
 var build_scene
 var current_health = 15 #setget update_current_health
-var current_gold = 500 setget current_gold_set, current_gold_get
+var current_gold = 800 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
 var SELECTSHADER = load("res://new_shader.tres")
@@ -29,7 +29,6 @@ func _ready():
 			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
 	
 	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
-
 
 func current_gold_set(value):
 #	print(value)
@@ -78,6 +77,11 @@ func _process(_delta):
 
 
 func _unhandled_input(event):
+	if event.is_action_pressed("ig_pause"):
+		if get_tree().paused:
+			get_tree().paused = false
+		else:
+			get_tree().paused = true
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:
 			selected_tower.get_node("ButtonContainer").visible = false

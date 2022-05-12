@@ -1,0 +1,91 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://enemy_health_over_texture.png" type="Texture" id=1]
+[ext_resource path="res://specialBarrel4_outline.png" type="Texture" id=2]
+[ext_resource path="res://enemy_health_progress_texture.png" type="Texture" id=3]
+[ext_resource path="res://src/scripts/Tank.gd" type="Script" id=4]
+[ext_resource path="res://tankBody_huge.png" type="Texture" id=5]
+[ext_resource path="res://specialBarrel1_outline.png" type="Texture" id=6]
+[ext_resource path="res://src/scenes/enemies/Shield.tres" type="SpriteFrames" id=7]
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 50.6667, 43.2917 )
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 199.003
+
+[node name="Tank" type="KinematicBody2D"]
+position = Vector2( 97, 45 )
+collision_layer = 2
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="HitDetection" type="Area2D" parent="."]
+position = Vector2( -17, -14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection"]
+position = Vector2( 15, 15 )
+scale = Vector2( 1.2, 1.2 )
+shape = SubResource( 7 )
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_left = -38.0
+margin_top = -69.0
+margin_right = 112.0
+margin_bottom = -19.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_over = ExtResource( 1 )
+texture_progress = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SlowTimer" type="Timer" parent="."]
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Shield" type="Area2D" parent="Sprites"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprites/Shield"]
+position = Vector2( -2, 8 )
+shape = SubResource( 8 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Sprites/Shield"]
+position = Vector2( 44.5822, 7.56123 )
+rotation = 1.5708
+scale = Vector2( 3.05665, 2.84386 )
+frames = ExtResource( 7 )
+frame = 1
+
+[node name="Tank" type="Sprite" parent="Sprites"]
+position = Vector2( 0, 0.500008 )
+rotation = 1.5708
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 5 )
+
+[node name="CannonSprite" type="Sprite" parent="Sprites/Tank"]
+position = Vector2( 0.333332, 17.3333 )
+rotation = 3.14159
+texture = ExtResource( 6 )
+offset = Vector2( 0, 6 )
+
+[node name="SpecialBarrel4Outline" type="Sprite" parent="Sprites/Tank/CannonSprite"]
+position = Vector2( -9, 5.33335 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, 10 )
+flip_h = true
+
+[node name="SpecialBarrel4Outline2" type="Sprite" parent="Sprites/Tank/CannonSprite"]
+position = Vector2( 8.33333, 5.33334 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, 10 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( 0.333336, 0.70834 )
+shape = SubResource( 7 )
+
+[connection signal="body_entered" from="HitDetection" to="." method="_on_HitDetection_body_entered"]
+[connection signal="timeout" from="SlowTimer" to="." method="_on_SlowTimer_timeout"]

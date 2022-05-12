@@ -13,8 +13,12 @@ export var income_per_kill = 1
 var max_waves = 6
 var ready_to_finish
 
+onready var ship_path_1 = $Dropships/Path_Dropship1/PathFollow2D
+onready var ship_path_2 = $Dropships/Path_Dropship2/PathFollow2D
+onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
 
-#Array is as follows: Wave Number, Lvl 1 Enemies per wave, Lvl 2 Enemies.. , Lvl 3 Enemies..
+
+#Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
 
 export var wave_1 = ["Wave 1",10,0,0,1]
 export var wave_2 = ["Wave 2",15,5,0,0.9]
@@ -64,6 +68,8 @@ func start_new_wave():
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
+		if current_wave[0] == "Wave 3":
+			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":
 			update_wave_counters()
 			
@@ -80,7 +86,19 @@ func start_new_wave():
 	else:
 		ready_to_finish = true
 	
-
+func spawn_dropship():
+	var dropship = load("res://src/scenes/enemies/Dropship.tscn").instance()
+	
+	var landing_site = randi() % 3 + 1
+	print(landing_site)
+	
+	match landing_site:
+		1:
+			$Dropships/Path_Dropship1/PathFollow2D.add_child(dropship)
+		2:
+			$Dropships/Path_Dropship2/PathFollow2D.add_child(dropship)
+		3:
+			$Dropships/Path_Dropship3/PathFollow2D.add_child(dropship)
 	
 	
 func finish_level():
@@ -113,6 +131,8 @@ func spawn_new_enemy():
 	var slow = load("res://src/scenes/enemies/SlowEnemy.tscn")
 	var fast = load("res://src/scenes/enemies/FastEnemy.tscn")
 	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
+	var tank = load("res://src/scenes/enemies/Tank.tscn")
+	
 	var next_enemy
 	var spawn_1 = $Spawn
 	var spawn_2 = $Spawn/Spawn_2
@@ -127,22 +147,23 @@ func spawn_new_enemy():
 	
 	match next_type:
 		"1":
-			next_enemy = basic.instance()
+			next_enemy = basic
 		"2":
-			next_enemy = slow.instance()
+			next_enemy = slow
 		"3":
-			next_enemy = fast.instance()
+			next_enemy = fast
 		_:
 			push_error("enemy type unknown during spawn_new_enemy")
 	
 	if next_enemy:
-		$EnemyContainer.add_child(next_enemy, true)
-		
 		next_spawn = randi() % 3 + 1
+		next_enemy = next_enemy.instance()
 		if next_spawn != 3:
 			next_enemy.global_position = spawn_1.position
 		else:
 			next_enemy.global_position = spawn_2.position
+		
+		$EnemyContainer.add_child(next_enemy, true)
 		enemy_roulette.erase(next_type)
 		
 		create_path(next_enemy)

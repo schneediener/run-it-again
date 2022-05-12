@@ -6,15 +6,20 @@ export var steer_force = 50.0
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
 var target = null
-var damage = 10
+var damage
+var orig_tower
 
-func start(_transform, _target, _tower_type):
-	global_transform = _transform
+func start(inc_transform, inc_target, inc_orig_tower):
+	global_transform = inc_transform
 	rotation += rand_range(-0.09, 0.09)
 	velocity = transform.x * speed
-	target = _target
-	if _tower_type == "LauncherT2":
+	target = inc_target
+	orig_tower = inc_orig_tower
+	
+	if orig_tower.tower_type == "LauncherT2":
 		steer_force = 300.0
+	
+	damage = orig_tower.damage
 	
 func seek():
 	var steer = Vector2.ZERO
@@ -42,13 +47,13 @@ func explode():
 	$Particles2D.emitting = false
 	set_physics_process(false)
 	velocity = Vector2.ZERO
-	$AnimationPlayer.play("explode")
 	$BlastRadius.show()
 	var units = get_overlapping_bodies()
 	if units.size() > 0:
 		for unit in units:
 			if unit.type=="enemy":
 				unit.take_damage(damage, false)
+	$AnimationPlayer.play("explode")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 	
