@@ -4,7 +4,7 @@ var drop_point
 var speed = 450
 var health = 30
 var shield = 10
-var max_health = 30
+var max_health = 120
 var health_perc
 var max_shield = 10
 var type = "enemy"
@@ -14,7 +14,7 @@ var velocity
 var gold_multi = 5
 
 onready var game_scene = get_node("../../../../../")
-onready var enemy_script = preload("res://src/scripts/test_enemies_general.gd")
+#onready var enemy_script = preload("res://src/scripts/test_enemies_general.gd")
 
 var wave_1 = ["Wave 1",10,0,0,0,1]
 var wave_2 = ["Wave 2",10,3,0,0,.7]
@@ -31,8 +31,8 @@ func _ready():
 
 func _physics_process(delta):
 	$HealthBar.set_global_position(get_node("DropshipBody/ShipSprite").global_position+Vector2(-38,-62))
-	enemy_script.calculate_health_perc()
-	enemy_script.set_health_tint()
+	calculate_health_perc()
+	set_health_tint()
 	# Move along the "path" if there is path left
 	if get_parent().unit_offset!=1.0:
 		get_parent().offset += speed * delta
@@ -92,7 +92,23 @@ func start_next_wave():
 		yield(get_tree().create_timer(5.0), "timeout")
 		$DropshipBody/Spawn/SpawnTimer.start()
 		
-
+func calculate_health_perc():
+#	var perc = (health/self.max_health)*100
+	var perc = round((float(health)/self.max_health)* 100)
+	health_perc = perc
+func set_health_tint():
+	if health_perc == 100:
+		$HealthBar.visible = false
+	else:
+		$HealthBar.visible = true
+	if health_perc <= 80 and health_perc >= 50:
+		$HealthBar.tint_progress = Color(0, 255, 0)
+	elif health_perc <= 49 and health_perc >= 25:
+		$HealthBar.tint_progress = Color(255, 255, 0)
+	elif health_perc <=24:
+		$HealthBar.tint_progress = Color(255, 0, 0)
+	else:
+		$HealthBar.visible = false
 func spawn_next_enemy(type):
 	var new_enemy
 	var enemy_container = game_scene.map_node.get_node("EnemyContainer")

@@ -55,5 +55,5 @@ func explode():
 				unit.take_damage(damage, false)
 	$AnimationPlayer.play("explode")
 	yield($AnimationPlayer, "animation_finished")
-	free()
+	queue_free()
 	

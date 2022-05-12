@@ -147,22 +147,23 @@ func spawn_new_enemy():
 	
 	match next_type:
 		"1":
-			next_enemy = basic.instance()
+			next_enemy = basic
 		"2":
-			next_enemy = slow.instance()
+			next_enemy = slow
 		"3":
-			next_enemy = fast.instance()
+			next_enemy = fast
 		_:
 			push_error("enemy type unknown during spawn_new_enemy")
 	
 	if next_enemy:
-		$EnemyContainer.add_child(next_enemy, true)
-		
 		next_spawn = randi() % 3 + 1
+		next_enemy = next_enemy.instance()
 		if next_spawn != 3:
 			next_enemy.global_position = spawn_1.position
 		else:
 			next_enemy.global_position = spawn_2.position
+		
+		$EnemyContainer.add_child(next_enemy, true)
 		enemy_roulette.erase(next_type)
 		
 		create_path(next_enemy)
