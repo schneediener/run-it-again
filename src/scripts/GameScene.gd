@@ -30,7 +30,6 @@ func _ready():
 	
 	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 
-
 func current_gold_set(value):
 #	print(value)
 	current_gold = value
@@ -78,6 +77,11 @@ func _process(_delta):
 
 
 func _unhandled_input(event):
+	if event.is_action_pressed("ig_pause"):
+		if get_tree().paused:
+			get_tree().paused = false
+		else:
+			get_tree().paused = true
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:
 			selected_tower.get_node("ButtonContainer").visible = false

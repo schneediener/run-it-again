@@ -197,6 +197,8 @@ func select_target():
 	#If there's only one target, target it
 	if primary_array.size()==1:
 		current_target = primary_array[0]
+		emit_signal("target_acquired")
+		return
 	elif primary_array.size() > 1: #If more than one target has min/max primary stat, find their distances
 		if primary_array[0].subtype == "creep":
 			all_dist_array = []
@@ -276,7 +278,7 @@ func flash():
 	if flash_sprite2:
 		flash_sprite2.show()
 		
-	yield(get_tree().create_timer(0.1), "timeout")
+	yield(get_tree().create_timer(0.05), "timeout")
 	
 	flash_sprite1.hide()
 	
@@ -319,3 +321,22 @@ func _on_SelectTower_pressed(): #old function
 func _on_Range_body_exited(body):
 	if current_target==body:
 		current_target = null
+
+func _on_TargetOption_item_selected(index):
+	match index:
+		0:
+			target_method = "first"
+		1:
+			target_method = "last"
+		2:
+			target_method = "strong"
+		3:
+			target_method = "weak"
+		4:
+			target_method = "fast"
+		5:
+			target_method = "slow"
+		6:
+			target_method = "dropship"
+		_:
+			push_error("Error setting target method on tower")
