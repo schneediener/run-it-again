@@ -252,7 +252,10 @@ func fire():
 			projectile = load("res://src/scenes/projectiles/Missile.tscn").instance()
 			projectile.start(muzzle.global_transform, current_target, self)
 		"gun":
-			current_target.health = current_target.health-self.damage
+			if current_target.subtype=="creep":
+				current_target.health = current_target.health-self.damage
+			elif current_target.subtype=="dropship":
+				current_target.take_damage(self.damage, false)
 			#to-do: current_target.play_gun_hit_animation()
 		"laser":
 			pass #shoot the laser

@@ -44,12 +44,14 @@ texture = ExtResource( 4 )
 position = Vector2( -18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="Jet2" type="AnimatedSprite" parent="DropshipBody/ShipSprite"]
 position = Vector2( 18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="Weapons" type="Node2D" parent="DropshipBody"]
