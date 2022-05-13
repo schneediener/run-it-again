@@ -33,9 +33,6 @@ script = ExtResource( 8 )
 collision_layer = 2
 script = ExtResource( 3 )
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropshipBody"]
-polygon = PoolVector2Array( -67, -35, -45, -53, -23, -62, -8, -65, 2, -67, 21, -65, 28, -64, 46, -58, 54, -53, 67, -40, 70, -29, 70, -23, 66, -20, 66, -16, 57, -14, 57, -6, 22, -6, 23, 1, 22, 5, 56, 5, 57, 14, 66, 16, 66, 20, 70, 21, 69, 30, 67, 35, 66, 39, 51, 53, 48, 51, 46, 53, 46, 56, 26, 64, 24, 60, 21, 60, 21, 64, 0, 67, -32, 60, -50, 50, -69, 36, -69, 28, -72, 22, -72, 13, -70, 9, -68, 7, -68, -8, -72, -11, -73, -24, -70, -29 )
-
 [node name="ShipSprite" type="Sprite" parent="DropshipBody"]
 rotation = 1.5708
 texture = ExtResource( 4 )
@@ -44,15 +41,17 @@ texture = ExtResource( 4 )
 position = Vector2( -18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
-frame = 1
 playing = true
 
 [node name="Jet2" type="AnimatedSprite" parent="DropshipBody/ShipSprite"]
 position = Vector2( 18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
-frame = 1
 playing = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropshipBody"]
+modulate = Color( 0.984314, 0.141176, 0.141176, 1 )
+polygon = PoolVector2Array( -67, -35, -45, -53, -23, -62, -8, -65, 2, -67, 21, -65, 28, -64, 46, -58, 54, -53, 67, -40, 70, -29, 70, -23, 66, -20, 66, -16, 57, -14, 57, -6, 22, -6, 23, 1, 22, 5, 56, 5, 57, 14, 66, 16, 66, 20, 70, 21, 69, 30, 67, 35, 66, 39, 51, 53, 48, 51, 46, 53, 46, 56, 26, 64, 24, 60, 21, 60, 21, 64, 0, 67, -32, 60, -50, 50, -69, 36, -69, 28, -72, 22, -72, 13, -70, 9, -68, 7, -68, -8, -72, -11, -73, -24, -70, -29 )
 
 [node name="Weapons" type="Node2D" parent="DropshipBody"]
 modulate = Color( 0.568627, 0.568627, 0.568627, 1 )
@@ -74,11 +73,13 @@ texture = ExtResource( 7 )
 offset = Vector2( 10, 0 )
 
 [node name="WeaponsRange" type="Area2D" parent="DropshipBody"]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropshipBody/WeaponsRange"]
 shape = SubResource( 4 )
 
 [node name="ShieldRange" type="Area2D" parent="DropshipBody"]
+visible = false
 
 [node name="ShieldSprite" type="AnimatedSprite" parent="DropshipBody/ShieldRange"]
 modulate = Color( 0, 0.945098, 0.952941, 1 )
@@ -112,8 +113,5 @@ margin_bottom = -12.0
 rect_scale = Vector2( 0.5, 0.5 )
 texture_over = ExtResource( 11 )
 texture_progress = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="timeout" from="DropshipBody/Spawn/SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

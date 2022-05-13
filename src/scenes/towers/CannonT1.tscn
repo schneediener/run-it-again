@@ -178,7 +178,7 @@ margin_left = 54.0
 margin_right = 111.0
 margin_bottom = 20.0
 text = "First"
-items = [ "First", null, false, 0, null, "Last", null, false, 1, null, "Strongest", null, false, 2, null, "Weakest", null, false, 3, null, "Fastest", null, false, 4, null, "Slowest", null, false, 5, null ]
+items = [ "First", null, false, 0, null, "Last", null, false, 1, null, "Strong", null, false, 2, null, "Weak", null, false, 3, null, "Fast", null, false, 4, null, "Slow", null, false, 5, null, "Dropship", null, false, 6, null ]
 selected = 0
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
