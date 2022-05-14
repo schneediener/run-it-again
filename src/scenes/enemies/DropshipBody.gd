@@ -19,3 +19,6 @@ func take_damage(damage, slow):
 		game_scene.current_gold = game_scene.current_gold+new_gold
 		print(new_gold)
 		get_parent().queue_free()
+
+func get_health():
+	return get_parent().health

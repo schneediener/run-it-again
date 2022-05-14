@@ -129,19 +129,24 @@ func select_target():
 			return
 	#Gather all primary stats
 	for enemy in target_array:
-		if enemy.subtype=="creep":
-			match primary_stat:
-				"distance":
-					all_dist_array.append(enemy.get_distance())
-				"health":
-					all_health_array.append(enemy.health)
-				"speed":
-					all_speed_array.append(enemy.speed)
-				"dropship":
-					all_dropship_array.append(enemy)
-				_:
-					push_error("Error filling all arrays")
-					return
+		if target_method=="dropship":
+			if enemy.subtype=="dropship":
+				all_health_array.append(enemy.get_health())
+				all_dropship_array.append(enemy)
+			else:
+				all_dist_array.append(enemy.get_distance())
+		else:
+			if enemy.subtype=="creep":
+				match primary_stat:
+					"distance":
+						all_dist_array.append(enemy.get_distance())
+					"health":
+						all_health_array.append(enemy.health)
+					"speed":
+						all_speed_array.append(enemy.speed)
+					_:
+						push_error("Error filling all arrays")
+						return
 	
 	#set highest/lowest targets for primary array
 	match primary_stat:
@@ -155,18 +160,35 @@ func select_target():
 			slowest_speed = all_speed_array.min()
 			fastest_speed = all_speed_array.max()
 		"dropship":
-			pass
+			weakest_health = all_health_array.min()
+			smallest_distance = all_dist_array.min()
 		_:
 			push_error("Error determining min/max targets")
 			return
 
+
+	if target_method=="dropship":
+		for enemy in target_array: 
+			if enemy.subtype=="dropship":
+				if enemy.get_health()==weakest_health:
+					weakest_array.append(enemy)
+		
+		if weakest_array.size()>0:
+			for enemy in weakest_array:
+				if enemy.get_health()==weakest_health:
+					current_target = enemy
+					emit_signal("target_acquired")
+					return
+		else:
+			primary_stat="distance"
+			
 	#For dist, select target
 	#For others, fill stat array
-	for enemy in target_array: #use target method to determine target
+	for enemy in target_array:
 		if enemy.subtype=="creep":
-			match primary_stat:
+			match primary_stat: #use target method to determine target
 				"distance":
-					if target_method == "first" and \
+					if target_method == "first" or "dropship" and \
 					enemy.get_distance() == smallest_distance:
 						current_target = enemy
 						emit_signal("target_acquired")

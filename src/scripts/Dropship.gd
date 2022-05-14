@@ -4,7 +4,7 @@ var drop_point
 var speed = 450
 var health = 30
 var shield = 10
-var max_health = 120
+var max_health = 200
 var health_perc
 var max_shield = 10
 var type = "enemy"
@@ -97,11 +97,8 @@ func calculate_health_perc():
 	var perc = round((float(health)/self.max_health)* 100)
 	health_perc = perc
 func set_health_tint():
-	if health_perc == 100:
-		$HealthBar.visible = false
-	else:
-		$HealthBar.visible = true
-	if health_perc <= 80 and health_perc >= 50:
+	$HealthBar.visible = true
+	if health_perc <= 99 and health_perc >= 50:
 		$HealthBar.tint_progress = Color(0, 255, 0)
 	elif health_perc <= 49 and health_perc >= 25:
 		$HealthBar.tint_progress = Color(255, 255, 0)
