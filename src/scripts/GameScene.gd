@@ -16,6 +16,7 @@ var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
 var SELECTSHADER = load("res://new_shader.tres")
 var shader = ShaderMaterial.new()
+var current_time = 100
 
 func _ready():
 	prepare_shader()
@@ -23,6 +24,9 @@ func _ready():
 	
 	$UserInterface/HealthBar.max_value = current_health
 	$UserInterface/HealthBar.value = current_health
+	$UserInterface/TimeBar.max_value = current_time
+	$UserInterface/TimeBar.value = current_time
+	
 	map_node = get_node("SeanMap")
 	
 	for i in get_tree().get_nodes_in_group("build_buttons"):
@@ -72,16 +76,32 @@ func game_over():
 	get_tree().quit()
 
 func _process(_delta):
+	if $UserInterface/TimeBar.value != current_time:
+		$UserInterface/TimeBar.value = current_time
 	if build_mode:
 		update_tower_preview()
+	
+	if get_tree().paused:
+		current_time = current_time-0.05
+		if current_time <=1:
+			start_time()
+		
+
+func stop_time():
+	get_tree().paused = true
+	$PauseEffect.show()
+
+func start_time():
+	get_tree().paused = false
+	$PauseEffect.hide()
 
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ig_pause"):
 		if get_tree().paused:
-			get_tree().paused = false
+			start_time()
 		else:
-			get_tree().paused = true
+			stop_time()
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:
 			selected_tower.get_node("ButtonContainer").visible = false

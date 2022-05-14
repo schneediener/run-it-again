@@ -75,14 +75,13 @@ wait_time = 0.55
 one_shot = true
 
 [node name="SelectTower" type="Button" parent="."]
+pause_mode = 2
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 64.0
 margin_bottom = 64.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ButtonContainer" type="Node2D" parent="."]
+pause_mode = 2
 visible = false
 
 [node name="Upgrade" type="TextureButton" parent="ButtonContainer"]
