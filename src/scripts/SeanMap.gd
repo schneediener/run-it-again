@@ -68,7 +68,7 @@ func start_new_wave():
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
-		if current_wave[0] == "Wave 3":
+		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 5" or current_wave[0] == "Wave 6":
 			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":
 			update_wave_counters()

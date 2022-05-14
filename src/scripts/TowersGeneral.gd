@@ -188,13 +188,13 @@ func select_target():
 		if enemy.subtype=="creep":
 			match primary_stat: #use target method to determine target
 				"distance":
-					if target_method == "first" or "dropship" and \
-					enemy.get_distance() == smallest_distance:
-						current_target = enemy
-						emit_signal("target_acquired")
-						return
+					if target_method != "last":
+						if enemy.remaining_dist == smallest_distance:
+							current_target = enemy
+							emit_signal("target_acquired")
+							return
 					if target_method == "last" and \
-					enemy.get_distance() == largest_distance:
+					enemy.remaining_dist == largest_distance:
 						current_target = enemy
 						emit_signal("target_acquired")
 						return

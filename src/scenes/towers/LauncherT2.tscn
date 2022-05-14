@@ -66,6 +66,7 @@ region_enabled = true
 region_rect = Rect2( 1280, 768, 64, 64 )
 
 [node name="SelectTower" type="Button" parent="."]
+pause_mode = 2
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 64.0
 margin_bottom = 64.0
@@ -74,11 +75,9 @@ __meta__ = {
 }
 
 [node name="ButtonContainer" type="Control" parent="."]
+pause_mode = 2
 margin_left = 1.0
 margin_right = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Upgrade" type="TextureButton" parent="ButtonContainer"]
 margin_left = 53.0
