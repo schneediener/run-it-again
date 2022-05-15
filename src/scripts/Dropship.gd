@@ -4,7 +4,7 @@ var drop_point
 var speed = 450
 var health = 30
 var shield = 10
-var max_health = 200
+var max_health = 250
 var health_perc
 var max_shield = 10
 var type = "enemy"
@@ -62,6 +62,7 @@ func _physics_process(delta):
 func _on_SpawnTimer_timeout():
 	if !current_wave:
 		start_next_wave()
+		health = health + 35
 		return
 		
 	elif current_wave:
