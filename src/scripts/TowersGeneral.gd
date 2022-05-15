@@ -275,7 +275,7 @@ func fire():
 			projectile.start(muzzle.global_transform, current_target, self)
 		"gun":
 			if current_target.subtype=="creep":
-				current_target.health = current_target.health-self.damage
+				current_target.take_damage(self.damage, true)
 			elif current_target.subtype=="dropship":
 				current_target.take_damage(self.damage, false)
 			#to-do: current_target.play_gun_hit_animation()
