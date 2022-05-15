@@ -27,7 +27,7 @@ func _ready():
 	
 func _physics_process(delta):
 	if slowed:
-		self.speed = orig_speed*0.5
+		self.speed = orig_speed*0.6
 	else:
 		self.speed = orig_speed
 	if path.size() > 0:

@@ -63,6 +63,7 @@ region_rect = Rect2( 1343.5, 766, 64, 64 )
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
 [node name="FiringRate" type="Timer" parent="."]
+wait_time = 0.75
 one_shot = true
 
 [node name="SelectTower" type="Button" parent="."]
