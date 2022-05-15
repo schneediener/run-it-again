@@ -22,15 +22,18 @@ onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
 
 export var wave_1 = ["Wave 1",10,0,0,1]
 export var wave_2 = ["Wave 2",15,5,0,0.9]
-export var wave_3 = ["Wave 3",15,5,1,0.8]
-export var wave_4 = ["Wave 4",15,10,3,0.7]
-export var wave_5 = ["Wave 5",15,15,5,0.6]
-export var wave_6 = ["Wave 6",20,10,10,.5]
+export var wave_3 = ["Wave 3",15,8,0,0.8]
+export var wave_4 = ["Wave 4",15,8,1,0.8]
+export var wave_5 = ["Wave 5",15,5,2,0.8]
+export var wave_6 = ["Wave 6",15,5,2,0.8]
+export var wave_7 = ["Wave 7",15,10,3,0.7]
+export var wave_8 = ["Wave 8",15,15,5,0.6]
+export var wave_9 = ["Wave 9",20,10,10,.5]
 
 
 var enemy_roulette = []
 
-var wave_list = ["start", wave_1, wave_2, wave_3, wave_4, wave_5, wave_6, "finish"]
+var wave_list = ["start", wave_1, wave_2, wave_3, wave_4, wave_5, wave_6, wave_7, wave_8, wave_9, "finish"]
 
 onready var current_wave = wave_list[0]
 
@@ -68,7 +71,7 @@ func start_new_wave():
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
-		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 5" or current_wave[0] == "Wave 6":
+		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 7" or current_wave[0] == "Wave 9":
 			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":
 			update_wave_counters()

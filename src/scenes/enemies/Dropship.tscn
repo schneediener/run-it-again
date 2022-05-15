@@ -41,12 +41,14 @@ texture = ExtResource( 4 )
 position = Vector2( -18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="Jet2" type="AnimatedSprite" parent="DropshipBody/ShipSprite"]
 position = Vector2( 18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropshipBody"]
@@ -96,6 +98,7 @@ shape = SubResource( 3 )
 position = Vector2( 70, 0 )
 
 [node name="SpawnTimer" type="Timer" parent="DropshipBody/Spawn"]
+wait_time = 1.5
 
 [node name="Shadow" type="Sprite" parent="."]
 show_behind_parent = true
