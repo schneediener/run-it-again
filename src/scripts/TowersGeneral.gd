@@ -119,8 +119,10 @@ func select_target():
 			primary_stat = "speed"
 		"first":
 			primary_stat = "distance"
+			primary_array = target_array
 		"last":
 			primary_stat = "distance"
+			primary_array = target_array
 		"dropship":
 			primary_stat = "dropship"
 			primary_array = all_dropship_array

@@ -27,12 +27,20 @@ func _ready():
 	$UserInterface/TimeBar.max_value = current_time
 	$UserInterface/TimeBar.value = current_time
 	
-	map_node = get_node("SeanMap")
-	
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
 	
-	get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+	if map_node == "map_1":
+		var temp_map = load("res://src/scenes/levels/SeanMap.tscn").instance()
+		add_child(temp_map)
+		get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+		map_node = temp_map
+	elif map_node == "map_2":
+		var temp_map = load("res://src/scenes/levels/Map2.tscn").instance()
+		add_child(temp_map)
+		get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+		get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+		map_node = temp_map
 
 func current_gold_set(value):
 #	print(value)
