@@ -27,7 +27,7 @@ func _ready():
 	$HealthBar.value = self.max_health
 	$HealthBar.max_value = self.max_health
 	health=self.max_health
-	$HealthBar.set_as_toplevel(true)
+#	$HealthBar.set_as_toplevel(true)
 
 func _physics_process(delta):
 	$HealthBar.set_global_position(get_node("DropshipBody/ShipSprite").global_position+Vector2(-38,-62))
@@ -107,11 +107,11 @@ func set_health_tint():
 		$HealthBar.tint_progress = Color(255, 0, 0)
 	else:
 		$HealthBar.visible = false
-func spawn_next_enemy(type):
+func spawn_next_enemy(temp_type):
 	var new_enemy
 	var enemy_container = game_scene.map_node.get_node("EnemyContainer")
 	
-	match type:
+	match temp_type:
 		"basic":
 			new_enemy = load("res://src/scenes/enemies/BasicEnemy.tscn").instance()
 		"slow":
@@ -126,4 +126,4 @@ func spawn_next_enemy(type):
 	if new_enemy:
 		enemy_container.add_child(new_enemy)
 		new_enemy.global_position = $DropshipBody/Spawn.global_position
-		game_scene.map_node.create_path(new_enemy)
+		game_scene.map_node.create_path(new_enemy, 1)

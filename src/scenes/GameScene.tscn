@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://tutorial_assets/UI/PNG/blue_button12.png" type="Texture" id=3]
@@ -14,6 +14,9 @@
 [ext_resource path="res://glitch_vhs_gif.png" type="Texture" id=13]
 [ext_resource path="res://clock_sprite.png" type="Texture" id=14]
 [ext_resource path="res://src/scenes/Camera2D.gd" type="Script" id=15]
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 964, 21 )
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -77,16 +80,6 @@ animations = [ {
 pause_mode = 2
 position = Vector2( -11, -4 )
 script = ExtResource( 4 )
-
-[node name="PauseEffect" type="AnimatedSprite" parent="."]
-visible = false
-self_modulate = Color( 100, 100, 100, 0.01 )
-position = Vector2( 965, 541.25 )
-scale = Vector2( 3.64444, 2.84722 )
-frames = SubResource( 11 )
-frame = 5
-speed_scale = 1.25
-playing = true
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
 script = ExtResource( 5 )
@@ -219,6 +212,37 @@ scale = Vector2( 1.1, 1.1 )
 texture = ExtResource( 14 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
+position = Vector2( 970, 548 )
 current = true
 script = ExtResource( 15 )
+
+[node name="UpArea" type="Area2D" parent="Camera2D"]
+position = Vector2( -963, -579 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/UpArea"]
+position = Vector2( 961, 58 )
+z_index = 10
+shape = SubResource( 12 )
+
+[node name="DownArea" type="Area2D" parent="Camera2D"]
+position = Vector2( -964, 426 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/DownArea"]
+position = Vector2( 961, 95 )
+z_index = 10
+shape = SubResource( 12 )
+
+[node name="PauseEffect" type="AnimatedSprite" parent="Camera2D"]
+visible = false
+self_modulate = Color( 100, 100, 100, 0.01 )
+position = Vector2( -5, -6.75 )
+scale = Vector2( 3.64444, 2.84722 )
+frames = SubResource( 11 )
+frame = 5
+speed_scale = 1.25
+playing = true
+
+[connection signal="mouse_entered" from="Camera2D/UpArea" to="." method="_on_UpArea_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/UpArea" to="." method="_on_UpArea_mouse_exited"]
+[connection signal="mouse_entered" from="Camera2D/DownArea" to="." method="_on_DownArea_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/DownArea" to="." method="_on_DownArea_mouse_exited"]

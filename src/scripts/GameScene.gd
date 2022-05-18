@@ -17,6 +17,7 @@ var selected_tower
 var SELECTSHADER = load("res://new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 100
+onready var camera_move = null
 
 func _ready():
 	prepare_shader()
@@ -41,6 +42,12 @@ func _ready():
 		get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 		get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 		map_node = temp_map
+
+func move_camera(direction):
+	if direction == "up":
+		$Camera2D.position.y -= 10
+	elif direction == "down":
+		$Camera2D.position.y +=10
 
 func current_gold_set(value):
 #	print(value)
@@ -87,21 +94,23 @@ func _process(_delta):
 	if $UserInterface/TimeBar.value != current_time:
 		$UserInterface/TimeBar.value = current_time
 	if build_mode:
-		update_tower_preview()
+		run_update_tower_preview()
 	
 	if get_tree().paused:
 		current_time = current_time-0.05
 		if current_time <=1:
 			start_time()
-		
+	
+	if camera_move:
+		move_camera(camera_move)
 
 func stop_time():
 	get_tree().paused = true
-	$PauseEffect.show()
+	$Camera2D/PauseEffect.show()
 
 func start_time():
 	get_tree().paused = false
-	$PauseEffect.hide()
+	$Camera2D/PauseEffect.hide()
 
 
 func _unhandled_input(event):
@@ -129,7 +138,15 @@ func _unhandled_input(event):
 			verify_and_build()
 		
 		get_tree().set_input_as_handled()
-
+	
+	if event.is_action_pressed("ui_up"):
+		camera_move = "up"
+	if event.is_action_pressed("ui_down"):
+		camera_move = "down"
+	if event.is_action_released("ui_up"):
+		camera_move = null
+	if event.is_action_released("ui_down"):
+		camera_move = null
 
 
 func initiate_build_mode(tower):
@@ -145,32 +162,32 @@ func initiate_build_mode(tower):
 	build_scene = tower
 	build_tower = tower.instance()
 	build_mode = true
-	get_node("UserInterface").set_tower_preview(build_tower, get_global_mouse_position())
+	set_tower_preview(build_tower, get_global_mouse_position())
 
 
 
-func update_tower_preview():
+func run_update_tower_preview():
 	var mouse_position = get_global_mouse_position()
 	var tower_exclusion = map_node.get_node("Navigation2D/TowerExclusion")
-	var current_tile = tower_exclusion.world_to_map(mouse_position)
+	var current_tile = tower_exclusion.world_to_map(tower_exclusion.to_local(mouse_position))
 	var tile_position = tower_exclusion.map_to_world(current_tile)
+	var tile = tower_exclusion.get_cellv(current_tile)
 	
-	if tower_exclusion.get_cellv(current_tile) == -1:
-		get_node("UserInterface").update_tower_preview(tile_position, "ad54ff3c")
+	if tile == -1:
+		update_tower_preview(tile_position, "ad54ff3c")
 		if build_valid != true:
 			build_valid = true
 		build_location = tile_position
 		build_tile = current_tile
 	else:
-		get_node("UserInterface").update_tower_preview(tile_position, "adff4545")
+		update_tower_preview(tile_position, "adff4545")
 		if build_valid:
 			build_valid = false
-
 
 func cancel_build_mode():
 	build_mode = false
 #	print("build mode false")
-	get_node("UserInterface/TowerPreview").free()
+	get_node("TowerPreview").free()
 
 
 func verify_and_build():
@@ -195,6 +212,39 @@ func verify_and_build():
 	else:
 		OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')
 
+func set_tower_preview(tower_type, mouse_position):
+#	print (tower_type)
+	
+	var drag_tower = tower_type
+	
+# Method for setting drag_tower by name doesn't feel good, but it's cleaner than my alternative at the moment, see below
+#	var drag_tower = null
+#	if tower_type == "gun":
+#		drag_tower = load("res://src/scenes/towers/GunT1.tscn").instance()
+#	else:
+#		drag_tower = load("res://src/scenes/towers/MissileT1.tscn").instance()
+	if drag_tower.get_node("SelectTower"):
+		drag_tower.get_node("SelectTower").visible = false
+	
+	drag_tower.set_name("DragTower")
+	drag_tower.modulate = Color("ad54ff3c")
+	
+	var control = Control.new()
+	control.add_child(drag_tower, true)
+	control.rect_position = mouse_position
+	control.set_name("TowerPreview")
+	add_child(control, true)
+	move_child(get_node("TowerPreview"), 0)
+	if get_node("TowerPreview/DragTower/Range"):
+		get_node("TowerPreview/DragTower/Range").visible = true
+
+func update_tower_preview(new_position, color):
+	var tower_preview = get_node("TowerPreview")
+	var drag_tower = get_node("TowerPreview/DragTower")
+	
+	tower_preview.rect_position = new_position
+	if drag_tower.modulate != Color(color):
+		drag_tower.modulate = Color(color)
 
 func select_tower(tower_instance):
 #	print("Select tower was run")
@@ -237,3 +287,21 @@ func select_tower(tower_instance):
 	
 func get_selected_tower():
 	return(selected_tower)
+
+
+func _on_DownArea_mouse_entered():
+	camera_move = "down"
+
+
+func _on_UpArea_mouse_entered():
+	camera_move = "up"
+
+
+func _on_UpArea_mouse_exited():
+	if camera_move == "up":
+		camera_move = null
+
+
+func _on_DownArea_mouse_exited():
+		if camera_move == "down":
+			camera_move = null
