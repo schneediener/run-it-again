@@ -428,13 +428,13 @@ _data = {
 
 [sub_resource type="Curve2D" id=35]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 2260, 711.945, 0, 0, 0, 0, -399, -763.579, 0, 0, 0, 0, -263, -1588.72, -551.792, -132.252, 551.792, 132.252, 1329, 109.225, 402.745, 100.764, -402.745, -100.764, 1860, -178.731, 0, 0, 0, 0, 1502, -800.318 )
+"points": PoolVector2Array( 0, 0, 0, 0, 2260, 711.945, 0, 0, 0, 0, -399, -763.579, 0, 0, 0, 0, -263, -1588.72, -551.792, -132.252, 551.792, 132.252, 1329, 109.225, 272.821, 68.9537, -272.821, -68.9537, 1860, -178.731, 0, 0, 0, 0, 1625, -795.353 )
 }
 
 [sub_resource type="Curve2D" id=36]
 bake_interval = 7.0
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 2947, 325, 298.095, 291.752, -298.095, -291.752, 1046, -357, 19.0273, 320.293, -19.0273, -320.293, 669, -1048, -602.532, -6.34244, 602.532, 6.34244, 1389, -1768, 0, 0, 0, 0, 2694, -870, 564.477, 837.202, -564.477, -837.202, 2433, -525, 50.7395, -307.608, -50.7395, 307.608, 1223, -1074, 0, 0, 0, 0, 1182, -452 )
+"points": PoolVector2Array( 0, 0, 0, 0, 2947, 325, 298.095, 291.752, -298.095, -291.752, 1046, -357, 19.0273, 320.293, -19.0273, -320.293, 669, -1048, -602.532, -6.34244, 602.532, 6.34244, 1389, -1768, 0, 0, 0, 0, 2694, -870, 564.477, 837.202, -564.477, -837.202, 2433, -525, -93.4232, -216.839, 93.4232, 216.839, 811, -1111, 0, 0, 0, 0, 897, -508 )
 }
 
 [node name="Map2" type="Node2D"]
@@ -518,7 +518,6 @@ pause_mode = 1
 pause_mode = 1
 
 [node name="Path_Dropship1" type="Path2D" parent="Dropships"]
-visible = false
 position = Vector2( 3, -1925 )
 curve = SubResource( 34 )
 
@@ -530,7 +529,6 @@ loop = false
 lookahead = 50.0
 
 [node name="Path_Dropship2" type="Path2D" parent="Dropships"]
-visible = false
 scale = Vector2( 1, 1.0071 )
 curve = SubResource( 35 )
 
@@ -553,7 +551,6 @@ loop = false
 lookahead = 50.0
 
 [node name="Path_Dropship4" type="Path2D" parent="Dropships"]
-visible = false
 curve = SubResource( 36 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Dropships/Path_Dropship4"]

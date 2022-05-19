@@ -16,8 +16,9 @@ var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
 var SELECTSHADER = load("res://new_shader.tres")
 var shader = ShaderMaterial.new()
-var current_time = 100
-onready var camera_move = null
+var current_time = 150
+
+var camera_move_array = [0,0,0,0]
 
 func _ready():
 	prepare_shader()
@@ -43,11 +44,51 @@ func _ready():
 		get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 		map_node = temp_map
 
-func move_camera(direction):
-	if direction == "up":
-		$Camera2D.position.y -= 10
-	elif direction == "down":
-		$Camera2D.position.y +=10
+func _process(_delta):
+	if $UserInterface/TimeBar.value != current_time:
+		$UserInterface/TimeBar.value = current_time
+	if build_mode:
+		run_update_tower_preview()
+	
+	if get_tree().paused:
+		current_time = current_time-0.05
+		if current_time <=1:
+			start_time()
+	
+	if Input.is_action_pressed("ui_up"):
+		camera_move_array[0] = 1
+	else:
+		camera_move_array[0] = 0
+
+	if Input.is_action_pressed("ui_down"):
+		camera_move_array[1] = 1
+	else:
+		camera_move_array[1] = 0
+	if Input.is_action_pressed("ui_left"):
+		camera_move_array[2] = 1
+	else:
+		camera_move_array[2] = 0
+	if Input.is_action_pressed("ui_right"):
+		camera_move_array[3] = 1
+	else:
+		camera_move_array[3] = 0
+	move_camera()
+func move_camera():
+	var temp_y = 0
+	var temp_x = 0
+	
+	if camera_move_array[0]==1:
+		temp_y -= 10
+	if camera_move_array[1]==1:
+		temp_y += 10
+	if camera_move_array[2]==1:
+		temp_x -= 10
+	if camera_move_array[3]==1:
+		temp_x += 10
+	
+	$Camera2D.position.y += temp_y
+	$Camera2D.position.x += temp_x
+
 
 func current_gold_set(value):
 #	print(value)
@@ -90,27 +131,15 @@ func game_over():
 	OS.alert('Game Over - Also make Sean change me to a nicer message in-game!', 'Error')
 	get_tree().quit()
 
-func _process(_delta):
-	if $UserInterface/TimeBar.value != current_time:
-		$UserInterface/TimeBar.value = current_time
-	if build_mode:
-		run_update_tower_preview()
-	
-	if get_tree().paused:
-		current_time = current_time-0.05
-		if current_time <=1:
-			start_time()
-	
-	if camera_move:
-		move_camera(camera_move)
+
 
 func stop_time():
 	get_tree().paused = true
-	$Camera2D/PauseEffect.show()
+	$UserInterface/PauseEffect.show()
 
 func start_time():
 	get_tree().paused = false
-	$Camera2D/PauseEffect.hide()
+	$UserInterface/PauseEffect.hide()
 
 
 func _unhandled_input(event):
@@ -139,15 +168,34 @@ func _unhandled_input(event):
 		
 		get_tree().set_input_as_handled()
 	
-	if event.is_action_pressed("ui_up"):
-		camera_move = "up"
-	if event.is_action_pressed("ui_down"):
-		camera_move = "down"
-	if event.is_action_released("ui_up"):
-		camera_move = null
-	if event.is_action_released("ui_down"):
-		camera_move = null
+#	if event.is_action_pressed("ui_up"):
+#		camera_move_array[0] = 1
+#	if event.is_action_pressed("ui_down"):
+#		camera_move_array[1] = 1
+#	if event.is_action_pressed("ui_left"):
+#		camera_move_array[2] = 1
+#	if event.is_action_pressed("ui_right"):
+#		camera_move_array[3] = 1
+#
+#	if event.is_action_released("ui_up"):
+#		camera_move_array[0] = 0
+#	if event.is_action_released("ui_down"):
+#		camera_move_array[1] = 0
+#	if event.is_action_released("ui_left"):
+#		camera_move_array[2] = 0
+#	if event.is_action_released("ui_right"):
+#		camera_move_array[3] = 0
+	if event.is_action_pressed("ig_scroll_up"):
+		zoom_camera("up")
+	if event.is_action_pressed("ig_scroll_down"):
+		zoom_camera("down")
 
+
+func zoom_camera(direction):
+	if direction == "up":
+		$Camera2D.zoom -= Vector2(0.1, 0.1)
+	elif direction == "down":
+		$Camera2D.zoom += Vector2(0.1, 0.1)
 
 func initiate_build_mode(tower):
 	if build_mode:
@@ -290,18 +338,18 @@ func get_selected_tower():
 
 
 func _on_DownArea_mouse_entered():
-	camera_move = "down"
+	camera_move_array[1] = 1
 
 
 func _on_UpArea_mouse_entered():
-	camera_move = "up"
+	camera_move_array[0] = 1
 
 
 func _on_UpArea_mouse_exited():
-	if camera_move == "up":
-		camera_move = null
+	if camera_move_array[0] == 1:
+		camera_move_array[0] = 0
 
 
 func _on_DownArea_mouse_exited():
-		if camera_move == "down":
-			camera_move = null
+	if camera_move_array[1] == 1:
+		camera_move_array[1] = 0

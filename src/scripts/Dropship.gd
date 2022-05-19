@@ -89,7 +89,7 @@ func start_next_wave():
 	if !current_wave and wave_list.size() > 0:
 		$DropshipBody/Spawn/SpawnTimer.stop()
 		current_wave = wave_list[0]
-		$DropshipBody/Spawn/SpawnTimer.wait_time = current_wave[5]
+#		$DropshipBody/Spawn/SpawnTimer.wait_time = current_wave[5]
 		yield(get_tree().create_timer(5.0), "timeout")
 		$DropshipBody/Spawn/SpawnTimer.start()
 		

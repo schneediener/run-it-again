@@ -16,7 +16,7 @@
 [ext_resource path="res://src/scenes/Camera2D.gd" type="Script" id=15]
 
 [sub_resource type="RectangleShape2D" id=12]
-extents = Vector2( 964, 21 )
+extents = Vector2( 960, 22.5 )
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -211,38 +211,39 @@ position = Vector2( 106, 110 )
 scale = Vector2( 1.1, 1.1 )
 texture = ExtResource( 14 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 970, 548 )
-current = true
-script = ExtResource( 15 )
+[node name="UpArea" type="Area2D" parent="UserInterface"]
+position = Vector2( -1, -35 )
 
-[node name="UpArea" type="Area2D" parent="Camera2D"]
-position = Vector2( -963, -579 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/UpArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UserInterface/UpArea"]
 position = Vector2( 961, 58 )
 z_index = 10
 shape = SubResource( 12 )
 
-[node name="DownArea" type="Area2D" parent="Camera2D"]
-position = Vector2( -964, 426 )
+[node name="DownArea" type="Area2D" parent="UserInterface"]
+position = Vector2( -7, 965 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/DownArea"]
-position = Vector2( 961, 95 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UserInterface/DownArea"]
+position = Vector2( 965, 95.5 )
 z_index = 10
 shape = SubResource( 12 )
 
-[node name="PauseEffect" type="AnimatedSprite" parent="Camera2D"]
+[node name="PauseEffect" type="AnimatedSprite" parent="UserInterface"]
 visible = false
 self_modulate = Color( 100, 100, 100, 0.01 )
-position = Vector2( -5, -6.75 )
+position = Vector2( -4, -6.75 )
 scale = Vector2( 3.64444, 2.84722 )
 frames = SubResource( 11 )
-frame = 5
+frame = 9
 speed_scale = 1.25
 playing = true
+centered = false
 
-[connection signal="mouse_entered" from="Camera2D/UpArea" to="." method="_on_UpArea_mouse_entered"]
-[connection signal="mouse_exited" from="Camera2D/UpArea" to="." method="_on_UpArea_mouse_exited"]
-[connection signal="mouse_entered" from="Camera2D/DownArea" to="." method="_on_DownArea_mouse_entered"]
-[connection signal="mouse_exited" from="Camera2D/DownArea" to="." method="_on_DownArea_mouse_exited"]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 972, 544 )
+current = true
+script = ExtResource( 15 )
+
+[connection signal="mouse_entered" from="UserInterface/UpArea" to="." method="_on_UpArea_mouse_entered"]
+[connection signal="mouse_exited" from="UserInterface/UpArea" to="." method="_on_UpArea_mouse_exited"]
+[connection signal="mouse_entered" from="UserInterface/DownArea" to="." method="_on_DownArea_mouse_entered"]
+[connection signal="mouse_exited" from="UserInterface/DownArea" to="." method="_on_DownArea_mouse_exited"]

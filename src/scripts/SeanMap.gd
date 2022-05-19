@@ -169,12 +169,12 @@ func spawn_new_enemy():
 		$EnemyContainer.add_child(next_enemy, true)
 		enemy_roulette.erase(next_type)
 		
-		create_path(next_enemy)
+		create_path(next_enemy, 0)
 	else:
 		push_error("no enemy")
 	
 
-func create_path(character):
+func create_path(character, spawn):
 	yield(get_tree(), "idle_frame")
 	#print(character.global_position)
 	var path = nav_2d.get_simple_path(character.global_position, end_point, true)
