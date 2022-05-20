@@ -171,6 +171,7 @@ items = [ "First", null, false, 0, null, "Last", null, false, 1, null, "Strong",
 selected = 0
 
 [node name="FiringRate" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]

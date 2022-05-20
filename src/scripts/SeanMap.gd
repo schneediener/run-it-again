@@ -97,11 +97,11 @@ func spawn_dropship():
 	
 	match landing_site:
 		1:
-			$Dropships/Path_Dropship1/PathFollow2D.add_child(dropship)
+			$Dropships/Path_Dropship1.add_child(dropship)
 		2:
-			$Dropships/Path_Dropship2/PathFollow2D.add_child(dropship)
+			$Dropships/Path_Dropship2.add_child(dropship)
 		3:
-			$Dropships/Path_Dropship3/PathFollow2D.add_child(dropship)
+			$Dropships/Path_Dropship3.add_child(dropship)
 	
 	
 func finish_level():
