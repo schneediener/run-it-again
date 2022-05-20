@@ -273,6 +273,7 @@ func fire():
 			projectile = load("res://src/scenes/projectiles/Bullet.tscn").instance()
 			projectile.start(muzzle.global_position, current_target, self)
 		"missile":
+			$FacingDirection.look_at(current_target.global_position)
 			projectile = load("res://src/scenes/projectiles/Missile.tscn").instance()
 			projectile.start(muzzle.global_transform, current_target, self)
 		"gun":
