@@ -27,11 +27,11 @@ export var wave_1 = ["Wave 1",10,0,0,1]
 export var wave_2 = ["Wave 2",15,5,0,0.9]
 export var wave_3 = ["Wave 3",15,8,0,0.8]
 export var wave_4 = ["Wave 4",15,8,1,0.8]
-export var wave_5 = ["Wave 5",15,5,2,0.8]
-export var wave_6 = ["Wave 6",15,5,2,0.8]
-export var wave_7 = ["Wave 7",15,10,3,0.7]
-export var wave_8 = ["Wave 8",15,15,5,0.6]
-export var wave_9 = ["Wave 9",20,10,10,.5]
+export var wave_5 = ["Wave 5",15,5,2,0.6]
+export var wave_6 = ["Wave 6",15,5,2,0.6]
+export var wave_7 = ["Wave 7",15,10,3,0.5]
+export var wave_8 = ["Wave 8",25,15,5,0.5]
+export var wave_9 = ["Wave 9",30,15,15,.4]
 
 
 var enemy_roulette = []
@@ -59,10 +59,11 @@ func _ready():
 	pass
 
 func _process(_delta):
-	if ready_to_finish and $EnemyContainer.get_child_count()==0:
+	if ready_to_finish:
+		if $EnemyContainer.get_child_count()==0:
 		
-		finish_level()
-		ready_to_finish = false
+			finish_level()
+			ready_to_finish = false
 
 func start_new_wave():
 	$Spawn/Timer.stop()
