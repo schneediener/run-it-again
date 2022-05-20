@@ -13,7 +13,7 @@ var landed = false
 var velocity
 var gold_multi = 5
 
-onready var game_scene = get_node("../../../../../")
+onready var game_scene = get_node("../../../../")
 #onready var enemy_script = preload("res://src/scripts/test_enemies_general.gd")
 
 var wave_1 = ["Wave 1",10,0,0,0,1]
@@ -27,23 +27,25 @@ func _ready():
 	$HealthBar.value = self.max_health
 	$HealthBar.max_value = self.max_health
 	health=self.max_health
-#	$HealthBar.set_as_toplevel(true)
+	$HealthBar.set_as_toplevel(true)
 
 func _physics_process(delta):
 	$HealthBar.set_global_position(get_node("DropshipBody/ShipSprite").global_position+Vector2(-38,-62))
 	calculate_health_perc()
 	set_health_tint()
 	# Move along the "path" if there is path left
-	if get_parent().unit_offset!=1.0:
-		get_parent().offset += speed * delta
+	if self.unit_offset!=1.0:
+		self.offset += speed * delta
 	
 	#If there is no path left, start landing
-	if get_parent().unit_offset==1.0 and !landing:
+	if self.unit_offset==1.0 and !landing:
 		landing = true
 	
 	#If landing, but sprite hasn't moved down onto the shadow, move towards the shadow
 	if landing:
-		if $DropshipBody.global_position.distance_to($Shadow.global_position) > 2:
+		var distance_to = $DropshipBody.global_position.distance_to($Shadow.global_position)
+		
+		if distance_to > 2:
 		
 			velocity = $DropshipBody.global_position.direction_to($Shadow.global_position) * 180
 			velocity = $DropshipBody.move_and_slide(velocity)
@@ -56,6 +58,7 @@ func _physics_process(delta):
 		elif !landed:
 			$Shadow.hide()
 			$DropshipBody/Spawn/SpawnTimer.start()
+			landing = false
 			landed = true
 			print("Ship has landed successfully")
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://tutorial_assets/PNG/Retina/treeGreen_twigs.png" type="Texture" id=1]
 [ext_resource path="res://tutorial_assets/PNG/Default size/crateWood.png" type="Texture" id=2]
@@ -424,6 +424,11 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
 [sub_resource type="LineShape2D" id=33]
 
+[sub_resource type="Curve2D" id=49]
+_data = {
+"points": PoolVector2Array(  )
+}
+
 [node name="Map2" type="Node2D"]
 pause_mode = 1
 script = ExtResource( 8 )
@@ -508,36 +513,17 @@ pause_mode = 1
 position = Vector2( -26, -2019 )
 curve = ExtResource( 17 )
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Dropships/Path_Dropship1"]
-position = Vector2( -321, 3323 )
-rotation = -0.574625
-loop = false
-
 [node name="Path_Dropship2" type="Path2D" parent="Dropships"]
 position = Vector2( 84, -122 )
 curve = ExtResource( 18 )
-
-[node name="PathFollow2D" type="PathFollow2D" parent="Dropships/Path_Dropship2"]
-position = Vector2( 2260, 711.945 )
-rotation = -2.63502
-loop = false
 
 [node name="Path_Dropship3" type="Path2D" parent="Dropships"]
 position = Vector2( 14, -207 )
 curve = ExtResource( 13 )
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Dropships/Path_Dropship3"]
-position = Vector2( 2947, 325 )
-rotation = -2.90131
-loop = false
-
 [node name="Path_Dropship4" type="Path2D" parent="Dropships"]
 position = Vector2( 22, -34 )
-
-[node name="PathFollow2D" type="PathFollow2D" parent="Dropships/Path_Dropship4"]
-position = Vector2( 863, -2395 )
-rotation = 1.5208
-loop = false
+curve = SubResource( 49 )
 
 [connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="ExitPointRight/DamageZone" to="." method="_on_DamageZone_body_entered"]

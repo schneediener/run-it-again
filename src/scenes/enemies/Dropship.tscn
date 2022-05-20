@@ -26,8 +26,8 @@ radius = 189.003
 [sub_resource type="CircleShape2D" id=3]
 radius = 79.0063
 
-[node name="Dropship" type="Node2D"]
-pause_mode = 1
+[node name="Dropship" type="PathFollow2D"]
+loop = false
 script = ExtResource( 8 )
 
 [node name="DropshipBody" type="KinematicBody2D" parent="."]
@@ -42,12 +42,14 @@ texture = ExtResource( 4 )
 position = Vector2( -18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="Jet2" type="AnimatedSprite" parent="DropshipBody/ShipSprite"]
 position = Vector2( 18, 85 )
 rotation = 3.14159
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropshipBody"]

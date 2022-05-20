@@ -94,19 +94,19 @@ func start_new_wave():
 	
 func spawn_dropship():
 	var dropship = load("res://src/scenes/enemies/Dropship.tscn").instance()
-	
-	var landing_site = randi() % 3 + 1
+	randomize()
+	var landing_site = randi() % 4 + 1
 	print(landing_site)
 	
 	match landing_site:
 		1:
-			pass#$Dropships/Path_Dropship1/PathFollow2D.add_child(dropship)
+			landing_site = 2 #$Dropships/Path_Dropship1.add_child(dropship)
 		2:
-			$Dropships/Path_Dropship2/PathFollow2D.add_child(dropship)
+			$Dropships/Path_Dropship2.add_child(dropship)
 		3:
-			$Dropships/Path_Dropship3/PathFollow2D.add_child(dropship)
+			$Dropships/Path_Dropship3.add_child(dropship)
 		4: 
-			$Dropships/Path_Dropship4/PathFollow2D.add_child(dropship)
+			$Dropships/Path_Dropship4.add_child(dropship)
 	
 func finish_level():
 	OS.alert("Congratulations! You won!", "Victory")
