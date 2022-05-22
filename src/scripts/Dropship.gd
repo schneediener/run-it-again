@@ -84,6 +84,7 @@ func _on_SpawnTimer_timeout():
 		elif current_wave[4]>0:
 			spawn_next_enemy("tank")
 			current_wave[4] = current_wave[4]-1
+			self.queue_free()
 		else:
 			wave_list.erase(current_wave)
 			current_wave = null

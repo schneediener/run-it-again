@@ -10,8 +10,8 @@ var build_type
 var build_tile
 var build_tower
 var build_scene
-var current_health = 15 #setget update_current_health
-var current_gold = 800 setget current_gold_set, current_gold_get
+var current_health = 20 #setget update_current_health
+var current_gold = 1000 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
 var SELECTSHADER = load("res://new_shader.tres")
@@ -129,7 +129,7 @@ func take_damage():
 
 func game_over():
 	OS.alert('Game Over - Also make Sean change me to a nicer message in-game!', 'Error')
-	get_tree().quit()
+	get_tree().reload_current_scene()
 
 
 
