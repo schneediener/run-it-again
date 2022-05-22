@@ -23,11 +23,11 @@ func _ready():
 
 func _physics_process(_delta):
 	#old code below
-	if game_scene.selected_tower and built:
-		if game_scene.selected_tower==self and is_instance_valid(game_scene.selected_tower):
+	if game_scene.selected_tower == self:
 			$Range/RangeSprite.show()
-	elif built and $Range/RangeSprite.visible:
-		$Range/RangeSprite.hide()
+	elif built:
+		if $Range/RangeSprite.visible:
+			$Range/RangeSprite.hide()
 	maintain_upgrade_button()
 	
 	#new code below
