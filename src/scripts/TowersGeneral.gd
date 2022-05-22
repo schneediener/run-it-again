@@ -7,6 +7,7 @@ var target_array = []
 onready var weapon_range = $Range
 onready var ready = true
 onready var game_scene = get_node("/root/SceneHandler/GameScene")
+var type = "tower"
 
 signal array_refreshed
 signal target_acquired
