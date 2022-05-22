@@ -12,6 +12,7 @@ signal array_refreshed
 signal target_acquired
 
 func _ready():
+	$FiringRate.wait_time = ($FiringRate.wait_time / 2)
 	#old code below
 	$ButtonContainer.hide()
 	$ButtonContainer/Upgrade/CostValue.text = "-$" + str(self.upgrade_value)

@@ -23,15 +23,15 @@ onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
 
-export var wave_1 = ["Wave 1",10,0,0,1]
-export var wave_2 = ["Wave 2",15,5,0,0.9]
-export var wave_3 = ["Wave 3",15,8,0,0.8]
-export var wave_4 = ["Wave 4",15,8,1,0.8]
-export var wave_5 = ["Wave 5",15,5,2,0.6]
-export var wave_6 = ["Wave 6",15,5,2,0.6]
-export var wave_7 = ["Wave 7",15,10,3,0.5]
-export var wave_8 = ["Wave 8",25,15,5,0.5]
-export var wave_9 = ["Wave 9",30,15,15,.4]
+export var wave_1 = ["Wave 1",20,0,0,0.5]
+export var wave_2 = ["Wave 2",30,10,0,0.4]
+export var wave_3 = ["Wave 3",30,16,0,0.3]
+export var wave_4 = ["Wave 4",30,16,2,0.3]
+export var wave_5 = ["Wave 5",30,6,4,0.2]
+export var wave_6 = ["Wave 6",30,6,4,0.2]
+export var wave_7 = ["Wave 7",30,20,6,0.1]
+export var wave_8 = ["Wave 8",50,30,10,0.1]
+export var wave_9 = ["Wave 9",60,30,30,.05]
 
 
 var enemy_roulette = []
@@ -69,7 +69,7 @@ func start_new_wave():
 	$Spawn/Timer.stop()
 	
 	$Spawn/Timer.wait_time = float(current_wave[4])
-
+	print($Spawn/Timer.wait_time)
 	wave_list.erase(current_wave)
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
@@ -93,14 +93,14 @@ func start_new_wave():
 		ready_to_finish = true
 	
 func spawn_dropship():
-	var dropship = load("res://src/scenes/enemies/Dropship.tscn").instance()
+	var dropship = load("res://src/scenes/enemies/Dropship_Test.tscn").instance()
 	randomize()
 	var landing_site = randi() % 4 + 1
 	print(landing_site)
 	
 	match landing_site:
 		1:
-			landing_site = 2 #$Dropships/Path_Dropship1.add_child(dropship)
+			$Dropships/Path_Dropship1.add_child(dropship)
 		2:
 			$Dropships/Path_Dropship2.add_child(dropship)
 		3:
@@ -110,7 +110,7 @@ func spawn_dropship():
 	
 func finish_level():
 	OS.alert("Congratulations! You won!", "Victory")
-	get_tree().quit()
+	get_tree().reload_current_scene()
 
 func update_wave_counters():
 	lvl1_max = current_wave[1]

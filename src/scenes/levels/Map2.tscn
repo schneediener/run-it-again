@@ -16,8 +16,8 @@
 [ext_resource path="res://barricadeMetal.png" type="Texture" id=14]
 [ext_resource path="res://sandbagBrown_open.png" type="Texture" id=15]
 [ext_resource path="res://sandbagBrown.png" type="Texture" id=16]
-[ext_resource path="res://src/scenes/levels/Map2_Drop_Path1.tres" type="Curve2D" id=17]
 [ext_resource path="res://src/scenes/levels/Map2_Drop_Path2.tres" type="Curve2D" id=18]
+[ext_resource path="res://src/scenes/levels/Map2_Drop_Path4.tres" type="Curve2D" id=19]
 
 [sub_resource type="TileSet" id=1]
 1/name = "terrainTiles_default.png 1"
@@ -426,12 +426,14 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
 [sub_resource type="Curve2D" id=49]
 _data = {
-"points": PoolVector2Array(  )
+"points": PoolVector2Array( 0, 0, 0, 0, -819, 518, -216, 61.3333, 216, -61.3333, 957, 280, -192, 301.333, 192, -301.333, 2309, -370, 416, 290.667, -416, -290.667, 2051, -1461, 306.667, -402.667, -306.667, 402.667, -299, -1456, -56, -192, 56, 192, -437, -589, -232, 122.667, 232, -122.667, 267, -136, 0, 0, 0, 0, 440, -864 )
 }
 
 [node name="Map2" type="Node2D"]
 pause_mode = 1
+position = Vector2( 3, 0 )
 script = ExtResource( 8 )
+income_per_wave = 125
 income_per_kill = 5
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -510,8 +512,7 @@ pause_mode = 1
 pause_mode = 1
 
 [node name="Path_Dropship1" type="Path2D" parent="Dropships"]
-position = Vector2( -26, -2019 )
-curve = ExtResource( 17 )
+curve = SubResource( 49 )
 
 [node name="Path_Dropship2" type="Path2D" parent="Dropships"]
 position = Vector2( 84, -122 )
@@ -523,7 +524,7 @@ curve = ExtResource( 13 )
 
 [node name="Path_Dropship4" type="Path2D" parent="Dropships"]
 position = Vector2( 22, -34 )
-curve = SubResource( 49 )
+curve = ExtResource( 19 )
 
 [connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="ExitPointRight/DamageZone" to="." method="_on_DamageZone_body_entered"]

@@ -17,7 +17,7 @@ onready var game_scene = get_node("../../..")
 var sean_test = true
 
 func _ready():
-	
+	self.speed = self.speed
 	$HealthBar.value = self.max_health
 	$HealthBar.max_value = self.max_health
 	health=self.max_health

@@ -111,7 +111,7 @@ func finish_level():
 	yield($WaveTimer, "timeout")
 	
 	OS.alert("Congratulations! You won!", "Victory")
-	get_tree().quit()
+	get_tree().reload_current_scene()
 
 func update_wave_counters():
 	lvl1_max = current_wave[1]
