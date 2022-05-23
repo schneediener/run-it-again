@@ -24,6 +24,7 @@ var selected_array = []
 var camera_move_array = [0,0,0,0]
 
 func _ready():
+	$Camera2D.position = get_viewport_rect().size / 2
 	prepare_shader()
 	current_gold_set(current_gold)
 	
@@ -305,7 +306,7 @@ func select_tower(tower_instance):
 	tower_parent.remove_child(new_tower)
 	tower_parent.add_child(new_tower, true)
 	
-	make_tower_glow(new_tower)
+	make_tower_glow(new_tower, "single")
 	
 	if selected_tower:
 		remove_tower_glow(selected_tower)
@@ -313,10 +314,12 @@ func select_tower(tower_instance):
 	selected_tower = new_tower
 
 
-func make_tower_glow(new_tower):
+func make_tower_glow(new_tower, select_type):
 	new_tower.get_node("TurretBase").set_material(shader)
 	new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
-	new_tower.get_node("ButtonContainer").visible = true
+	
+	if select_type == "single":
+		new_tower.get_node("ButtonContainer").visible = true
 		
 	if new_tower.upgrade_value == null:
 		new_tower.get_node("ButtonContainer/Upgrade").visible = false
@@ -341,10 +344,17 @@ func create_select_box(mouse_start):
 
 func maintain_select_box(mouse_pos):
 	var select_shape = select_box.get_node("CollisionShape2D")
-	var distance = select_box.global_position - mouse_pos
+	var origin = select_box.global_position
+	var viewport_size = get_viewport_rect().size
+	var camera_offset = $Camera2D.position - (viewport_size/2)
+	var zoom = $Camera2D.zoom
+	var zoom_scale = zoom.x
+	var zoom_offset = zoom - Vector2(1,1) #??? No idea if this is useful, or if is, how to use it
+	var distance = (mouse_pos - origin)
 	
-	select_shape.shape.extents = Vector2(0,0) - (distance/2)
-	select_shape.position = select_shape.shape.extents
+	#brackets below help me know the part that works minus zoom
+	select_shape.shape.extents = (distance/2)
+	select_shape.position = (select_shape.shape.extents - camera_offset)
 
 func use_select_box():
 	var temp_all_bodies = select_box.get_overlapping_bodies()
@@ -366,27 +376,27 @@ func mass_select_towers(inc_towers):
 	var button_container = $UserInterface/ButtonContainer
 	var upgrade_value = $UserInterface/ButtonContainer/Upgrade/CostValue
 	var sell_value = $UserInterface/ButtonContainer/Sell/SellValue
+	var total_sell = 0
 	
 	selected_tower = null
 	selected_array = inc_towers
 	#do the shit that makes them glow 
 	for tower in selected_array:
-		make_tower_glow(tower)
-		sell_array.append(tower.sell_value)
+		make_tower_glow(tower, "mass")
+		total_sell = total_sell + tower.sell_value
 		if type_array.find(tower.tower_type) == -1:
 			type_array.append(tower.tower_type)
 	
-	var total_sell = sell_array.reduce()
 	var total_upgrade = selected_array[0].upgrade_value * (selected_array.size())
 	#show sell and target method
 	
 	sell_value.text = "+$" + str(total_sell)
 	
 	if type_array.size() <= 1:
-		upgrade_value.text = "-$" + str(self.total_upgrade)
+		upgrade_value.text = "-$" + str(total_upgrade)
 		#show upgrade button
 	
-	button_container.global_position = get_global_mouse_position()
+	button_container.rect_global_position = get_global_mouse_position()
 	button_container.show()
 
 func _on_DownArea_mouse_entered():

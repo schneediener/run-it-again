@@ -80,7 +80,6 @@ animations = [ {
 
 [node name="GameScene" type="Node2D"]
 pause_mode = 2
-position = Vector2( -11, -4 )
 script = ExtResource( 4 )
 
 [node name="UserInterface" type="CanvasLayer" parent="."]
@@ -267,7 +266,7 @@ self_modulate = Color( 100, 100, 100, 0.01 )
 position = Vector2( -4, -6.75 )
 scale = Vector2( 3.64444, 2.84722 )
 frames = SubResource( 11 )
-frame = 1
+frame = 5
 speed_scale = 1.25
 playing = true
 centered = false
@@ -276,8 +275,12 @@ centered = false
 visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 972, 544 )
+position = Vector2( 960, 540 )
 current = true
+drag_margin_left = 0.0
+drag_margin_top = 0.0
+drag_margin_right = 0.0
+drag_margin_bottom = 0.0
 script = ExtResource( 15 )
 
 [connection signal="mouse_entered" from="UserInterface/UpArea" to="." method="_on_UpArea_mouse_entered"]

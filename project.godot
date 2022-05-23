@@ -42,6 +42,7 @@ version_control/plugin_name="GitAPI"
 [global]
 
 shortcut=false
+screen=false
 
 [gui]
 
