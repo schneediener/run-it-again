@@ -408,6 +408,7 @@ pause_mode = 1
 position = Vector2( 1440, 1248 )
 
 [node name="DamageZone" type="Area2D" parent="ExitPoint"]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitPoint/DamageZone"]
 position = Vector2( -2, -8 )

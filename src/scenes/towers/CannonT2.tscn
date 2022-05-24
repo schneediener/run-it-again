@@ -17,7 +17,7 @@ extents = Vector2( 32, 32 )
 radius = 250.0
 
 [node name="CannonT2" type="StaticBody2D"]
-collision_layer = 0
+collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -25,7 +25,7 @@ position = Vector2( 32, 32 )
 shape = SubResource( 10 )
 
 [node name="Range" type="Area2D" parent="."]
-collision_mask = 2
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 material = SubResource( 9 )
@@ -84,6 +84,7 @@ one_shot = true
 
 [node name="SelectTower" type="Button" parent="."]
 pause_mode = 2
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 64.0
 margin_bottom = 64.0

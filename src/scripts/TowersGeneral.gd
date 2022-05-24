@@ -37,6 +37,18 @@ func _physics_process(_delta):
 		if current_target:
 			track_target()
 
+func _unhandled_input(event):
+		if event.is_action_pressed("ui_accept"):
+			if game_scene.selected_tower:
+				game_scene.remove_tower_glow(game_scene.selected_tower)
+				game_scene.selected_tower = null
+			if game_scene.selected.size()>0:
+				for each in game_scene.selected:
+					game_scene.remove_tower_glow(each)
+				game_scene.selected = []
+			if game_scene.build_mode:
+				game_scene.verify_and_build()
+
 func maintain_upgrade_button(): #old function
 	#old code below
 	var button = $ButtonContainer/Upgrade
@@ -319,6 +331,15 @@ func _on_FiringRate_timeout():
 	ready = true
 
 func _on_Sell_pressed(): #old function
+	game_scene._on_Sell_pressed()
+
+func _on_Upgrade_pressed():
+	game_scene._on_Upgrade_pressed()
+
+func _on_TargetOption_item_selected():
+	game_scene._on_TargetOption_item_selected()
+	
+func sell_me():
 	var tower_exclusion = game_scene.map_node.get_node("Navigation2D/TowerExclusion")
 	var current_tile = tower_exclusion.world_to_map(self.position)
 	
@@ -328,7 +349,7 @@ func _on_Sell_pressed(): #old function
 		game_scene.map_node.get_node("Navigation2D/TowerExclusion").set_cellv(current_tile, -1)
 		self.queue_free()
 
-func _on_Upgrade_pressed(): #old function
+func upgrade_me(): #old function
 	var current_tower = self
 	var new_tower = current_tower.upgrade_path.instance()
 	var cost = current_tower.upgrade_value
@@ -352,7 +373,7 @@ func _on_Range_body_exited(body):
 	if current_target==body:
 		current_target = null
 
-func _on_TargetOption_item_selected(index):
+func set_target_method(index):
 	match index:
 		0:
 			target_method = "first"
@@ -370,3 +391,4 @@ func _on_TargetOption_item_selected(index):
 			target_method = "dropship"
 		_:
 			push_error("Error setting target method on tower")
+	$ButtonContainer/HBoxTarget/TargetOption.select(index)

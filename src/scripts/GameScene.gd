@@ -18,8 +18,10 @@ var SELECTSHADER = load("res://new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 150
 
-var select_box = null
-var selected_array = []
+var dragging = false  # Are we currently dragging?
+var selected = []  # Array of selected units.
+var drag_start  # Location where drag began.
+var select_rect = RectangleShape2D.new()  # Collision shape for drag box.
 
 var camera_move_array = [0,0,0,0]
 
@@ -36,10 +38,6 @@ func _ready():
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
 	
-	$UserInterface/ButtonContainer/Upgrade.connect("pressed", self, "_on_Upgrade_pressed")
-	$UserInterface/ButtonContainer/Sell.connect("pressed", self, "_on_Sell_pressed")
-	$UserInterface/ButtonContainer/HBoxTarget/TargetOption.connect("item_selected", self, "_on_TargetOption_item_selected")
-	
 	if map_node == "map_1":
 		var temp_map = load("res://src/scenes/levels/SeanMap.tscn").instance()
 		add_child(temp_map)
@@ -51,34 +49,35 @@ func _ready():
 		get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 		get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 		map_node = temp_map
+		
 func _on_Upgrade_pressed():
-	for tower in selected_array:
-		tower._on_Upgrade_pressed()
-	$UserInterface/ButtonContainer.hide()
+	for tower in selected:
+		tower.upgrade_me()
+	selected = []
+
 
 
 func _on_Sell_pressed():
-	for tower in selected_array:
-		tower._on_Sell_pressed()
-	$UserInterface/ButtonContainer.hide()
+	for tower in selected:
+		tower.sell_me()
+	
+	selected = []
 	
 func _on_TargetOption_item_selected(index):
-	for tower in selected_array:
-		tower.get_node("ButtonContainer/HBoxTarget/TargetOption").select(index)
-		tower._on_TargetOption_item_selected(index)
-	$UserInterface/ButtonContainer.hide()
+	for tower in selected:
+		tower.set_target_method(index)
 
 func _process(_delta):
 	if $UserInterface/TimeBar.value != current_time:
 		$UserInterface/TimeBar.value = current_time
 	if build_mode:
 		run_update_tower_preview()
-	
+	if dragging:
+		update()
 	if get_tree().paused:
 		current_time = current_time-0.05
 		if current_time <=1:
 			start_time()
-	
 	if Input.is_action_pressed("ui_up"):
 		camera_move_array[0] = 1
 	else:
@@ -100,10 +99,6 @@ func _process(_delta):
 		camera_move_array[3] = 0
 	
 	move_camera()
-	
-	if select_box:
-		if is_instance_valid(select_box):
-			maintain_select_box(get_global_mouse_position())
 
 func move_camera():
 	var temp_y = 0
@@ -182,44 +177,46 @@ func _unhandled_input(event):
 			stop_time()
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:
-			selected_tower.get_node("ButtonContainer").visible = false
-			selected_tower.get_node("TurretBase").set_material(null)
-			selected_tower.get_node("FacingDirection/TurretSprite").set_material(null)
-			selected_tower = null
+			remove_tower_glow(selected_tower)
 		if build_mode:
 			cancel_build_mode()
 		
-	if event.is_action_pressed("ui_accept"):
-		if selected_tower:
-			selected_tower.get_node("ButtonContainer").visible = false
-			selected_tower.get_node("TurretBase").set_material(null)
-			selected_tower.get_node("FacingDirection/TurretSprite").set_material(null)
-			selected_tower = null
-		if selected_array.size()>0:
-			for tower in selected_array:
-				remove_tower_glow(tower)
-			$UserInterface/ButtonContainer.hide()
-			selected_tower = null
-			selected_array = []
-			
-		if build_mode:
-			verify_and_build()
-		
-		get_tree().set_input_as_handled()
-	if event.is_action_pressed("ui_accept"):
-
-		if !select_box:
-			create_select_box(get_global_mouse_position())
-	if event.is_action_released("ui_accept"):
-		if select_box:
-			if is_instance_valid(select_box):
-				use_select_box()
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+		if event.pressed:
+			# We only want to start a drag if there's no selection.
+			if selected.size() == 0:
+				dragging = true
+				drag_start = get_global_mouse_position()
+		elif dragging:
+			dragging = false
+			update()
+			var drag_end = get_global_mouse_position()
+			select_rect.extents = (drag_end - drag_start) / 2
+			var space = get_world_2d().direct_space_state
+			var query = Physics2DShapeQueryParameters.new()
+			query.set_shape(select_rect)
+			query.transform = Transform2D(0, (drag_end + drag_start) / 2)
+			var intersect_query
+			intersect_query = space.intersect_shape(query)
+			var towers = []
+			for each in intersect_query:
+				if each.collider.type == "tower":
+					selected.append(each.collider)
+			if selected.size()>0:
+				mass_select_towers(selected)
+	
 
 	if event.is_action_pressed("ig_scroll_up"):
 		zoom_camera("up")
 	if event.is_action_pressed("ig_scroll_down"):
 		zoom_camera("down")
 
+
+func _draw():
+	if dragging:
+		var mouse_pos = get_global_mouse_position()
+		draw_rect(Rect2(drag_start, mouse_pos - drag_start),
+				Color(.5, .5, .5), false)
 
 func zoom_camera(direction):
 	if direction == "up":
@@ -360,72 +357,21 @@ func remove_tower_glow(old_tower):
 	
 func get_selected_tower():
 	return(selected_tower)
-func create_select_box(mouse_start):
-	
-	var new_select_box = load("res://src/scenes/SelectBox.tscn").instance()
-	
-	$UserInterface.add_child(new_select_box)
-	
-	new_select_box.global_position = mouse_start
-	
-	select_box = new_select_box
-
-func maintain_select_box(mouse_pos):
-	var select_shape = select_box.get_node("CollisionShape2D")
-	var origin = select_box.global_position
-	var viewport_size = get_viewport_rect().size
-	var camera_offset = $Camera2D.position - (viewport_size/2)
-	var zoom = $Camera2D.zoom
-	var zoom_scale = zoom.x
-	var zoom_offset = zoom - Vector2(1,1) #??? No idea if this is useful, or if is, how to use it
-	var distance = (mouse_pos - origin)
-	
-	#brackets below help me know the part that works minus zoom
-	select_shape.shape.extents = (distance/2)
-	select_shape.position = (select_shape.shape.extents - camera_offset)
-
-func use_select_box():
-	var selected = []
-	var units = map_node.get_node("TowerContainer").get_children()
-	for unit in units:
-	   if select_box.has_point(unit.global_position):
-		   selected.append(unit)
-		
-	return
-	var temp_all_bodies
-	var temp_towers = []
-	if get_tree().paused:
-		Physics2DServer.set_active(true)
-		yield(get_tree(),"physics_frame")
-		yield(get_tree(),"physics_frame")
-		temp_all_bodies = select_box.get_overlapping_bodies()
-		Physics2DServer.set_active(false)
-	else:
-		temp_all_bodies = select_box.get_overlapping_bodies()
-
-	for body in temp_all_bodies:
-		if body.type == "tower":
-			temp_towers.append(body)
-
-#	selected_array = temp_towers
-	if temp_towers.size() > 0:
-		mass_select_towers(temp_towers)
-	select_box.free()
-	select_box = null
-	
 
 func mass_select_towers(inc_towers):
 	var type_array = []
 	var sell_array = []
-	var button_container = $UserInterface/ButtonContainer
-	var upgrade_value = $UserInterface/ButtonContainer/Upgrade/CostValue
-	var sell_value = $UserInterface/ButtonContainer/Sell/SellValue
+	
+	
 	var total_sell = 0
 	
 	selected_tower = null
-	selected_array = inc_towers
+	selected = inc_towers
+	var button_container = selected[0].get_node("ButtonContainer")
+	var upgrade_value = button_container.get_node("Upgrade/CostValue")
+	var sell_value = button_container.get_node("Sell/SellValue")
 	#do the shit that makes them glow 
-	for tower in selected_array:
+	for tower in selected:
 		make_tower_glow(tower, "mass")
 		total_sell = total_sell + tower.sell_value
 		if type_array.find(tower.tower_type) == -1:
@@ -436,10 +382,10 @@ func mass_select_towers(inc_towers):
 	
 	sell_value.text = "+$" + str(total_sell)
 	button_container.show()
-	button_container.rect_global_position = selected_array[0].global_position
+
 	if type_array.size() <= 1:
-		if selected_array[0].upgrade_value != null:
-			var total_upgrade = selected_array[0].upgrade_value * (selected_array.size())
+		if selected[0].upgrade_value != null:
+			var total_upgrade = selected[0].upgrade_value * (selected.size())
 			upgrade_value.text = "-$" + str(total_upgrade)
 			button_container.get_node("Upgrade").show()
 		else:

@@ -489,6 +489,7 @@ position = Vector2( 1184, 1119 )
 
 [node name="DamageZone" type="Area2D" parent="ExitPointRight"]
 position = Vector2( 0, 1 )
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitPointRight/DamageZone"]
 position = Vector2( 0, -1 )
@@ -500,6 +501,7 @@ position = Vector2( 800, 1120 )
 
 [node name="DamageZone" type="Area2D" parent="ExitPointLeft"]
 position = Vector2( 0, 1 )
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitPointLeft/DamageZone"]
 position = Vector2( 0, -1 )

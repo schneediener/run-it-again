@@ -1,9 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://src/scripts/CannonT1.gd" type="Script" id=1]
-[ext_resource path="res://src/scenes/SelectButtons.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tutorial_assets/UI/PNG/grey_button12.png" type="Texture" id=1]
+[ext_resource path="res://tutorial_assets/UI/PNG/red_cross.png" type="Texture" id=2]
 [ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
+[ext_resource path="res://tutorial_assets/UI/PNG/blue_button12.png" type="Texture" id=4]
+[ext_resource path="res://tutorial_assets/UI/PNG/grey_arrowUpWhite.png" type="Texture" id=5]
 [ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=6]
+[ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=7]
+[ext_resource path="res://src/scenes/towers/CannonT1.gd" type="Script" id=8]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 32, 32 )
@@ -14,15 +18,15 @@ extents = Vector2( 32, 32 )
 radius = 250.0
 
 [node name="CannonT1" type="StaticBody2D"]
-collision_layer = 0
-script = ExtResource( 1 )
+collision_mask = 0
+script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 32, 32 )
 shape = SubResource( 10 )
 
 [node name="Range" type="Area2D" parent="."]
-collision_mask = 2
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 material = SubResource( 9 )
@@ -72,12 +76,110 @@ one_shot = true
 
 [node name="SelectTower" type="Button" parent="."]
 pause_mode = 2
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 64.0
 margin_bottom = 64.0
 
-[node name="ButtonContainer" parent="." instance=ExtResource( 2 )]
+[node name="ButtonContainer" type="Control" parent="."]
+pause_mode = 2
+
+[node name="Upgrade" type="TextureButton" parent="ButtonContainer"]
+margin_left = 53.0
+margin_top = -36.0
+margin_right = 133.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 80, 80 )
+rect_scale = Vector2( 0.6, 0.6 )
+texture_normal = ExtResource( 4 )
+texture_disabled = ExtResource( 1 )
+expand = true
+
+[node name="Sprite" type="Sprite" parent="ButtonContainer/Upgrade"]
+position = Vector2( 41, 40 )
+scale = Vector2( 3.6, 4.8 )
+texture = ExtResource( 5 )
+
+[node name="CostValue" type="RichTextLabel" parent="ButtonContainer/Upgrade"]
+margin_left = 90.0
+margin_top = 20.0
+margin_right = 257.0
+margin_bottom = 70.0
+custom_fonts/normal_font = ExtResource( 7 )
+text = "$100"
+
+[node name="Sell" type="TextureButton" parent="ButtonContainer"]
+margin_left = -37.0
+margin_top = -36.0
+margin_right = 43.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 80, 80 )
+rect_scale = Vector2( 0.6, 0.6 )
+action_mode = 0
+texture_normal = ExtResource( 4 )
+texture_disabled = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="ButtonContainer/Sell"]
+position = Vector2( 40, 40 )
+scale = Vector2( 3.5037, 3.42593 )
+texture = ExtResource( 2 )
+
+[node name="SellValue" type="RichTextLabel" parent="ButtonContainer/Sell"]
+margin_left = -133.0
+margin_top = 20.0
+margin_right = 8.0
+margin_bottom = 70.0
+custom_fonts/normal_font = ExtResource( 7 )
+text = "$100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxTarget" type="HBoxContainer" parent="ButtonContainer"]
+margin_left = -42.0
+margin_top = 61.0
+margin_right = 69.0
+margin_bottom = 81.0
+rect_scale = Vector2( 1.5, 1.5 )
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ButtonContainer/HBoxTarget"]
+margin_top = 2.0
+margin_right = 50.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 50, 0 )
+rect_clip_content = false
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Target"
+fit_content_height = true
+scroll_active = false
+
+[node name="Panel" type="Panel" parent="ButtonContainer/HBoxTarget/RichTextLabel"]
+show_behind_parent = true
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 108.0
+margin_bottom = 18.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TargetOption" type="OptionButton" parent="ButtonContainer/HBoxTarget"]
+margin_left = 54.0
+margin_right = 111.0
+margin_bottom = 20.0
+text = "First"
+items = [ "First", null, false, 0, null, "Last", null, false, 1, null, "Strong", null, false, 2, null, "Weak", null, false, 3, null, "Fast", null, false, 4, null, "Slow", null, false, 5, null, "Dropship", null, false, 6, null ]
+selected = 0
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
 [connection signal="pressed" from="SelectTower" to="." method="_on_SelectTower_pressed"]
+[connection signal="pressed" from="ButtonContainer/Upgrade" to="." method="_on_Upgrade_pressed"]
+[connection signal="pressed" from="ButtonContainer/Sell" to="." method="_on_Sell_pressed"]
+[connection signal="item_selected" from="ButtonContainer/HBoxTarget/TargetOption" to="." method="_on_TargetMethod_item_selected"]
