@@ -385,26 +385,33 @@ func maintain_select_box(mouse_pos):
 	select_shape.position = (select_shape.shape.extents - camera_offset)
 
 func use_select_box():
-#	var temp_all_bodies
-#	var temp_towers = []
-#	if get_tree().paused:
-#		Physics2DServer.set_active(true)
-#		yield(get_tree(),"physics_frame")
-#		yield(get_tree(),"physics_frame")
-#		temp_all_bodies = select_box.get_overlapping_bodies()
-#		Physics2DServer.set_active(false)
-#	else:
-#		temp_all_bodies = select_box.get_overlapping_bodies()
-#
-#	for body in temp_all_bodies:
-#		if body.type == "tower":
-#			temp_towers.append(body)
-#
-##	selected_array = temp_towers
-#	if temp_towers.size() > 0:
-#		mass_select_towers(temp_towers)
-#	select_box.free()
-#	select_box = null
+	var selected = []
+	var units = map_node.get_node("TowerContainer").get_children()
+	for unit in units:
+	   if select_box.has_point(unit.global_position):
+		   selected.append(unit)
+		
+	return
+	var temp_all_bodies
+	var temp_towers = []
+	if get_tree().paused:
+		Physics2DServer.set_active(true)
+		yield(get_tree(),"physics_frame")
+		yield(get_tree(),"physics_frame")
+		temp_all_bodies = select_box.get_overlapping_bodies()
+		Physics2DServer.set_active(false)
+	else:
+		temp_all_bodies = select_box.get_overlapping_bodies()
+
+	for body in temp_all_bodies:
+		if body.type == "tower":
+			temp_towers.append(body)
+
+#	selected_array = temp_towers
+	if temp_towers.size() > 0:
+		mass_select_towers(temp_towers)
+	select_box.free()
+	select_box = null
 	
 
 func mass_select_towers(inc_towers):
