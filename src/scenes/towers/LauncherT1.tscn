@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://homing/Turret.gd" type="Script" id=1]
 [ext_resource path="res://homing/assets/towerDefense_tilesheet.png" type="Texture" id=2]
@@ -10,11 +10,19 @@
 [ext_resource path="res://tutorial_assets/UI/PNG/blue_button12.png" type="Texture" id=8]
 [ext_resource path="res://tutorial_assets/UI/PNG/red_cross.png" type="Texture" id=9]
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 32, 32 )
+
 [sub_resource type="CircleShape2D" id=1]
 radius = 407.166
 
-[node name="MissileT1" type="Node2D"]
+[node name="MissileT1" type="StaticBody2D"]
+collision_layer = 0
 script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 32, 32 )
+shape = SubResource( 2 )
 
 [node name="Range" type="Area2D" parent="."]
 position = Vector2( 32, 32 )
@@ -59,9 +67,6 @@ pause_mode = 2
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 64.0
 margin_bottom = 64.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ButtonContainer" type="Control" parent="."]
 pause_mode = 2

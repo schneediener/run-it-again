@@ -36,6 +36,10 @@ func _ready():
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
 	
+	$UserInterface/ButtonContainer/Upgrade.connect("pressed", self, "_on_Upgrade_pressed")
+	$UserInterface/ButtonContainer/Sell.connect("pressed", self, "_on_Sell_pressed")
+	$UserInterface/ButtonContainer/HBoxTarget/TargetOption.connect("item_selected", self, "_on_TargetOption_item_selected")
+	
 	if map_node == "map_1":
 		var temp_map = load("res://src/scenes/levels/SeanMap.tscn").instance()
 		add_child(temp_map)
@@ -47,6 +51,22 @@ func _ready():
 		get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 		get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
 		map_node = temp_map
+func _on_Upgrade_pressed():
+	for tower in selected_array:
+		tower._on_Upgrade_pressed()
+	$UserInterface/ButtonContainer.hide()
+
+
+func _on_Sell_pressed():
+	for tower in selected_array:
+		tower._on_Sell_pressed()
+	$UserInterface/ButtonContainer.hide()
+	
+func _on_TargetOption_item_selected(index):
+	for tower in selected_array:
+		tower.get_node("ButtonContainer/HBoxTarget/TargetOption").select(index)
+		tower._on_TargetOption_item_selected(index)
+	$UserInterface/ButtonContainer.hide()
 
 func _process(_delta):
 	if $UserInterface/TimeBar.value != current_time:
@@ -175,6 +195,13 @@ func _unhandled_input(event):
 			selected_tower.get_node("TurretBase").set_material(null)
 			selected_tower.get_node("FacingDirection/TurretSprite").set_material(null)
 			selected_tower = null
+		if selected_array.size()>0:
+			for tower in selected_array:
+				remove_tower_glow(tower)
+			$UserInterface/ButtonContainer.hide()
+			selected_tower = null
+			selected_array = []
+			
 		if build_mode:
 			verify_and_build()
 		
@@ -325,6 +352,7 @@ func make_tower_glow(new_tower, select_type):
 		new_tower.get_node("ButtonContainer/Upgrade").visible = false
 
 func remove_tower_glow(old_tower):
+	if is_instance_valid(old_tower):
 		old_tower.get_node("TurretBase").set_material(null)
 		old_tower.get_node("FacingDirection/TurretSprite").set_material(null)
 		old_tower.get_node("ButtonContainer").visible = false
@@ -357,18 +385,27 @@ func maintain_select_box(mouse_pos):
 	select_shape.position = (select_shape.shape.extents - camera_offset)
 
 func use_select_box():
-	var temp_all_bodies = select_box.get_overlapping_bodies()
-	var temp_towers = []
+#	var temp_all_bodies
+#	var temp_towers = []
+#	if get_tree().paused:
+#		Physics2DServer.set_active(true)
+#		yield(get_tree(),"physics_frame")
+#		yield(get_tree(),"physics_frame")
+#		temp_all_bodies = select_box.get_overlapping_bodies()
+#		Physics2DServer.set_active(false)
+#	else:
+#		temp_all_bodies = select_box.get_overlapping_bodies()
+#
+#	for body in temp_all_bodies:
+#		if body.type == "tower":
+#			temp_towers.append(body)
+#
+##	selected_array = temp_towers
+#	if temp_towers.size() > 0:
+#		mass_select_towers(temp_towers)
+#	select_box.free()
+#	select_box = null
 	
-	for body in temp_all_bodies:
-		if body.type == "tower":
-			temp_towers.append(body)
-	
-#	selected_array = temp_towers
-	if temp_towers.size() > 0:
-		mass_select_towers(temp_towers)
-	select_box.free()
-	select_box = null
 
 func mass_select_towers(inc_towers):
 	var type_array = []
@@ -387,17 +424,25 @@ func mass_select_towers(inc_towers):
 		if type_array.find(tower.tower_type) == -1:
 			type_array.append(tower.tower_type)
 	
-	var total_upgrade = selected_array[0].upgrade_value * (selected_array.size())
+	
 	#show sell and target method
 	
 	sell_value.text = "+$" + str(total_sell)
-	
+	button_container.show()
+	button_container.rect_global_position = selected_array[0].global_position
 	if type_array.size() <= 1:
-		upgrade_value.text = "-$" + str(total_upgrade)
+		if selected_array[0].upgrade_value != null:
+			var total_upgrade = selected_array[0].upgrade_value * (selected_array.size())
+			upgrade_value.text = "-$" + str(total_upgrade)
+			button_container.get_node("Upgrade").show()
+		else:
+			button_container.get_node("Upgrade").hide()
+	else:
+		button_container.get_node("Upgrade").hide()
 		#show upgrade button
 	
-	button_container.rect_global_position = get_global_mouse_position()
-	button_container.show()
+	
+	
 
 func _on_DownArea_mouse_entered():
 	camera_move_array[1] = 1
