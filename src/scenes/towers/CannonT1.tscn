@@ -7,7 +7,7 @@
 [ext_resource path="res://tutorial_assets/UI/PNG/grey_arrowUpWhite.png" type="Texture" id=5]
 [ext_resource path="res://towerDefense_tilesheet.png" type="Texture" id=6]
 [ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=7]
-[ext_resource path="res://src/scenes/towers/CannonT1.gd" type="Script" id=8]
+[ext_resource path="res://src/scripts/CannonT1.gd" type="Script" id=8]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 32, 32 )
@@ -182,4 +182,4 @@ selected = 0
 [connection signal="pressed" from="SelectTower" to="." method="_on_SelectTower_pressed"]
 [connection signal="pressed" from="ButtonContainer/Upgrade" to="." method="_on_Upgrade_pressed"]
 [connection signal="pressed" from="ButtonContainer/Sell" to="." method="_on_Sell_pressed"]
-[connection signal="item_selected" from="ButtonContainer/HBoxTarget/TargetOption" to="." method="_on_TargetMethod_item_selected"]
+[connection signal="item_selected" from="ButtonContainer/HBoxTarget/TargetOption" to="." method="_on_TargetOption_item_selected"]

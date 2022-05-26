@@ -13,9 +13,11 @@ var slow
 func start(inc_muzzle, inc_target, inc_orig_tower):
 	
 	self.global_position = inc_muzzle
+	
 	orig_tower = inc_orig_tower
 	damage = orig_tower.damage
 	target = inc_target
+	look_at(target.global_position)
 
 func _physics_process(delta):
 	if is_instance_valid(target):

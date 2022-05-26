@@ -22,6 +22,7 @@ func _ready():
 	self.connect("array_refreshed", self, "_on_array_refreshed")
 	self.connect("target_acquired", self, "_on_target_acquired")
 
+
 func _physics_process(_delta):
 	#old code below
 	if game_scene.selected_tower == self:
@@ -336,8 +337,8 @@ func _on_Sell_pressed(): #old function
 func _on_Upgrade_pressed():
 	game_scene._on_Upgrade_pressed()
 
-func _on_TargetOption_item_selected():
-	game_scene._on_TargetOption_item_selected()
+func _on_TargetOption_item_selected(index):
+	game_scene._on_TargetOption_item_selected(index)
 	
 func sell_me():
 	var tower_exclusion = game_scene.map_node.get_node("Navigation2D/TowerExclusion")
