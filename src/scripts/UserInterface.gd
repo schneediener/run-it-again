@@ -3,16 +3,20 @@ onready var game_scene = get_node("/root/SceneHandler/GameScene")
 
 func _physics_process(delta):
 	if game_scene.current_gold >= 150:
-		$HeadsUpDisplay/HBox_BuildMenu/Cannon.disabled = false
-		$HeadsUpDisplay/HBox_BuildMenu/Missile.disabled = false
+		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Cannon.disabled = false
+		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Missile.disabled = false
 	else:
-		$HeadsUpDisplay/HBox_BuildMenu/Cannon.disabled = true
-		$HeadsUpDisplay/HBox_BuildMenu/Missile.disabled = true
+		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Cannon.disabled = true
+		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Missile.disabled = true
 	if game_scene.current_gold >= 175:
-		$HeadsUpDisplay/HBox_BuildMenu/Minigun.disabled = false
+		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Minigun.disabled = false
 	else:
-		$HeadsUpDisplay/HBox_BuildMenu/Minigun.disabled = true
-
+		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Minigun.disabled = true
+	
+	if game_scene.selected_array.size() > 0:
+		$HeadsUpDisplay/SelectPanel.show()
+	else:
+		$HeadsUpDisplay/SelectPanel.hide()
 #func set_tower_preview(tower_type, mouse_position):
 ##	print (tower_type)
 #

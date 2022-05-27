@@ -19,7 +19,7 @@ var shader = ShaderMaterial.new()
 var current_time = 150
 
 var dragging = false  # Are we currently dragging?
-var selected = []  # Array of selected units.
+var selected_array = []  # Array of selected units.
 var drag_start  # Location where drag began.
 var select_rect = RectangleShape2D.new()  # Collision shape for drag box.
 
@@ -51,20 +51,21 @@ func _ready():
 		map_node = temp_map
 		
 func _on_Upgrade_pressed():
-	for tower in selected:
+	for tower in selected_array:
 		tower.upgrade_me()
-	selected = []
+	
+	selected_array = []
 
 
 
 func _on_Sell_pressed():
-	for tower in selected:
+	for tower in selected_array:
 		tower.sell_me()
 	
-	selected = []
+	selected_array = []
 	
 func _on_TargetOption_item_selected(index):
-	for tower in selected:
+	for tower in selected_array:
 		tower.set_target_method(index)
 
 func _process(_delta):
@@ -184,7 +185,7 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
 		if event.pressed:
 			# We only want to start a drag if there's no selection.
-			if selected.size() == 0:
+			if selected_array.size() == 0:
 				dragging = true
 				drag_start = get_global_mouse_position()
 		elif dragging:
@@ -201,9 +202,9 @@ func _unhandled_input(event):
 			var towers = []
 			for each in intersect_query:
 				if each.collider.type == "tower":
-					selected.append(each.collider)
-			if selected.size()>0:
-				mass_select_towers(selected)
+					selected_array.append(each.collider)
+			if selected_array.size()>0:
+				mass_select_towers(selected_array)
 	
 
 	if event.is_action_pressed("ig_scroll_up"):
@@ -228,7 +229,7 @@ func initiate_build_mode(tower):
 	if build_mode:
 		cancel_build_mode()
 	if selected_tower:
-		selected_tower.get_node("ButtonContainer").visible = false
+		selected_tower.get_node("CanvasLayer/ButtonContainer").visible = false
 		selected_tower.get_node("TurretBase").set_material(null)
 		selected_tower.get_node("FacingDirection/TurretSprite").set_material(null)
 		selected_tower = null
@@ -342,17 +343,16 @@ func make_tower_glow(new_tower, select_type):
 	new_tower.get_node("TurretBase").set_material(shader)
 	new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
 	
-	if select_type == "single":
-		new_tower.get_node("ButtonContainer").visible = true
-		
-	if new_tower.upgrade_value == null:
-		new_tower.get_node("ButtonContainer/Upgrade").visible = false
+#	if select_type == "single":
+#		new_tower.get_node("CanvasLayer/ButtonContainer").visible = true
+#
+#	if new_tower.upgrade_value == null:
+#		new_tower.get_node("CanvasLayer/ButtonContainer/Upgrade").visible = false
 
 func remove_tower_glow(old_tower):
 	if is_instance_valid(old_tower):
 		old_tower.get_node("TurretBase").set_material(null)
 		old_tower.get_node("FacingDirection/TurretSprite").set_material(null)
-		old_tower.get_node("ButtonContainer").visible = false
 
 	
 func get_selected_tower():
@@ -366,12 +366,16 @@ func mass_select_towers(inc_towers):
 	var total_sell = 0
 	
 	selected_tower = null
-	selected = inc_towers
-	var button_container = selected[0].get_node("ButtonContainer")
-	var upgrade_value = button_container.get_node("Upgrade/CostValue")
-	var sell_value = button_container.get_node("Sell/SellValue")
+	selected_array = inc_towers
+	var select_panel = $UserInterface/HeadsUpDisplay/SelectPanel
+	var upgrade_button = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Upgrade
+	var sell_button = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Sell
+	var upgrade_value = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Upgrade/Label
+	var sell_value = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Sell/Label
+	var target_option = $UserInterface/HeadsUpDisplay/SelectPanel/TargetOption
+	
 	#do the shit that makes them glow 
-	for tower in selected:
+	for tower in selected_array:
 		make_tower_glow(tower, "mass")
 		total_sell = total_sell + tower.sell_value
 		if type_array.find(tower.tower_type) == -1:
@@ -381,17 +385,19 @@ func mass_select_towers(inc_towers):
 	#show sell and target method
 	
 	sell_value.text = "+$" + str(total_sell)
-	button_container.show()
+	target_option.select(selected_array[0].target_index)
+	
+	select_panel.show()
 
 	if type_array.size() <= 1:
-		if selected[0].upgrade_value != null:
-			var total_upgrade = selected[0].upgrade_value * (selected.size())
+		if selected_array[0].upgrade_value != null:
+			var total_upgrade = selected_array[0].upgrade_value * (selected_array.size())
 			upgrade_value.text = "-$" + str(total_upgrade)
-			button_container.get_node("Upgrade").show()
+			upgrade_button.show()
 		else:
-			button_container.get_node("Upgrade").hide()
+			upgrade_button.hide()
 	else:
-		button_container.get_node("Upgrade").hide()
+		upgrade_button.hide()
 		#show upgrade button
 	
 	

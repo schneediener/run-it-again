@@ -2,6 +2,7 @@ extends Node2D
 
 var built = false
 onready var target_method = "first"
+onready var target_index = 0
 var current_target
 var target_array = []
 onready var weapon_range = $Range
@@ -15,9 +16,6 @@ signal target_acquired
 func _ready():
 	$FiringRate.wait_time = ($FiringRate.wait_time / 2)
 	#old code below
-	$ButtonContainer.hide()
-	$ButtonContainer/Upgrade/CostValue.text = "-$" + str(self.upgrade_value)
-	$ButtonContainer/Sell/SellValue.text = "+$" + str(self.sell_value)
 	#new code below
 	self.connect("array_refreshed", self, "_on_array_refreshed")
 	self.connect("target_acquired", self, "_on_target_acquired")
@@ -30,7 +28,7 @@ func _physics_process(_delta):
 	elif built:
 		if $Range/RangeSprite.visible:
 			$Range/RangeSprite.hide()
-	maintain_upgrade_button()
+#	maintain_upgrade_button()
 	
 	#new code below
 	if built:
@@ -43,27 +41,29 @@ func _unhandled_input(event):
 			if game_scene.selected_tower:
 				game_scene.remove_tower_glow(game_scene.selected_tower)
 				game_scene.selected_tower = null
-			if game_scene.selected.size()>0:
-				for each in game_scene.selected:
+			if game_scene.selected_array.size()>0:
+				for each in game_scene.selected_array:
 					game_scene.remove_tower_glow(each)
-				game_scene.selected = []
+				game_scene.selected_array = []
 			if game_scene.build_mode:
+				get_tree().set_input_as_handled()
 				game_scene.verify_and_build()
+				
 
-func maintain_upgrade_button(): #old function
-	#old code below
-	var button = $ButtonContainer/Upgrade
-	var status
-	
-	if $ButtonContainer.visible and self.upgrade_value:
-		if game_scene.current_gold < self.upgrade_value:
-			status = "disabled"
-		else:
-			status = "enabled"
-		if status == "disabled" and button.modulate == Color(1,1,1,1):
-			button.modulate = (Color(0.44,0.44,0.44,1))
-		if status == "enabled" and button.modulate != Color(1,1,1,1):
-			button.modulate = Color(1,1,1,1)
+#func maintain_upgrade_button(): #old function
+#	#old code below
+#	var button = $CanvasLayer/ButtonContainer/Upgrade
+#	var status
+#
+#	if $CanvasLayer/ButtonContainer.visible and self.upgrade_value:
+#		if game_scene.current_gold < self.upgrade_value:
+#			status = "disabled"
+#		else:
+#			status = "enabled"
+#		if status == "disabled" and button.modulate == Color(1,1,1,1):
+#			button.modulate = (Color(0.44,0.44,0.44,1))
+#		if status == "enabled" and button.modulate != Color(1,1,1,1):
+#			button.modulate = Color(1,1,1,1)
 
 func track_target():
 	$FacingDirection.look_at(current_target.global_position)
@@ -375,6 +375,7 @@ func _on_Range_body_exited(body):
 		current_target = null
 
 func set_target_method(index):
+	target_index = index
 	match index:
 		0:
 			target_method = "first"
@@ -392,4 +393,3 @@ func set_target_method(index):
 			target_method = "dropship"
 		_:
 			push_error("Error setting target method on tower")
-	$ButtonContainer/HBoxTarget/TargetOption.select(index)
