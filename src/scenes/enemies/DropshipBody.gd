@@ -2,8 +2,6 @@ extends KinematicBody2D
 
 var type = "enemy"
 var subtype = "dropship"
-var path_distance = 99999
-var enemy_script = load("res://src/scripts/test_enemies_general.gd")
 onready var game_scene = get_node("/root/SceneHandler/GameScene")
 
 func take_damage(damage, slow):

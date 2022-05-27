@@ -2,32 +2,32 @@ extends Node2D
 
 var built = false
 onready var target_method = "first"
+onready var target_index = 0
 var current_target
 var target_array = []
 onready var weapon_range = $Range
 onready var ready = true
 onready var game_scene = get_node("/root/SceneHandler/GameScene")
+var type = "tower"
 
 signal array_refreshed
 signal target_acquired
 
 func _ready():
+	$FiringRate.wait_time = ($FiringRate.wait_time / 2)
 	#old code below
-	$ButtonContainer.hide()
-	$ButtonContainer/Upgrade/CostValue.text = "-$" + str(self.upgrade_value)
-	$ButtonContainer/Sell/SellValue.text = "+$" + str(self.sell_value)
 	#new code below
 	self.connect("array_refreshed", self, "_on_array_refreshed")
 	self.connect("target_acquired", self, "_on_target_acquired")
 
 func _physics_process(_delta):
 	#old code below
-	if game_scene.selected_tower and built:
-		if game_scene.selected_tower==self and is_instance_valid(game_scene.selected_tower):
+	if game_scene.selected_tower == self:
 			$Range/RangeSprite.show()
-	elif built and $Range/RangeSprite.visible:
-		$Range/RangeSprite.hide()
-	maintain_upgrade_button()
+	elif built:
+		if $Range/RangeSprite.visible:
+			$Range/RangeSprite.hide()
+#	maintain_upgrade_button()
 	
 	#new code below
 	if built:
@@ -35,20 +35,34 @@ func _physics_process(_delta):
 		if current_target:
 			track_target()
 
-func maintain_upgrade_button(): #old function
-	#old code below
-	var button = $ButtonContainer/Upgrade
-	var status
-	
-	if $ButtonContainer.visible and self.upgrade_value:
-		if game_scene.current_gold < self.upgrade_value:
-			status = "disabled"
-		else:
-			status = "enabled"
-		if status == "disabled" and button.modulate == Color(1,1,1,1):
-			button.modulate = (Color(0.44,0.44,0.44,1))
-		if status == "enabled" and button.modulate != Color(1,1,1,1):
-			button.modulate = Color(1,1,1,1)
+func _unhandled_input(event):
+		if event.is_action_pressed("ui_accept"):
+			if game_scene.selected_tower:
+				game_scene.remove_tower_glow(game_scene.selected_tower)
+				game_scene.selected_tower = null
+			if game_scene.selected_array.size()>0:
+				for each in game_scene.selected_array:
+					game_scene.remove_tower_glow(each)
+				game_scene.selected_array = []
+			if game_scene.build_mode:
+				get_tree().set_input_as_handled()
+				game_scene.verify_and_build()
+				
+
+#func maintain_upgrade_button(): #old function
+#	#old code below
+#	var button = $CanvasLayer/ButtonContainer/Upgrade
+#	var status
+#
+#	if $CanvasLayer/ButtonContainer.visible and self.upgrade_value:
+#		if game_scene.current_gold < self.upgrade_value:
+#			status = "disabled"
+#		else:
+#			status = "enabled"
+#		if status == "disabled" and button.modulate == Color(1,1,1,1):
+#			button.modulate = (Color(0.44,0.44,0.44,1))
+#		if status == "enabled" and button.modulate != Color(1,1,1,1):
+#			button.modulate = Color(1,1,1,1)
 
 func track_target():
 	$FacingDirection.look_at(current_target.global_position)
@@ -119,8 +133,10 @@ func select_target():
 			primary_stat = "speed"
 		"first":
 			primary_stat = "distance"
+			primary_array = target_array
 		"last":
 			primary_stat = "distance"
+			primary_array = target_array
 		"dropship":
 			primary_stat = "dropship"
 			primary_array = all_dropship_array
@@ -315,6 +331,15 @@ func _on_FiringRate_timeout():
 	ready = true
 
 func _on_Sell_pressed(): #old function
+	game_scene._on_Sell_pressed()
+
+func _on_Upgrade_pressed():
+	game_scene._on_Upgrade_pressed()
+
+func _on_TargetOption_item_selected(index):
+	game_scene._on_TargetOption_item_selected(index)
+	
+func sell_me():
 	var tower_exclusion = game_scene.map_node.get_node("Navigation2D/TowerExclusion")
 	var current_tile = tower_exclusion.world_to_map(self.position)
 	
@@ -324,7 +349,7 @@ func _on_Sell_pressed(): #old function
 		game_scene.map_node.get_node("Navigation2D/TowerExclusion").set_cellv(current_tile, -1)
 		self.queue_free()
 
-func _on_Upgrade_pressed(): #old function
+func upgrade_me(): #old function
 	var current_tower = self
 	var new_tower = current_tower.upgrade_path.instance()
 	var cost = current_tower.upgrade_value
@@ -348,7 +373,8 @@ func _on_Range_body_exited(body):
 	if current_target==body:
 		current_target = null
 
-func _on_TargetOption_item_selected(index):
+func set_target_method(index):
+	target_index = index
 	match index:
 		0:
 			target_method = "first"

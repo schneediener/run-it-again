@@ -17,7 +17,7 @@ onready var game_scene = get_node("../../..")
 var sean_test = true
 
 func _ready():
-	
+	self.speed = self.speed
 	$HealthBar.value = self.max_health
 	$HealthBar.max_value = self.max_health
 	health=self.max_health
@@ -94,7 +94,7 @@ func take_damage(damage, slow):
 	if health <= 0 and !dead:
 		dead = true
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
-		game_scene.current_time = game_scene.current_time + 0.5
+		game_scene.current_time = game_scene.current_time + 0.8
 		
 		game_scene.current_gold = game_scene.current_gold+new_gold
 		print(new_gold)

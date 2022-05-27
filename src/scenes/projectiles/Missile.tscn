@@ -4,7 +4,6 @@
 [ext_resource path="res://homing/assets/towerDefense_tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://homing/assets/spr_smoke_strip24.png" type="Texture" id=3]
 
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 15.6842, 5.82576 )
 
@@ -103,6 +102,8 @@ tracks/1/keys = {
 radius = 79.0063
 
 [node name="Missile" type="Area2D"]
+collision_layer = 8
+collision_mask = 7
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true

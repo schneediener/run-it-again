@@ -13,7 +13,7 @@ var landed = false
 var velocity
 var gold_multi = 5
 
-onready var game_scene = get_node("../../../../../")
+onready var game_scene = get_node("../../../../")
 #onready var enemy_script = preload("res://src/scripts/test_enemies_general.gd")
 
 var wave_1 = ["Wave 1",10,0,0,0,1]
@@ -34,16 +34,18 @@ func _physics_process(delta):
 	calculate_health_perc()
 	set_health_tint()
 	# Move along the "path" if there is path left
-	if get_parent().unit_offset!=1.0:
-		get_parent().offset += speed * delta
+	if self.unit_offset!=1.0:
+		self.offset += speed * delta
 	
 	#If there is no path left, start landing
-	if get_parent().unit_offset==1.0 and !landing:
+	if self.unit_offset==1.0 and !landing:
 		landing = true
 	
 	#If landing, but sprite hasn't moved down onto the shadow, move towards the shadow
 	if landing:
-		if $DropshipBody.global_position.distance_to($Shadow.global_position) > 2:
+		var distance_to = $DropshipBody.global_position.distance_to($Shadow.global_position)
+		
+		if distance_to > 2:
 		
 			velocity = $DropshipBody.global_position.direction_to($Shadow.global_position) * 180
 			velocity = $DropshipBody.move_and_slide(velocity)
@@ -56,6 +58,7 @@ func _physics_process(delta):
 		elif !landed:
 			$Shadow.hide()
 			$DropshipBody/Spawn/SpawnTimer.start()
+			landing = false
 			landed = true
 			print("Ship has landed successfully")
 
@@ -81,6 +84,7 @@ func _on_SpawnTimer_timeout():
 		elif current_wave[4]>0:
 			spawn_next_enemy("tank")
 			current_wave[4] = current_wave[4]-1
+			self.queue_free()
 		else:
 			wave_list.erase(current_wave)
 			current_wave = null
@@ -89,7 +93,7 @@ func start_next_wave():
 	if !current_wave and wave_list.size() > 0:
 		$DropshipBody/Spawn/SpawnTimer.stop()
 		current_wave = wave_list[0]
-		$DropshipBody/Spawn/SpawnTimer.wait_time = current_wave[5]
+#		$DropshipBody/Spawn/SpawnTimer.wait_time = current_wave[5]
 		yield(get_tree().create_timer(5.0), "timeout")
 		$DropshipBody/Spawn/SpawnTimer.start()
 		
@@ -107,11 +111,11 @@ func set_health_tint():
 		$HealthBar.tint_progress = Color(255, 0, 0)
 	else:
 		$HealthBar.visible = false
-func spawn_next_enemy(type):
+func spawn_next_enemy(temp_type):
 	var new_enemy
 	var enemy_container = game_scene.map_node.get_node("EnemyContainer")
 	
-	match type:
+	match temp_type:
 		"basic":
 			new_enemy = load("res://src/scenes/enemies/BasicEnemy.tscn").instance()
 		"slow":
@@ -126,4 +130,4 @@ func spawn_next_enemy(type):
 	if new_enemy:
 		enemy_container.add_child(new_enemy)
 		new_enemy.global_position = $DropshipBody/Spawn.global_position
-		game_scene.map_node.create_path(new_enemy)
+		game_scene.map_node.create_path(new_enemy, 1)

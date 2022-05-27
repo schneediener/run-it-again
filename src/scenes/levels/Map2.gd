@@ -6,12 +6,15 @@ onready var line_2d: Line2D = $Line2D
 
 onready var game_scene = get_node("../")
 var path
-onready var end_point = get_node("ExitPoint").position
+onready var end_point_left = get_node("ExitPointLeft").position
+onready var end_point_right = get_node("ExitPointRight").position
 
 export var income_per_wave = 50
 export var income_per_kill = 1
 var max_waves = 6
 var ready_to_finish
+
+var middle_last_spawned
 
 onready var ship_path_1 = $Dropships/Path_Dropship1/PathFollow2D
 onready var ship_path_2 = $Dropships/Path_Dropship2/PathFollow2D
@@ -20,15 +23,15 @@ onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
 
-export var wave_1 = ["Wave 1",10,0,0,1]
-export var wave_2 = ["Wave 2",15,5,0,0.9]
-export var wave_3 = ["Wave 3",15,8,0,0.8]
-export var wave_4 = ["Wave 4",15,8,1,0.8]
-export var wave_5 = ["Wave 5",15,5,2,0.8]
-export var wave_6 = ["Wave 6",15,5,2,0.8]
-export var wave_7 = ["Wave 7",15,10,3,0.7]
-export var wave_8 = ["Wave 8",15,15,5,0.6]
-export var wave_9 = ["Wave 9",20,10,10,.5]
+export var wave_1 = ["Wave 1",20,0,0,0.5]
+export var wave_2 = ["Wave 2",30,10,0,0.4]
+export var wave_3 = ["Wave 3",30,16,0,0.3]
+export var wave_4 = ["Wave 4",30,16,2,0.3]
+export var wave_5 = ["Wave 5",30,6,4,0.2]
+export var wave_6 = ["Wave 6",30,6,4,0.2]
+export var wave_7 = ["Wave 7",30,20,6,0.1]
+export var wave_8 = ["Wave 8",50,30,10,0.1]
+export var wave_9 = ["Wave 9",60,30,30,.05]
 
 
 var enemy_roulette = []
@@ -56,17 +59,17 @@ func _ready():
 	pass
 
 func _process(_delta):
-	if ready_to_finish and $EnemyContainer.get_child_count()==0:
+	if ready_to_finish:
+		if $EnemyContainer.get_child_count()==0:
 		
-		finish_level()
-		ready_to_finish = false
+			finish_level()
+			ready_to_finish = false
 
 func start_new_wave():
 	$Spawn/Timer.stop()
 	
 	$Spawn/Timer.wait_time = float(current_wave[4])
-	print(str($Spawn/Timer.wait_time))
-
+	print($Spawn/Timer.wait_time)
 	wave_list.erase(current_wave)
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
@@ -90,9 +93,9 @@ func start_new_wave():
 		ready_to_finish = true
 	
 func spawn_dropship():
-	var dropship = load("res://src/scenes/enemies/Dropship.tscn").instance()
-	
-	var landing_site = randi() % 3 + 1
+	var dropship = load("res://src/scenes/enemies/Dropship_Test.tscn").instance()
+	randomize()
+	var landing_site = randi() % 4 + 1
 	print(landing_site)
 	
 	match landing_site:
@@ -102,14 +105,10 @@ func spawn_dropship():
 			$Dropships/Path_Dropship2.add_child(dropship)
 		3:
 			$Dropships/Path_Dropship3.add_child(dropship)
-	
+		4: 
+			$Dropships/Path_Dropship4.add_child(dropship)
 	
 func finish_level():
-	$WaveTimer.wait_time = 2
-	$WaveTimer.start()
-	
-	yield($WaveTimer, "timeout")
-	
 	OS.alert("Congratulations! You won!", "Victory")
 	get_tree().reload_current_scene()
 
@@ -139,6 +138,7 @@ func spawn_new_enemy():
 	var next_enemy
 	var spawn_1 = $Spawn
 	var spawn_2 = $Spawn/Spawn_2
+	var spawn_3 = $Spawn/Spawn_3
 	var next_spawn
 	
 	if enemy_roulette.empty():
@@ -161,15 +161,21 @@ func spawn_new_enemy():
 	if next_enemy:
 		next_spawn = randi() % 3 + 1
 		next_enemy = next_enemy.instance()
-		if next_spawn != 3:
-			next_enemy.global_position = spawn_1.position
-		else:
-			next_enemy.global_position = spawn_2.position
+		
+		match next_spawn:
+			1:
+				next_enemy.global_position = spawn_1.global_position
+			2:
+				next_enemy.global_position = spawn_2.global_position
+			3:
+				next_enemy.global_position = spawn_3.global_position
+			_:
+				push_error("error selecting spawn position")
 		
 		$EnemyContainer.add_child(next_enemy, true)
 		enemy_roulette.erase(next_type)
 		
-		create_path(next_enemy, 0)
+		create_path(next_enemy, next_spawn)
 	else:
 		push_error("no enemy")
 	
@@ -177,10 +183,23 @@ func spawn_new_enemy():
 func create_path(character, spawn):
 	yield(get_tree(), "idle_frame")
 	#print(character.global_position)
-	var path = nav_2d.get_simple_path(character.global_position, end_point, true)
+	var path_left = nav_2d.get_simple_path(character.global_position, end_point_left, true)
+	var path_right = nav_2d.get_simple_path(character.global_position, end_point_right, true)
 	#print(path)
-	character.path = path
-	line_2d.points = path
+	match spawn:
+		1: 
+			character.path = path_left
+		2:
+			if middle_last_spawned == "left":
+				character.path = path_right
+				middle_last_spawned = "right"
+			else:
+				character.path = path_left
+				middle_last_spawned = "left"
+		3:
+			character.path = path_right
+	
+	line_2d.points = character.path
 	#print (line_2d.points)
 
 #func give_path(enemy):
