@@ -189,28 +189,49 @@ func _unhandled_input(event):
 				dragging = true
 				drag_start = get_global_mouse_position()
 		elif dragging:
-			dragging = false
-			update()
-			var drag_end = get_global_mouse_position()
-			select_rect.extents = (drag_end - drag_start) / 2
-			var space = get_world_2d().direct_space_state
-			var query = Physics2DShapeQueryParameters.new()
-			query.set_shape(select_rect)
-			query.transform = Transform2D(0, (drag_end + drag_start) / 2)
-			var intersect_query
-			intersect_query = space.intersect_shape(query)
-			var towers = []
-			for each in intersect_query:
-				if each.collider.type == "tower":
-					selected_array.append(each.collider)
-			if selected_array.size()>0:
-				mass_select_towers(selected_array)
+			select_box("drag")
+		if event.doubleclick:
+			select_box("double")
+			
 	
 
 	if event.is_action_pressed("ig_scroll_up"):
 		zoom_camera("up")
 	if event.is_action_pressed("ig_scroll_down"):
 		zoom_camera("down")
+
+func select_box(click_type):
+	dragging = false
+	update()
+	var drag_end = get_global_mouse_position()
+	select_rect.extents = (drag_end - drag_start) / 2
+	var space = get_world_2d().direct_space_state
+	var query = Physics2DShapeQueryParameters.new()
+	query.set_shape(select_rect)
+	query.transform = Transform2D(0, (drag_end + drag_start) / 2)
+	var intersect_query
+	intersect_query = space.intersect_shape(query)
+	var towers = []
+	for each in intersect_query:
+		if each.collider.type == "tower":
+			selected_array.append(each.collider)
+	if click_type == "drag":
+		if selected_array.size()>0:
+			mass_select_towers(selected_array)
+	elif click_type == "double":
+		if selected_array.size()==1:
+			double_click_select(selected_array)
+
+func double_click_select(inc_array):
+	var all_towers = map_node.get_node("Towers").get_children()
+	var inc_type = inc_array[0].tower_type
+	var same_type_array = []
+	
+	for each in all_towers:
+		if each.tower_type == inc_type:
+			same_type_array.append(each)
+	
+	mass_select_towers(same_type_array)
 
 
 func _draw():

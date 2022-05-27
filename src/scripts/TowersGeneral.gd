@@ -20,7 +20,6 @@ func _ready():
 	self.connect("array_refreshed", self, "_on_array_refreshed")
 	self.connect("target_acquired", self, "_on_target_acquired")
 
-
 func _physics_process(_delta):
 	#old code below
 	if game_scene.selected_tower == self:

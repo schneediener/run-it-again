@@ -69,13 +69,5 @@ region_rect = Rect2( 1343.5, 766, 64, 64 )
 wait_time = 0.9
 one_shot = true
 
-[node name="SelectTower" type="Button" parent="."]
-pause_mode = 2
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-margin_right = 64.0
-margin_bottom = 64.0
-
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
-[connection signal="pressed" from="SelectTower" to="." method="_on_SelectTower_pressed"]
