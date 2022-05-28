@@ -14,6 +14,8 @@ signal array_refreshed
 signal target_acquired
 
 func _ready():
+	target_method = "first"
+	pause_mode = Node.PAUSE_MODE_STOP
 	$FiringRate.wait_time = ($FiringRate.wait_time / 2)
 	#old code below
 	#new code below
@@ -22,11 +24,7 @@ func _ready():
 
 func _physics_process(_delta):
 	#old code below
-	if game_scene.selected_tower == self:
-			$Range/RangeSprite.show()
-	elif built:
-		if $Range/RangeSprite.visible:
-			$Range/RangeSprite.hide()
+
 #	maintain_upgrade_button()
 	
 	#new code below
@@ -41,9 +39,13 @@ func _unhandled_input(event):
 				game_scene.remove_tower_glow(game_scene.selected_tower)
 				game_scene.selected_tower = null
 			if game_scene.selected_array.size()>0:
-				for each in game_scene.selected_array:
-					game_scene.remove_tower_glow(each)
-				game_scene.selected_array = []
+				if !Input.is_key_pressed(16777237):
+					for each in game_scene.selected_array:
+						game_scene.remove_tower_glow(each)
+					game_scene.selected_array = []
+				else:
+					game_scene.select_box("shift")
+				return
 			if game_scene.build_mode:
 				get_tree().set_input_as_handled()
 				game_scene.verify_and_build()
@@ -330,14 +332,6 @@ func flash():
 func _on_FiringRate_timeout():
 	ready = true
 
-func _on_Sell_pressed(): #old function
-	game_scene._on_Sell_pressed()
-
-func _on_Upgrade_pressed():
-	game_scene._on_Upgrade_pressed()
-
-func _on_TargetOption_item_selected(index):
-	game_scene._on_TargetOption_item_selected(index)
 	
 func sell_me():
 	var tower_exclusion = game_scene.map_node.get_node("Navigation2D/TowerExclusion")
@@ -362,6 +356,7 @@ func upgrade_me(): #old function
 		self.get_parent().add_child(new_tower, true)
 		new_tower.position = current_tower.position
 		new_tower.built = true
+		new_tower.get_node("Range/RangeSprite").hide()
 		game_scene.selected_tower = null
 		self.queue_free()
 

@@ -94,7 +94,8 @@ func take_damage(damage, slow):
 	if health <= 0 and !dead:
 		dead = true
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
-		game_scene.current_time = game_scene.current_time + 0.8
+		if game_scene.current_time < game_scene.time_max:
+			game_scene.current_time = game_scene.current_time + 0.8
 		
 		game_scene.current_gold = game_scene.current_gold+new_gold
 		print(new_gold)

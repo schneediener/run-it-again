@@ -74,6 +74,7 @@ func start_new_wave():
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
+		
 		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 7" or current_wave[0] == "Wave 9":
 			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":
@@ -83,7 +84,7 @@ func start_new_wave():
 			$WaveTimer.start()
 			
 			yield($WaveTimer, "timeout")
-			
+			game_scene.get_node("UserInterface/WavePanel/WaveCounter").text = current_wave[0]
 			populate_roulette()
 			$Spawn/Timer.emit_signal("timeout")
 			$Spawn/Timer.start()
@@ -143,6 +144,7 @@ func spawn_new_enemy():
 	
 	if enemy_roulette.empty():
 		game_scene.current_gold=game_scene.current_gold+income_per_wave
+		game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = "0 units remaining"
 		start_new_wave()
 		return
 	
@@ -161,6 +163,7 @@ func spawn_new_enemy():
 	if next_enemy:
 		next_spawn = randi() % 3 + 1
 		next_enemy = next_enemy.instance()
+		game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = str(enemy_roulette.size()) + " units remaining"
 		
 		match next_spawn:
 			1:

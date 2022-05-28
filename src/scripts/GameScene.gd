@@ -11,12 +11,14 @@ var build_tile
 var build_tower
 var build_scene
 var current_health = 20 #setget update_current_health
+var health_max = 20
 var current_gold = 1000 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
 var SELECTSHADER = load("res://new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 150
+var time_max = 150
 
 var dragging = false  # Are we currently dragging?
 var selected_array = []  # Array of selected units.
@@ -54,6 +56,8 @@ func _on_Upgrade_pressed():
 	for tower in selected_array:
 		tower.upgrade_me()
 	
+	for each in selected_array:
+		remove_tower_glow(each)
 	selected_array = []
 
 
@@ -61,7 +65,8 @@ func _on_Upgrade_pressed():
 func _on_Sell_pressed():
 	for tower in selected_array:
 		tower.sell_me()
-	
+	for each in selected_array:
+		remove_tower_glow(each)
 	selected_array = []
 	
 func _on_TargetOption_item_selected(index):
@@ -69,6 +74,8 @@ func _on_TargetOption_item_selected(index):
 		tower.set_target_method(index)
 
 func _process(_delta):
+	if int($UserInterface/HealthCounter.text) != current_health:
+		$UserInterface/HealthCounter.text = str(current_health)
 	if $UserInterface/TimeBar.value != current_time:
 		$UserInterface/TimeBar.value = current_time
 	if build_mode:
@@ -138,8 +145,9 @@ func _on_DamageZone_body_entered(body):
 #	print(body.type)
 	
 	if body.type == "enemy":
+		body.free()
 		take_damage()
-		body.queue_free()
+		
 
 #func update_current_health(new_health):
 #	current_health = new_health
@@ -183,6 +191,14 @@ func _unhandled_input(event):
 			cancel_build_mode()
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+		if build_mode:
+				if selected_array.size() > 0:
+					for each in selected_array:
+						remove_tower_glow(each)
+				selected_array = []
+				get_tree().set_input_as_handled()
+				verify_and_build()
+				return
 		if event.pressed:
 			# We only want to start a drag if there's no selection.
 			if selected_array.size() == 0:
@@ -202,6 +218,9 @@ func _unhandled_input(event):
 
 func select_box(click_type):
 	dragging = false
+	
+	if click_type == "shift":
+		drag_start = get_global_mouse_position()
 	update()
 	var drag_end = get_global_mouse_position()
 	select_rect.extents = (drag_end - drag_start) / 2
@@ -211,15 +230,18 @@ func select_box(click_type):
 	query.transform = Transform2D(0, (drag_end + drag_start) / 2)
 	var intersect_query
 	intersect_query = space.intersect_shape(query)
-	var towers = []
 	for each in intersect_query:
 		if each.collider.type == "tower":
-			selected_array.append(each.collider)
-	if click_type == "drag":
+			if !selected_array.has(each.collider):
+				selected_array.append(each.collider)
+			else:
+				selected_array.erase(each.collider)
+				remove_tower_glow(each.collider)
+	if click_type == "drag" or click_type == "shift":
 		if selected_array.size()>0:
 			mass_select_towers(selected_array)
 	elif click_type == "double":
-		if selected_array.size()==1:
+		if selected_array.size() != 0:
 			double_click_select(selected_array)
 
 func double_click_select(inc_array):
@@ -300,6 +322,7 @@ func verify_and_build():
 			new_tower.can_shoot = true
 		map_node.get_node("Towers").add_child(new_tower, true)
 		map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
+		new_tower.get_node("Range/RangeSprite").hide()
 		#new_tower.connect("input_event", self, "_on_SelectArea_input_event")
 		current_gold_set(current_gold-tower_cost)
 		
@@ -363,6 +386,7 @@ func select_tower(tower_instance):
 func make_tower_glow(new_tower, select_type):
 	new_tower.get_node("TurretBase").set_material(shader)
 	new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
+	new_tower.get_node("Range/RangeSprite").show()
 	
 #	if select_type == "single":
 #		new_tower.get_node("CanvasLayer/ButtonContainer").visible = true
@@ -374,6 +398,7 @@ func remove_tower_glow(old_tower):
 	if is_instance_valid(old_tower):
 		old_tower.get_node("TurretBase").set_material(null)
 		old_tower.get_node("FacingDirection/TurretSprite").set_material(null)
+		old_tower.get_node("Range/RangeSprite").hide()
 
 	
 func get_selected_tower():
@@ -406,7 +431,10 @@ func mass_select_towers(inc_towers):
 	#show sell and target method
 	
 	sell_value.text = "+$" + str(total_sell)
-	target_option.select(selected_array[0].target_index)
+	if selected_array.size()==1:
+		target_option.select(selected_array[0].target_index)
+	else:
+		target_option.select(7)
 	
 	select_panel.show()
 
