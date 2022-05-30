@@ -4,9 +4,7 @@ onready var game_scene = get_node("/root/SceneHandler/GameScene")
 
 
 func _on_ResumeButton_pressed():
-	get_tree().paused = false
-	game_scene.esc_pause = false
-	self.queue_free()
+	game_scene.remove_pause_menu()
 
 
 func _on_RestartButton_pressed():

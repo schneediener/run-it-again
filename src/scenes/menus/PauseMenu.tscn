@@ -1,0 +1,128 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/scenes/PauseMenu.gd" type="Script" id=1]
+[ext_resource path="res://src/assets/images/background_menu_blue2.png" type="Texture" id=2]
+
+[node name="PauseMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="BackgroundMenuBlue2" type="TextureRect" parent="."]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -105.0
+margin_top = -58.0
+margin_right = -105.0
+margin_bottom = -58.0
+rect_scale = Vector2( 1.1, 1.1 )
+texture = ExtResource( 2 )
+expand = true
+
+[node name="MenuPanel" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.631373 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -77.0
+margin_top = -151.5
+margin_right = 77.0
+margin_bottom = 151.5
+rect_scale = Vector2( 1.2, 1.2 )
+
+[node name="VBoxMenu" type="VBoxContainer" parent="MenuPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -41.5
+margin_top = -121.0
+margin_right = 41.5
+margin_bottom = 121.0
+
+[node name="VBoxContinue" type="VBoxContainer" parent="MenuPanel/VBoxMenu"]
+margin_right = 83.0
+margin_bottom = 94.0
+custom_constants/separation = 10
+
+[node name="ResumeButton" type="Button" parent="MenuPanel/VBoxMenu/VBoxContinue"]
+margin_right = 83.0
+margin_bottom = 20.0
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="MenuPanel/VBoxMenu/VBoxContinue"]
+margin_top = 30.0
+margin_right = 83.0
+margin_bottom = 50.0
+text = "Restart"
+
+[node name="SettingsButton" type="Button" parent="MenuPanel/VBoxMenu/VBoxContinue"]
+margin_top = 60.0
+margin_right = 83.0
+margin_bottom = 80.0
+text = "Settings"
+
+[node name="HSeparator" type="HSeparator" parent="MenuPanel/VBoxMenu/VBoxContinue"]
+margin_top = 90.0
+margin_right = 83.0
+margin_bottom = 94.0
+
+[node name="VBoxVolumes" type="VBoxContainer" parent="MenuPanel/VBoxMenu"]
+margin_top = 98.0
+margin_right = 83.0
+margin_bottom = 170.0
+
+[node name="Sound" type="Label" parent="MenuPanel/VBoxMenu/VBoxVolumes"]
+margin_right = 83.0
+margin_bottom = 14.0
+text = "Sound"
+align = 1
+
+[node name="SoundSlider" type="HSlider" parent="MenuPanel/VBoxMenu/VBoxVolumes"]
+margin_top = 18.0
+margin_right = 83.0
+margin_bottom = 34.0
+
+[node name="Music" type="Label" parent="MenuPanel/VBoxMenu/VBoxVolumes"]
+margin_top = 38.0
+margin_right = 83.0
+margin_bottom = 52.0
+text = "Music"
+align = 1
+
+[node name="MusicSlider" type="HSlider" parent="MenuPanel/VBoxMenu/VBoxVolumes"]
+margin_top = 56.0
+margin_right = 83.0
+margin_bottom = 72.0
+
+[node name="VBoxQuit" type="VBoxContainer" parent="MenuPanel/VBoxMenu"]
+margin_top = 174.0
+margin_right = 83.0
+margin_bottom = 242.0
+custom_constants/separation = 12
+
+[node name="HSeparator2" type="HSeparator" parent="MenuPanel/VBoxMenu/VBoxQuit"]
+margin_right = 83.0
+margin_bottom = 4.0
+
+[node name="MainMenuButton" type="Button" parent="MenuPanel/VBoxMenu/VBoxQuit"]
+margin_top = 16.0
+margin_right = 83.0
+margin_bottom = 36.0
+text = "Main Menu"
+
+[node name="ExitButton" type="Button" parent="MenuPanel/VBoxMenu/VBoxQuit"]
+margin_top = 48.0
+margin_right = 83.0
+margin_bottom = 68.0
+text = "Exit Game"
+
+[connection signal="pressed" from="MenuPanel/VBoxMenu/VBoxContinue/ResumeButton" to="." method="_on_ResumeButton_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxMenu/VBoxContinue/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxMenu/VBoxContinue/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[connection signal="value_changed" from="MenuPanel/VBoxMenu/VBoxVolumes/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
+[connection signal="value_changed" from="MenuPanel/VBoxMenu/VBoxVolumes/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
+[connection signal="pressed" from="MenuPanel/VBoxMenu/VBoxQuit/MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxMenu/VBoxQuit/ExitButton" to="." method="_on_ExitButton_pressed"]
