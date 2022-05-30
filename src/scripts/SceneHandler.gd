@@ -2,12 +2,21 @@ extends Node
 var current_level
 
 func _ready():
+	var main_menu = load("res://src/scenes/menus/MainMenu.tscn").instance()
+	add_child(main_menu)
+	
 	if get_node("MainMenu/Margin/VBoxContainer/NewGameSean").connect("pressed", self, "_on_NewGameSean_pressed") != OK:
 		print("Signal connect for _on_NewGameSean_pressed failed")
+	else:
+		print ("NewGameSean connected")
 	if get_node("MainMenu/Margin/VBoxContainer/NewGameTest").connect("pressed", self, "_on_NewGameTest_pressed") != OK:
 		print("Signal connect for _on_NewGameTest_pressed failed")
+	else:
+		print ("NewGameTest connected")
 	if get_node("MainMenu/Margin/VBoxContainer/SaveAndQuit").connect("pressed", self, "_on_SaveAndQuit_pressed") != OK:
 		print("Signal connect for _on_SaveAndQuit_pressed failed")
+	else:
+		print ("SaveAndQuit connected")
 	randomize()
 	
 func _process(delta):
