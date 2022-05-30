@@ -1,22 +1,23 @@
 extends CanvasLayer
-onready var game_scene = get_node("/root/SceneHandler/GameScene")
+onready var game_scene = get_node("/root/SceneHandler").game_scene
 
 func _physics_process(delta):
-	if game_scene.current_gold >= 150:
-		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Cannon.disabled = false
-		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Missile.disabled = false
-	else:
-		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Cannon.disabled = true
-		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Missile.disabled = true
-	if game_scene.current_gold >= 175:
-		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Minigun.disabled = false
-	else:
-		$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Minigun.disabled = true
-	
-	if game_scene.selected_array.size() > 0:
-		$HeadsUpDisplay/SelectPanel.show()
-	else:
-		$HeadsUpDisplay/SelectPanel.hide()
+	if is_instance_valid(game_scene):
+		if game_scene.current_gold >= 150:
+			$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Cannon.disabled = false
+			$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Missile.disabled = false
+		else:
+			$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Cannon.disabled = true
+			$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Missile.disabled = true
+		if game_scene.current_gold >= 175:
+			$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Minigun.disabled = false
+		else:
+			$HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Minigun.disabled = true
+		
+		if game_scene.selected_array.size() > 0:
+			$HeadsUpDisplay/SelectPanel.show()
+		else:
+			$HeadsUpDisplay/SelectPanel.hide()
 #func set_tower_preview(tower_type, mouse_position):
 ##	print (tower_type)
 #
