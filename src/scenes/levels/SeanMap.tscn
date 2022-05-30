@@ -9,12 +9,12 @@
 [ext_resource path="res://tutorial_assets/PNG/Retina/treeBrown_large.png" type="Texture" id=7]
 [ext_resource path="res://tutorial_assets/PNG/Default size/treeGreen_large.png" type="Texture" id=9]
 [ext_resource path="res://tutorial_assets/PNG/Default size/treeBrown_large.png" type="Texture" id=10]
-[ext_resource path="res://Empty.png" type="Texture" id=11]
-[ext_resource path="res://path_end.png" type="Texture" id=12]
+[ext_resource path="res://src/assets/images/Empty.png" type="Texture" id=11]
+[ext_resource path="res://src/assets/images/path_end.png" type="Texture" id=12]
 [ext_resource path="res://src/scripts/SeanMap.gd" type="Script" id=13]
-[ext_resource path="res://barricadeMetal.png" type="Texture" id=14]
-[ext_resource path="res://sandbagBrown_open.png" type="Texture" id=15]
-[ext_resource path="res://sandbagBrown.png" type="Texture" id=16]
+[ext_resource path="res://src/assets/images/barricadeMetal.png" type="Texture" id=14]
+[ext_resource path="res://src/assets/images/sandbagBrown_open.png" type="Texture" id=15]
+[ext_resource path="res://src/assets/images/sandbagBrown.png" type="Texture" id=16]
 
 [sub_resource type="TileSet" id=1]
 1/name = "terrainTiles_default.png 1"
