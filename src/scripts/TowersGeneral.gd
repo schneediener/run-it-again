@@ -45,6 +45,7 @@ func _unhandled_input(event):
 					game_scene.selected_array = []
 				else:
 					game_scene.select_box("shift")
+					get_tree().set_input_as_handled()
 				return
 			if game_scene.build_mode:
 				get_tree().set_input_as_handled()
