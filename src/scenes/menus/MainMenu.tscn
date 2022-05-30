@@ -2,7 +2,7 @@
 
 [ext_resource path="res://tutorial_assets/UI/PNG/blue_button05.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/MainMenu.gd" type="Script" id=2]
-[ext_resource path="res://1920px-Iowa_16_inch_Gun-EN.svg.png" type="Texture" id=3]
+[ext_resource path="res://src/assets/images/1920px-Iowa_16_inch_Gun-EN.svg.png" type="Texture" id=3]
 [ext_resource path="res://tutorial_assets/UI/PNG/blue_button03.png" type="Texture" id=4]
 [ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=5]
 

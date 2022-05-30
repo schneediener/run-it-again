@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://homing/Turret.gd" type="Script" id=1]
-[ext_resource path="res://homing/assets/towerDefense_tilesheet.png" type="Texture" id=2]
+[ext_resource path="res://tutorial_assets/homing/Turret.gd" type="Script" id=1]
+[ext_resource path="res://tutorial_assets/homing/assets/towerDefense_tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
 [ext_resource path="res://src/scripts/LauncherT1.gd" type="Script" id=4]
 
