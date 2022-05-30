@@ -15,7 +15,7 @@ var health_max = 20
 var current_gold = 1000 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
 var selected_tower 
-var SELECTSHADER = load("res://new_shader.tres")
+var SELECTSHADER = load("res://src/assets/resources/new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 150
 var time_max = 150
