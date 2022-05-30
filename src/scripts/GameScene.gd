@@ -19,6 +19,8 @@ var SELECTSHADER = load("res://new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 150
 var time_max = 150
+onready var spacebar_pause = false
+onready var esc_pause = false
 
 var dragging = false  # Are we currently dragging?
 var selected_array = []  # Array of selected units.
@@ -82,7 +84,7 @@ func _process(_delta):
 		run_update_tower_preview()
 	if dragging:
 		update()
-	if get_tree().paused:
+	if get_tree().paused and spacebar_pause:
 		current_time = current_time-0.05
 		if current_time <=1:
 			start_time()
@@ -90,7 +92,17 @@ func _process(_delta):
 		camera_move_array[0] = 1
 	else:
 		camera_move_array[0] = 0
-
+	if Input.is_action_just_pressed("ig_escape"):
+		if !get_tree().paused:
+			get_tree().paused = true
+			esc_pause = true
+			var pause_menu = load("res://src/scenes/PauseMenu.tscn").instance()
+#			pause_menu.anchor = 
+			$UserInterface.add_child(pause_menu)
+			
+		elif esc_pause:
+			get_tree().paused = false
+			esc_pause = false
 	if Input.is_action_pressed("ui_down"):
 		camera_move_array[1] = 1
 	else:
@@ -170,19 +182,21 @@ func game_over():
 
 
 func stop_time():
+	spacebar_pause = true
 	get_tree().paused = true
 	$UserInterface/PauseEffect.show()
 
 func start_time():
+	spacebar_pause = false
 	get_tree().paused = false
 	$UserInterface/PauseEffect.hide()
 
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ig_pause"):
-		if get_tree().paused:
+	if event.is_action_pressed("ig_space"):
+		if get_tree().paused and spacebar_pause:
 			start_time()
-		else:
+		elif !get_tree().paused:
 			stop_time()
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:
