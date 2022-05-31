@@ -324,7 +324,11 @@ func flash():
 	if flash_sprite2:
 		flash_sprite2.show()
 		
-	yield(get_tree().create_timer(0.05), "timeout")
+	var temp_timer = Timer.new()
+	add_child(temp_timer)
+	temp_timer.wait_time = 0.05
+	temp_timer.start()
+	yield(temp_timer, "timeout")
 	
 	flash_sprite1.hide()
 	
