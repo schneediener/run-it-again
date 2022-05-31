@@ -33,10 +33,8 @@ func _on_MainMenuButton_pressed():
 #	var main_menu = load("res://src/scenes/menus/MainMenu.tscn").instance()
 #	get_node("/root/SceneHandler").add_child(main_menu)
 	get_tree().paused = false
-	get_tree().set_current_scene(game_scene)
 	if get_tree().reload_current_scene() != OK:
 		print("error reload scene")
-
 
 func _on_ExitButton_pressed():
 	get_tree().quit()
