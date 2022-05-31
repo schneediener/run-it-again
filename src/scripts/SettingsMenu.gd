@@ -16,15 +16,15 @@ func _ready():
 #	$VBoxContainer/EffectsVolumeContainer/EffectsVolumeSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Effects"))
 #	$VBoxContainer/MusicVolumeContainer/MusicVolumeSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music"))
 
-func _on_MasterVolumeSlider_value_changed(value):
+func _on_MasterVolumeSlider_value_changed(_value):
 	pass # Replace with function body.
 
 
-func _on_EffectsVolumeSlider_value_changed(value):
+func _on_EffectsVolumeSlider_value_changed(_value):
 	pass # Replace with function body.
 
 
-func _on_MusicVolumeSlider_value_changed(value):
+func _on_MusicVolumeSlider_value_changed(_value):
 	pass # Replace with function body.
 
 

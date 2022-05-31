@@ -175,8 +175,6 @@ text = "Apply"
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 
-[connection signal="toggled" from="VisualSettings/FullScreenCheck" to="." method="_on_FullScreenCheck_toggled"]
-[connection signal="toggled" from="VisualSettings/VSyncCheck" to="." method="_on_VSyncCheck_toggled"]
 [connection signal="value_changed" from="VBoxContainer/MasterVolumeContainer/MasterVolumeSlider" to="." method="_on_MasterVolumeSlider_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/EffectsVolumeContainer/EffectsVolumeSlider" to="." method="_on_EffectsVolumeSlider_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/MusicVolumeContainer/MusicVolumeSlider" to="." method="_on_MusicVolumeSlider_value_changed"]

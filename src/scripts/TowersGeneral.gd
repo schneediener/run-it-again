@@ -19,8 +19,10 @@ func _ready():
 	$FiringRate.wait_time = ($FiringRate.wait_time / 2)
 	#old code below
 	#new code below
-	self.connect("array_refreshed", self, "_on_array_refreshed")
-	self.connect("target_acquired", self, "_on_target_acquired")
+	if self.connect("array_refreshed", self, "_on_array_refreshed") != OK:
+		push_error("array_refreshed signal connect failed")
+	if self.connect("target_acquired", self, "_on_target_acquired") != OK:
+		push_error("target_acquired signal connect failed")
 
 func _physics_process(_delta):
 	#old code below
@@ -288,10 +290,12 @@ func fire():
 	match self.weapon_type:
 		"cannon":
 			projectile = load("res://src/scenes/projectiles/Bullet.tscn").instance()
+			projectile_container.add_child(projectile)
 			projectile.start(muzzle.global_position, current_target, self)
 		"missile":
 			$FacingDirection.look_at(current_target.global_position)
 			projectile = load("res://src/scenes/projectiles/Missile.tscn").instance()
+			projectile_container.add_child(projectile)
 			projectile.start(muzzle.global_transform, current_target, self)
 		"gun":
 			if current_target.subtype=="creep":
@@ -303,9 +307,6 @@ func fire():
 			pass #shoot the laser
 		"artillery":
 			pass #lob the shell
-	
-	if projectile:
-		projectile_container.add_child(projectile)
 	
 	flash()
 	ready = false
