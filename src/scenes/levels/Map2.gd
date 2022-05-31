@@ -74,7 +74,8 @@ func start_new_wave():
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
-		$Spawn/Timer.wait_time = float(current_wave[4])
+		if wave_list.size()>1:
+			$Spawn/Timer.wait_time = float(current_wave[4])
 		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 7" or current_wave[0] == "Wave 9":
 			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":

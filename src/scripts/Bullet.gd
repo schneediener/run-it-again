@@ -27,12 +27,12 @@ func _physics_process(_delta):
 		look_at(target_position)
 		var direction = global_position.direction_to(target_position)
 		target_velocity = target_velocity.move_toward(direction * speed, speed * 100)
-		move_and_slide(target_velocity)
+		velocity = move_and_slide(target_velocity)
 	else:
 		if target_velocity:
 			var direction = global_position.direction_to(target_position)
 			target_velocity = target_velocity.move_toward(direction * speed, speed * 100)
-			move_and_slide(target_velocity)
+			velocity = move_and_slide(target_velocity)
 			var distance = global_position.distance_to(target_position)
 			if distance <= 20:
 				queue_free()
