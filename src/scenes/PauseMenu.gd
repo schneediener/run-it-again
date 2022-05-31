@@ -34,8 +34,8 @@ func _on_MainMenuButton_pressed():
 #	get_node("/root/SceneHandler").add_child(main_menu)
 	get_tree().paused = false
 	get_tree().set_current_scene(game_scene)
-	var curr_scene = get_tree().get_current_scene()
-	get_tree().reload_current_scene()
+	if get_tree().reload_current_scene() != OK:
+		print("error reload scene")
 
 
 func _on_ExitButton_pressed():

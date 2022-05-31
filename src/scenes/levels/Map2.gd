@@ -69,13 +69,14 @@ func _process(_delta):
 func start_new_wave():
 	$Spawn/Timer.stop()
 	
-	$Spawn/Timer.wait_time = float(current_wave[4])
-	print($Spawn/Timer.wait_time)
+	
+	
 	wave_list.erase(current_wave)
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
-		
+		if wave_list.size()>1:
+			$Spawn/Timer.wait_time = float(current_wave[4])
 		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 7" or current_wave[0] == "Wave 9":
 			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":
@@ -116,7 +117,8 @@ func spawn_dropship():
 	
 func finish_level():
 	OS.alert("Congratulations! You won!", "Victory")
-	get_tree().reload_current_scene()
+	if get_tree().reload_current_scene() != OK:
+		push_error("couldnt reload current scene after victory")
 
 func update_wave_counters():
 	lvl1_max = current_wave[1]
@@ -128,18 +130,18 @@ func update_wave_counters():
 
 func populate_roulette():
 	if str(current_wave) != "start" or "finish":
-		for i in range(lvl1_max):
+		for _i in range(lvl1_max):
 			enemy_roulette.append("1")
-		for i in range(lvl2_max):
+		for _i in range(lvl2_max):
 			enemy_roulette.append("2")
-		for i in range(lvl3_max):
+		for _i in range(lvl3_max):
 			enemy_roulette.append("3")
 
 func spawn_new_enemy():
 	var slow = load("res://src/scenes/enemies/SlowEnemy.tscn")
 	var fast = load("res://src/scenes/enemies/FastEnemy.tscn")
 	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
-	var tank = load("res://src/scenes/enemies/Tank.tscn")
+	var _tank = load("res://src/scenes/enemies/Tank.tscn")
 	
 	var next_enemy
 	var spawn_1 = $Spawn
@@ -218,7 +220,3 @@ func create_path(character, spawn):
 
 func _on_Timer_timeout():
 	spawn_new_enemy()
-
-
-func _on_DamageZone_body_entered(body):
-	pass # Replace with function body.
