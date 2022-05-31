@@ -21,9 +21,10 @@ func _ready():
 		print ("SaveAndQuit connected")
 	randomize()
 	
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed("ig_restart_level"):
-		get_tree().reload_current_scene()
+		if get_tree().reload_current_scene() != OK:
+			push_error("backspace restart failed")
 func _on_NewGameSean_pressed():
 #	self.queue_free()
 #	get_tree().change_scene("res://src/scenes/levels/SeanMap.tscn")

@@ -46,13 +46,16 @@ func _ready():
 	if map_node == "map_1":
 		var temp_map = load("res://src/scenes/levels/SeanMap.tscn").instance()
 		add_child(temp_map)
-		get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+		if get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
+			push_error("damage zone connect failed")
 		map_node = temp_map
 	elif map_node == "map_2":
 		var temp_map = load("res://src/scenes/levels/Map2.tscn").instance()
 		add_child(temp_map)
-		get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
-		get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+		if get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
+			push_error("damage zone left connect failed")
+		if get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
+			push_error("damage zone right connect failed")
 		map_node = temp_map
 		
 func _on_Upgrade_pressed():
@@ -191,7 +194,8 @@ func take_damage():
 
 func game_over():
 	OS.alert('Game Over - Also make Sean change me to a nicer message in-game!', 'Error')
-	get_tree().reload_current_scene()
+	if get_tree().reload_current_scene() != OK:
+		push_error("game over reload failed")
 
 
 
@@ -308,6 +312,7 @@ func initiate_build_mode(tower):
 	build_type = tower.get_name()
 	build_scene = tower
 	build_tower = tower.instance()
+
 	build_mode = true
 	set_tower_preview(build_tower, get_global_mouse_position())
 
@@ -371,8 +376,8 @@ func set_tower_preview(tower_type, mouse_position):
 #		drag_tower = load("res://src/scenes/towers/GunT1.tscn").instance()
 #	else:
 #		drag_tower = load("res://src/scenes/towers/MissileT1.tscn").instance()
-	if drag_tower.get_node("SelectTower"):
-		drag_tower.get_node("SelectTower").visible = false
+#	if drag_tower.get_node("SelectTower"):
+#		drag_tower.get_node("SelectTower").visible = false
 	
 	drag_tower.set_name("DragTower")
 	drag_tower.modulate = Color("ad54ff3c")
@@ -397,7 +402,6 @@ func update_tower_preview(new_position, color):
 func select_tower(tower_instance):
 #	print("Select tower was run")
 	var new_tower = tower_instance
-	var child_count = tower_instance.get_parent().get_child_count()
 	var tower_parent = new_tower.get_parent()
 	
 	tower_parent.remove_child(new_tower)
@@ -411,7 +415,7 @@ func select_tower(tower_instance):
 	selected_tower = new_tower
 
 
-func make_tower_glow(new_tower, select_type):
+func make_tower_glow(new_tower, _select_type):
 	new_tower.get_node("TurretBase").set_material(shader)
 	new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
 	new_tower.get_node("Range/RangeSprite").show()
@@ -434,16 +438,14 @@ func get_selected_tower():
 
 func mass_select_towers(inc_towers):
 	var type_array = []
-	var sell_array = []
-	
-	
 	var total_sell = 0
 	
 	selected_tower = null
 	selected_array = inc_towers
+	
 	var select_panel = $UserInterface/HeadsUpDisplay/SelectPanel
 	var upgrade_button = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Upgrade
-	var sell_button = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Sell
+	
 	var upgrade_value = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Upgrade/Label
 	var sell_value = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Sell/Label
 	var target_option = $UserInterface/HeadsUpDisplay/SelectPanel/TargetOption

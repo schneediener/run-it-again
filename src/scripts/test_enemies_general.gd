@@ -35,7 +35,7 @@ func _physics_process(delta):
 		var target = global_position.direction_to(path[0])
 		velocity = move_and_slide(target * self.speed) * delta
 		var path_distance = global_position.distance_to(path[0])
-		if global_position.distance_to(path[0]) <= 16:
+		if path_distance <= 16:
 			path.remove(0)
 	
 	if $HealthBar.value != health:
