@@ -5,7 +5,7 @@ var weapon_type
 onready var target_method = "first"
 var current_target
 var target_array = []
-onready var game_scene = get_node("/root/SceneHandler/GameScene")
+onready var game_scene = get_node("/root/SceneHandler").game_scene
 onready var ready = true
 
 signal array_refreshed

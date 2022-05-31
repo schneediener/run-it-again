@@ -1,6 +1,6 @@
 extends Area2D
 #
-#onready var game_scene = get_node("/root/SceneHandler/GameScene")
+#onready var game_scene = get_node("/root/SceneHandler").game_scene
 #var select_box = null
 #var selected_array = []
 #

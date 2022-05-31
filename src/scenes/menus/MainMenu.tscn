@@ -10,9 +10,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Background" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -119,4 +116,5 @@ valign = 1
 
 [connection signal="pressed" from="Margin/VBoxContainer/NewGameTest" to="." method="_on_NewGameTest_pressed"]
 [connection signal="pressed" from="Margin/VBoxContainer/NewGameSean" to="." method="_on_NewGameSean_pressed"]
+[connection signal="pressed" from="Margin/VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="Margin/VBoxContainer/SaveAndQuit" to="." method="_on_SaveAndQuit_pressed"]

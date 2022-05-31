@@ -19,6 +19,9 @@ var SELECTSHADER = load("res://src/assets/resources/new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 150
 var time_max = 150
+var pause_menu
+onready var spacebar_pause = false
+onready var esc_pause = false
 
 var dragging = false  # Are we currently dragging?
 var selected_array = []  # Array of selected units.
@@ -82,15 +85,24 @@ func _process(_delta):
 		run_update_tower_preview()
 	if dragging:
 		update()
-	if get_tree().paused:
-		current_time = current_time-0.05
-		if current_time <=1:
-			start_time()
+	if get_tree().paused and spacebar_pause:
+		if !esc_pause:
+			current_time = current_time-0.05
+			if current_time <=1:
+				start_time()
 	if Input.is_action_pressed("ui_up"):
 		camera_move_array[0] = 1
 	else:
 		camera_move_array[0] = 0
-
+	if Input.is_action_just_pressed("ig_escape"):
+		if !get_tree().paused:
+			add_pause_menu()
+		elif esc_pause:
+			remove_pause_menu()
+		elif spacebar_pause:
+			add_pause_menu()
+		
+			
 	if Input.is_action_pressed("ui_down"):
 		camera_move_array[1] = 1
 	else:
@@ -107,6 +119,20 @@ func _process(_delta):
 		camera_move_array[3] = 0
 	
 	move_camera()
+
+func remove_pause_menu():
+	if pause_menu and is_instance_valid(pause_menu):
+		pause_menu.queue_free()
+		pause_menu = null
+		esc_pause = false
+		if !spacebar_pause:
+			get_tree().paused = false
+
+func add_pause_menu():
+			get_tree().paused = true
+			esc_pause = true
+			pause_menu = load("res://src/scenes/menus/PauseMenu.tscn").instance()
+			$UserInterface.add_child(pause_menu)
 
 func move_camera():
 	var temp_y = 0
@@ -170,19 +196,21 @@ func game_over():
 
 
 func stop_time():
+	spacebar_pause = true
 	get_tree().paused = true
 	$UserInterface/PauseEffect.show()
 
 func start_time():
+	spacebar_pause = false
 	get_tree().paused = false
 	$UserInterface/PauseEffect.hide()
 
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ig_pause"):
-		if get_tree().paused:
+	if event.is_action_pressed("ig_space"):
+		if get_tree().paused and spacebar_pause:
 			start_time()
-		else:
+		elif !get_tree().paused:
 			stop_time()
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:

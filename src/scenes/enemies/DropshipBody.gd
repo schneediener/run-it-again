@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var type = "enemy"
 var subtype = "dropship"
-onready var game_scene = get_node("/root/SceneHandler/GameScene")
+onready var game_scene = get_node("/root/SceneHandler").game_scene
 
 func take_damage(damage, slow):
 	var dead
