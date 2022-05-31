@@ -84,6 +84,7 @@ align = 1
 margin_top = 18.0
 margin_right = 83.0
 margin_bottom = 34.0
+value = 100.0
 
 [node name="Music" type="Label" parent="MenuPanel/VBoxMenu/VBoxVolumes"]
 margin_top = 38.0
@@ -96,6 +97,7 @@ align = 1
 margin_top = 56.0
 margin_right = 83.0
 margin_bottom = 72.0
+value = 100.0
 
 [node name="VBoxQuit" type="VBoxContainer" parent="MenuPanel/VBoxMenu"]
 margin_top = 174.0

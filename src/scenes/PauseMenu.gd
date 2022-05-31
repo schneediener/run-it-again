@@ -14,19 +14,19 @@ func _on_RestartButton_pressed():
 
 
 func _on_SettingsButton_pressed():
-#	var settings_menu# = load().instance()
+	var settings_menu = load("res://src/scenes/menus/SettingsMenu.tscn").instance()
+	get_parent().add_child(settings_menu)
+
+
+##ALL READY FOR WHEN SOUND IS ADDED
+#func _on_SoundSlider_value_changed(value):
+#	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sound"), value)
 #
-#	self.hide()
-	pass
-
-
-func _on_SoundSlider_value_changed(value):
-	pass # Replace with function body.
-
-
-func _on_MusicSlider_value_changed(value):
-	pass # Replace with function body.
-
+#func _on_MasterSlider_value_changed(value):
+#	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
+#
+#func _on_MusicSlider_value_changed(value):
+#	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), value)
 
 func _on_MainMenuButton_pressed():
 #	game_scene.queue_free()

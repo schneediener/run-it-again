@@ -16,3 +16,8 @@ extends Control
 ##	get_tree().change_scene("res://src/scenes/levels/level.tscn")
 #	if get_tree().change_scene("res://src/scenes/levels/Map2.tscn") != OK:
 #		print("scene change failed")
+
+
+func _on_Settings_pressed():
+	var settings_menu = load("res://src/scenes/menus/SettingsMenu.tscn").instance()
+	get_parent().add_child(settings_menu)
