@@ -16,9 +16,10 @@ var ready_to_finish
 
 var middle_last_spawned
 
-onready var ship_path_1 = $Dropships/Path_Dropship1/PathFollow2D
-onready var ship_path_2 = $Dropships/Path_Dropship2/PathFollow2D
-onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
+onready var ship_path_1 = $Dropships/Path_Dropship1
+onready var ship_path_2 = $Dropships/Path_Dropship2
+onready var ship_path_3 = $Dropships/Path_Dropship3
+onready var ship_path_4 = $Dropships/Path_Dropship4
 
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
@@ -101,13 +102,17 @@ func spawn_dropship():
 	
 	match landing_site:
 		1:
-			$Dropships/Path_Dropship1.add_child(dropship)
+			ship_path_1.add_child(dropship)
+			dropship.endpoint = "left"
 		2:
-			$Dropships/Path_Dropship2.add_child(dropship)
+			ship_path_2.add_child(dropship)
+			dropship.endpoint = "right"
 		3:
-			$Dropships/Path_Dropship3.add_child(dropship)
+			ship_path_3.add_child(dropship)
+			dropship.endpoint = "left"
 		4: 
-			$Dropships/Path_Dropship4.add_child(dropship)
+			ship_path_4.add_child(dropship)
+			dropship.endpoint = "right"
 	
 func finish_level():
 	OS.alert("Congratulations! You won!", "Victory")
@@ -190,7 +195,7 @@ func create_path(character, spawn):
 	var path_right = nav_2d.get_simple_path(character.global_position, end_point_right, true)
 	#print(path)
 	match spawn:
-		1: 
+		1, "left": 
 			character.path = path_left
 		2:
 			if middle_last_spawned == "left":
@@ -199,7 +204,7 @@ func create_path(character, spawn):
 			else:
 				character.path = path_left
 				middle_last_spawned = "left"
-		3:
+		3, "right":
 			character.path = path_right
 	
 	line_2d.points = character.path

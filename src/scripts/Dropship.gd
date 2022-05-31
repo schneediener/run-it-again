@@ -12,6 +12,7 @@ var landing = false
 var landed = false
 var velocity
 var gold_multi = 5
+var endpoint
 
 onready var game_scene = get_node("../../../../")
 #onready var enemy_script = preload("res://src/scripts/test_enemies_general.gd")
@@ -130,4 +131,5 @@ func spawn_next_enemy(temp_type):
 	if new_enemy:
 		enemy_container.add_child(new_enemy)
 		new_enemy.global_position = $DropshipBody/Spawn.global_position
-		game_scene.map_node.create_path(new_enemy, 1)
+		
+		game_scene.map_node.create_path(new_enemy, endpoint)
