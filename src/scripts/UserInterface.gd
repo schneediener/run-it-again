@@ -14,7 +14,7 @@ func _physics_process(_delta):
 		else:
 			if !cannon_button.disabled:
 				cannon_button.disabled = true
-			if !cannon_button.disabled:
+			if !missile_button.disabled:
 				missile_button.disabled = true
 		if game_scene.current_gold >= 175:
 			if minigun_button.disabled:
