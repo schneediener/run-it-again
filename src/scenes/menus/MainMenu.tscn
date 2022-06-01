@@ -35,30 +35,10 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 custom_constants/separation = 30
 
-[node name="NewGameTest" type="TextureButton" parent="Margin/VBoxContainer"]
+[node name="NewGameSean" type="TextureButton" parent="Margin/VBoxContainer"]
 margin_left = 75.0
 margin_right = 425.0
 margin_bottom = 75.0
-rect_min_size = Vector2( 350, 75 )
-size_flags_horizontal = 4
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 1 )
-expand = true
-
-[node name="Label" type="Label" parent="Margin/VBoxContainer/NewGameTest"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 5 )
-text = "New Game TEST"
-align = 1
-valign = 1
-
-[node name="NewGameSean" type="TextureButton" parent="Margin/VBoxContainer"]
-margin_left = 75.0
-margin_top = 105.0
-margin_right = 425.0
-margin_bottom = 180.0
 rect_min_size = Vector2( 350, 75 )
 size_flags_horizontal = 4
 texture_normal = ExtResource( 4 )
@@ -70,7 +50,27 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "New Game SEAN"
+text = "MAP 1"
+align = 1
+valign = 1
+
+[node name="NewGameTest" type="TextureButton" parent="Margin/VBoxContainer"]
+margin_left = 75.0
+margin_top = 105.0
+margin_right = 425.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 350, 75 )
+size_flags_horizontal = 4
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 1 )
+expand = true
+
+[node name="Label" type="Label" parent="Margin/VBoxContainer/NewGameTest"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "MAP 2"
 align = 1
 valign = 1
 
@@ -110,7 +110,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "Save & Quit"
+text = "Quit game"
 align = 1
 valign = 1
 
