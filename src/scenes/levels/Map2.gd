@@ -16,9 +16,10 @@ var ready_to_finish
 
 var middle_last_spawned
 
-onready var ship_path_1 = $Dropships/Path_Dropship1/PathFollow2D
-onready var ship_path_2 = $Dropships/Path_Dropship2/PathFollow2D
-onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
+onready var ship_path_1 = $Dropships/Path_Dropship1
+onready var ship_path_2 = $Dropships/Path_Dropship2
+onready var ship_path_3 = $Dropships/Path_Dropship3
+onready var ship_path_4 = $Dropships/Path_Dropship4
 
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
@@ -68,13 +69,14 @@ func _process(_delta):
 func start_new_wave():
 	$Spawn/Timer.stop()
 	
-	$Spawn/Timer.wait_time = float(current_wave[4])
-	print($Spawn/Timer.wait_time)
+	
+	
 	wave_list.erase(current_wave)
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
 		current_wave = wave_list[0]
-		
+		if wave_list.size()>1:
+			$Spawn/Timer.wait_time = float(current_wave[4])
 		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 7" or current_wave[0] == "Wave 9":
 			spawn_dropship()
 		if current_wave and str(current_wave) != "finish":
@@ -101,17 +103,22 @@ func spawn_dropship():
 	
 	match landing_site:
 		1:
-			$Dropships/Path_Dropship1.add_child(dropship)
+			ship_path_1.add_child(dropship)
+			dropship.endpoint = "left"
 		2:
-			$Dropships/Path_Dropship2.add_child(dropship)
+			ship_path_2.add_child(dropship)
+			dropship.endpoint = "right"
 		3:
-			$Dropships/Path_Dropship3.add_child(dropship)
+			ship_path_3.add_child(dropship)
+			dropship.endpoint = "left"
 		4: 
-			$Dropships/Path_Dropship4.add_child(dropship)
+			ship_path_4.add_child(dropship)
+			dropship.endpoint = "right"
 	
 func finish_level():
 	OS.alert("Congratulations! You won!", "Victory")
-	get_tree().reload_current_scene()
+	if get_tree().reload_current_scene() != OK:
+		push_error("couldnt reload current scene after victory")
 
 func update_wave_counters():
 	lvl1_max = current_wave[1]
@@ -123,18 +130,18 @@ func update_wave_counters():
 
 func populate_roulette():
 	if str(current_wave) != "start" or "finish":
-		for i in range(lvl1_max):
+		for _i in range(lvl1_max):
 			enemy_roulette.append("1")
-		for i in range(lvl2_max):
+		for _i in range(lvl2_max):
 			enemy_roulette.append("2")
-		for i in range(lvl3_max):
+		for _i in range(lvl3_max):
 			enemy_roulette.append("3")
 
 func spawn_new_enemy():
 	var slow = load("res://src/scenes/enemies/SlowEnemy.tscn")
 	var fast = load("res://src/scenes/enemies/FastEnemy.tscn")
 	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
-	var tank = load("res://src/scenes/enemies/Tank.tscn")
+	var _tank = load("res://src/scenes/enemies/Tank.tscn")
 	
 	var next_enemy
 	var spawn_1 = $Spawn
@@ -184,13 +191,13 @@ func spawn_new_enemy():
 	
 
 func create_path(character, spawn):
-	yield(get_tree(), "idle_frame")
+	#yield(get_tree(), "idle_frame")
 	#print(character.global_position)
 	var path_left = nav_2d.get_simple_path(character.global_position, end_point_left, true)
 	var path_right = nav_2d.get_simple_path(character.global_position, end_point_right, true)
 	#print(path)
 	match spawn:
-		1: 
+		1, "left": 
 			character.path = path_left
 		2:
 			if middle_last_spawned == "left":
@@ -199,7 +206,7 @@ func create_path(character, spawn):
 			else:
 				character.path = path_left
 				middle_last_spawned = "left"
-		3:
+		3, "right":
 			character.path = path_right
 	
 	line_2d.points = character.path
@@ -213,7 +220,3 @@ func create_path(character, spawn):
 
 func _on_Timer_timeout():
 	spawn_new_enemy()
-
-
-func _on_DamageZone_body_entered(body):
-	pass # Replace with function body.

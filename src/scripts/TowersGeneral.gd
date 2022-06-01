@@ -7,7 +7,7 @@ var current_target
 var target_array = []
 onready var weapon_range = $Range
 onready var ready = true
-onready var game_scene = get_node("/root/SceneHandler/GameScene")
+onready var game_scene = get_node("/root/SceneHandler").game_scene
 var type = "tower"
 
 signal array_refreshed
@@ -19,8 +19,10 @@ func _ready():
 	$FiringRate.wait_time = ($FiringRate.wait_time / 2)
 	#old code below
 	#new code below
-	self.connect("array_refreshed", self, "_on_array_refreshed")
-	self.connect("target_acquired", self, "_on_target_acquired")
+	if self.connect("array_refreshed", self, "_on_array_refreshed") != OK:
+		push_error("array_refreshed signal connect failed")
+	if self.connect("target_acquired", self, "_on_target_acquired") != OK:
+		push_error("target_acquired signal connect failed")
 
 func _physics_process(_delta):
 	#old code below
@@ -288,10 +290,12 @@ func fire():
 	match self.weapon_type:
 		"cannon":
 			projectile = load("res://src/scenes/projectiles/Bullet.tscn").instance()
+			projectile_container.add_child(projectile)
 			projectile.start(muzzle.global_position, current_target, self)
 		"missile":
 			$FacingDirection.look_at(current_target.global_position)
 			projectile = load("res://src/scenes/projectiles/Missile.tscn").instance()
+			projectile_container.add_child(projectile)
 			projectile.start(muzzle.global_transform, current_target, self)
 		"gun":
 			if current_target.subtype=="creep":
@@ -303,9 +307,6 @@ func fire():
 			pass #shoot the laser
 		"artillery":
 			pass #lob the shell
-	
-	if projectile:
-		projectile_container.add_child(projectile)
 	
 	flash()
 	ready = false
@@ -323,7 +324,11 @@ func flash():
 	if flash_sprite2:
 		flash_sprite2.show()
 		
-	yield(get_tree().create_timer(0.05), "timeout")
+	var temp_timer = Timer.new()
+	add_child(temp_timer)
+	temp_timer.wait_time = 0.05
+	temp_timer.start()
+	yield(temp_timer, "timeout")
 	
 	flash_sprite1.hide()
 	

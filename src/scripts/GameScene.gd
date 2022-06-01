@@ -19,6 +19,9 @@ var SELECTSHADER = load("res://src/assets/resources/new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 150
 var time_max = 150
+var pause_menu
+onready var spacebar_pause = false
+onready var esc_pause = false
 
 var dragging = false  # Are we currently dragging?
 var selected_array = []  # Array of selected units.
@@ -43,13 +46,16 @@ func _ready():
 	if map_node == "map_1":
 		var temp_map = load("res://src/scenes/levels/SeanMap.tscn").instance()
 		add_child(temp_map)
-		get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+		if get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
+			push_error("damage zone connect failed")
 		map_node = temp_map
 	elif map_node == "map_2":
 		var temp_map = load("res://src/scenes/levels/Map2.tscn").instance()
 		add_child(temp_map)
-		get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
-		get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered")
+		if get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
+			push_error("damage zone left connect failed")
+		if get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
+			push_error("damage zone right connect failed")
 		map_node = temp_map
 		
 func _on_Upgrade_pressed():
@@ -82,15 +88,24 @@ func _process(_delta):
 		run_update_tower_preview()
 	if dragging:
 		update()
-	if get_tree().paused:
-		current_time = current_time-0.05
-		if current_time <=1:
-			start_time()
+	if get_tree().paused and spacebar_pause:
+		if !esc_pause:
+			current_time = current_time-0.05
+			if current_time <=1:
+				start_time()
 	if Input.is_action_pressed("ui_up"):
 		camera_move_array[0] = 1
 	else:
 		camera_move_array[0] = 0
-
+	if Input.is_action_just_pressed("ig_escape"):
+		if !get_tree().paused:
+			add_pause_menu()
+		elif esc_pause:
+			remove_pause_menu()
+		elif spacebar_pause:
+			add_pause_menu()
+		
+			
 	if Input.is_action_pressed("ui_down"):
 		camera_move_array[1] = 1
 	else:
@@ -107,6 +122,20 @@ func _process(_delta):
 		camera_move_array[3] = 0
 	
 	move_camera()
+
+func remove_pause_menu():
+	if pause_menu and is_instance_valid(pause_menu):
+		pause_menu.queue_free()
+		pause_menu = null
+		esc_pause = false
+		if !spacebar_pause:
+			get_tree().paused = false
+
+func add_pause_menu():
+			get_tree().paused = true
+			esc_pause = true
+			pause_menu = load("res://src/scenes/menus/PauseMenu.tscn").instance()
+			$UserInterface.add_child(pause_menu)
 
 func move_camera():
 	var temp_y = 0
@@ -165,24 +194,27 @@ func take_damage():
 
 func game_over():
 	OS.alert('Game Over - Also make Sean change me to a nicer message in-game!', 'Error')
-	get_tree().reload_current_scene()
+	if get_tree().reload_current_scene() != OK:
+		push_error("game over reload failed")
 
 
 
 func stop_time():
+	spacebar_pause = true
 	get_tree().paused = true
 	$UserInterface/PauseEffect.show()
 
 func start_time():
+	spacebar_pause = false
 	get_tree().paused = false
 	$UserInterface/PauseEffect.hide()
 
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ig_pause"):
-		if get_tree().paused:
+	if event.is_action_pressed("ig_space"):
+		if get_tree().paused and spacebar_pause:
 			start_time()
-		else:
+		elif !get_tree().paused:
 			stop_time()
 	if event.is_action_pressed("ui_cancel"):
 		if selected_tower:
@@ -280,6 +312,7 @@ func initiate_build_mode(tower):
 	build_type = tower.get_name()
 	build_scene = tower
 	build_tower = tower.instance()
+
 	build_mode = true
 	set_tower_preview(build_tower, get_global_mouse_position())
 
@@ -343,8 +376,8 @@ func set_tower_preview(tower_type, mouse_position):
 #		drag_tower = load("res://src/scenes/towers/GunT1.tscn").instance()
 #	else:
 #		drag_tower = load("res://src/scenes/towers/MissileT1.tscn").instance()
-	if drag_tower.get_node("SelectTower"):
-		drag_tower.get_node("SelectTower").visible = false
+#	if drag_tower.get_node("SelectTower"):
+#		drag_tower.get_node("SelectTower").visible = false
 	
 	drag_tower.set_name("DragTower")
 	drag_tower.modulate = Color("ad54ff3c")
@@ -369,7 +402,6 @@ func update_tower_preview(new_position, color):
 func select_tower(tower_instance):
 #	print("Select tower was run")
 	var new_tower = tower_instance
-	var child_count = tower_instance.get_parent().get_child_count()
 	var tower_parent = new_tower.get_parent()
 	
 	tower_parent.remove_child(new_tower)
@@ -383,7 +415,7 @@ func select_tower(tower_instance):
 	selected_tower = new_tower
 
 
-func make_tower_glow(new_tower, select_type):
+func make_tower_glow(new_tower, _select_type):
 	new_tower.get_node("TurretBase").set_material(shader)
 	new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
 	new_tower.get_node("Range/RangeSprite").show()
@@ -406,16 +438,14 @@ func get_selected_tower():
 
 func mass_select_towers(inc_towers):
 	var type_array = []
-	var sell_array = []
-	
-	
 	var total_sell = 0
 	
 	selected_tower = null
 	selected_array = inc_towers
+	
 	var select_panel = $UserInterface/HeadsUpDisplay/SelectPanel
 	var upgrade_button = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Upgrade
-	var sell_button = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Sell
+	
 	var upgrade_value = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Upgrade/Label
 	var sell_value = $UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Sell/Label
 	var target_option = $UserInterface/HeadsUpDisplay/SelectPanel/TargetOption

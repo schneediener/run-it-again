@@ -1,0 +1,27 @@
+[gd_resource type="Theme" load_steps=4 format=2]
+
+[ext_resource path="res://src/assets/fonts/OCRAEXT.TTF" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=3]
+size = 24
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 20
+font_data = ExtResource( 1 )
+
+[resource]
+Button/colors/font_color = Color( 1, 1, 1, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_focus = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 13
+Button/fonts/font = SubResource( 3 )
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = null
+Button/styles/pressed = null
+RichTextLabel/fonts/normal_font = SubResource( 4 )
+VBoxContainer/constants/separation = 18

@@ -530,5 +530,3 @@ position = Vector2( 22, -34 )
 curve = ExtResource( 19 )
 
 [connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="ExitPointRight/DamageZone" to="." method="_on_DamageZone_body_entered"]
-[connection signal="body_entered" from="ExitPointLeft/DamageZone" to="." method="_on_DamageZone_body_entered"]

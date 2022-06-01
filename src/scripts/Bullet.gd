@@ -5,10 +5,11 @@ var speed = 1750
 var velocity = Vector2()
 var target_velocity = Vector2()
 var target
-var direction
+
 var orig_tower
 var damage
 var slow
+var target_position
 
 func start(inc_muzzle, inc_target, inc_orig_tower):
 	
@@ -17,17 +18,24 @@ func start(inc_muzzle, inc_target, inc_orig_tower):
 	orig_tower = inc_orig_tower
 	damage = orig_tower.damage
 	target = inc_target
-	look_at(target.global_position)
+	target_position = inc_target.get_global_position()
+	look_at(target_position)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if is_instance_valid(target):
-		look_at(target.position)
-		var direction = global_position.direction_to(target.global_position)
+		target_position = target.get_global_position()
+		look_at(target_position)
+		var direction = global_position.direction_to(target_position)
 		target_velocity = target_velocity.move_toward(direction * speed, speed * 100)
-		move_and_slide(target_velocity)
+		velocity = move_and_slide(target_velocity)
 	else:
 		if target_velocity:
-			move_and_slide(target_velocity)
+			var direction = global_position.direction_to(target_position)
+			target_velocity = target_velocity.move_toward(direction * speed, speed * 100)
+			velocity = move_and_slide(target_velocity)
+			var distance = global_position.distance_to(target_position)
+			if distance <= 20:
+				queue_free()
 		else:
 			free()
 
