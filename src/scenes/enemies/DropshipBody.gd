@@ -4,7 +4,7 @@ var type = "enemy"
 var subtype = "dropship"
 onready var game_scene = get_node("/root/SceneHandler").game_scene
 
-func take_damage(damage):
+func take_damage(damage, _slow):
 	var dead
 	var new_gold
 
