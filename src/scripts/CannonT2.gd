@@ -7,4 +7,4 @@ var buy_value = null
 var upgrade_value = null
 var muzzle_count = 2
 var sell_value = 600
-var damage = 7
+var damage = 6

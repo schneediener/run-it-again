@@ -20,15 +20,15 @@ onready var ship_path_3 = $Dropships/Path_Dropship3/PathFollow2D
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
 
-export var wave_1 = ["Wave 1",10,0,0,1]
-export var wave_2 = ["Wave 2",15,5,0,0.9]
-export var wave_3 = ["Wave 3",15,8,0,0.8]
-export var wave_4 = ["Wave 4",15,8,1,0.8]
-export var wave_5 = ["Wave 5",15,5,2,0.8]
-export var wave_6 = ["Wave 6",15,5,2,0.8]
-export var wave_7 = ["Wave 7",15,10,3,0.7]
-export var wave_8 = ["Wave 8",15,15,5,0.6]
-export var wave_9 = ["Wave 9",20,10,10,.5]
+export var wave_1 = ["Wave 1",20,0,0,0.5]
+export var wave_2 = ["Wave 2",30,10,0,0.4]
+export var wave_3 = ["Wave 3",30,16,0,0.4]
+export var wave_4 = ["Wave 4",30,16,2,0.4]
+export var wave_5 = ["Wave 5",30,10,4,0.4]
+export var wave_6 = ["Wave 6",30,10,4,0.4]
+export var wave_7 = ["Wave 7",30,20,6,0.3]
+export var wave_8 = ["Wave 8",30,30,10,0.2]
+export var wave_9 = ["Wave 9",40,30,20,.2]
 
 
 var enemy_roulette = []
@@ -80,7 +80,7 @@ func start_new_wave():
 			$WaveTimer.start()
 			
 			yield($WaveTimer, "timeout")
-			
+			game_scene.get_node("UserInterface/WavePanel/WaveCounter").text = current_wave[0]
 			populate_roulette()
 			$Spawn/Timer.emit_signal("timeout")
 			$Spawn/Timer.start()
@@ -90,7 +90,7 @@ func start_new_wave():
 		ready_to_finish = true
 	
 func spawn_dropship():
-	var dropship = load("res://src/scenes/enemies/Dropship.tscn").instance()
+	var dropship = load("res://src/scenes/enemies/Dropship_Test.tscn").instance()
 	
 	var landing_site = randi() % 3 + 1
 	print(landing_site)
@@ -144,6 +144,7 @@ func spawn_new_enemy():
 	
 	if enemy_roulette.empty():
 		game_scene.current_gold=game_scene.current_gold+income_per_wave
+		game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = "0 units remaining"
 		start_new_wave()
 		return
 	
@@ -162,6 +163,7 @@ func spawn_new_enemy():
 	if next_enemy:
 		next_spawn = randi() % 3 + 1
 		next_enemy = next_enemy.instance()
+		game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = str(enemy_roulette.size()) + " units remaining"
 		if next_spawn != 3:
 			next_enemy.global_position = spawn_1.position
 		else:
@@ -176,7 +178,6 @@ func spawn_new_enemy():
 	
 
 func create_path(character, _spawn):
-	yield(get_tree(), "idle_frame")
 	#print(character.global_position)
 	var path = nav_2d.get_simple_path(character.global_position, end_point, true)
 	#print(path)

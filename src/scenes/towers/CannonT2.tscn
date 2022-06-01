@@ -76,7 +76,7 @@ region_enabled = true
 region_rect = Rect2( 1343.5, 766, 64, 64 )
 
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 0.55
+wait_time = 0.68
 one_shot = true
 
 [node name="SelectTower" type="Button" parent="."]
