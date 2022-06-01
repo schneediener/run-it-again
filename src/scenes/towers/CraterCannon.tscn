@@ -1,16 +1,20 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/assets/images/crater_cannon_turret.png" type="Texture" id=1]
+[ext_resource path="res://tutorial_assets/GDQuest Visual Effects/LaserBeam/LaserBeam2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
+[ext_resource path="res://src/scenes/towers/CraterCannon.gd" type="Script" id=4]
 [ext_resource path="res://src/assets/tilemaps/towerDefense_tilesheet.png" type="Texture" id=6]
-[ext_resource path="res://src/scripts/CannonT1.gd" type="Script" id=8]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 32, 32 )
 
+[sub_resource type="CircleShape2D" id=11]
+radius = 101.5
+
 [node name="CraterCannon" type="StaticBody2D"]
 collision_mask = 0
-script = ExtResource( 8 )
+script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 96, 96 )
@@ -48,6 +52,11 @@ polygon = PoolVector2Array( 45, 39, 1574, 39, 1575, 133, 45, 139 )
 [node name="FacingDirection" type="Node2D" parent="."]
 position = Vector2( 36, 39 )
 
+[node name="LaserBeam2D" parent="FacingDirection" instance=ExtResource( 2 )]
+modulate = Color( 4.25882, 0.105882, 0.00392157, 1 )
+position = Vector2( 325, 57 )
+scale = Vector2( 1, 8 )
+
 [node name="TurretSprite" type="Sprite" parent="FacingDirection"]
 position = Vector2( 63, 61 )
 scale = Vector2( 0.5, 0.5 )
@@ -70,6 +79,7 @@ region_rect = Rect2( 1343.5, 766, 64, 64 )
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
 [node name="TurretBase" type="Sprite" parent="."]
+visible = false
 position = Vector2( -10, 14 )
 scale = Vector2( 2.45313, 2.8 )
 texture = ExtResource( 6 )
@@ -80,6 +90,14 @@ region_rect = Rect2( 1282.14, 450.513, 64, 64 )
 [node name="FiringRate" type="Timer" parent="."]
 wait_time = 60.0
 one_shot = true
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+visible = false
+position = Vector2( 1384, 94 )
+collision_layer = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+shape = SubResource( 11 )
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]

@@ -1,4 +1,4 @@
-extends "res://src/scripts/TowersGeneral.gd"
+extends StaticBody2D #"res://src/scripts/TowersGeneral.gd"
 
 var tower_type = "CannonT1"
 var weapon_type = "cannon"
@@ -9,3 +9,5 @@ var upgrade_value = 450
 var sell_value = 150
 var damage = 3
 
+func _ready():
+	$FacingDirection/LaserBeam2D.is_casting = true
