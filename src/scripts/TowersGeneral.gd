@@ -37,22 +37,14 @@ func _physics_process(_delta):
 
 func _unhandled_input(event):
 		if event.is_action_pressed("ui_accept"):
-			if game_scene.selected_tower:
-				game_scene.remove_tower_glow(game_scene.selected_tower)
-				game_scene.selected_tower = null
 			if game_scene.selected_array.size()>0:
 				if !Input.is_key_pressed(16777237):
-					for each in game_scene.selected_array:
-						game_scene.remove_tower_glow(each)
-					game_scene.selected_array = []
+					game_scene.clear_selected_array()
 				else:
 					game_scene.select_box("shift")
 					get_tree().set_input_as_handled()
 				return
-			if game_scene.build_mode:
-				get_tree().set_input_as_handled()
-				game_scene.verify_and_build()
-				
+
 
 #func maintain_upgrade_button(): #old function
 #	#old code below
@@ -345,7 +337,6 @@ func sell_me():
 	
 	if built and self.sell_value:
 		game_scene.current_gold_set(game_scene.current_gold+self.sell_value)
-		game_scene.selected_tower = null
 		game_scene.map_node.get_node("Navigation2D/TowerExclusion").set_cellv(current_tile, -1)
 		self.queue_free()
 
@@ -363,7 +354,6 @@ func upgrade_me(): #old function
 		new_tower.position = current_tower.position
 		new_tower.built = true
 		new_tower.get_node("Range/RangeSprite").hide()
-		game_scene.selected_tower = null
 		self.queue_free()
 
 func _on_SelectTower_pressed(): #old function

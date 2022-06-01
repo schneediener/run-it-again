@@ -14,7 +14,6 @@ var current_health = 20 #setget update_current_health
 var health_max = 20
 var current_gold = 1000 setget current_gold_set, current_gold_get
 var tower_script = load("res://src/scripts/TowersGeneral.gd")
-var selected_tower 
 var SELECTSHADER = load("res://src/assets/resources/new_shader.tres")
 var shader = ShaderMaterial.new()
 var current_time = 150
@@ -62,18 +61,14 @@ func _on_Upgrade_pressed():
 	for tower in selected_array:
 		tower.upgrade_me()
 	
-	for each in selected_array:
-		remove_tower_glow(each)
-	selected_array = []
+	clear_selected_array()
 
 
 
 func _on_Sell_pressed():
 	for tower in selected_array:
 		tower.sell_me()
-	for each in selected_array:
-		remove_tower_glow(each)
-	selected_array = []
+	clear_selected_array()
 	
 func _on_TargetOption_item_selected(index):
 	for tower in selected_array:
@@ -217,19 +212,17 @@ func _unhandled_input(event):
 		elif !get_tree().paused:
 			stop_time()
 	if event.is_action_pressed("ui_cancel"):
-		if selected_tower:
-			remove_tower_glow(selected_tower)
+		if selected_array.size()>0:
+			clear_selected_array()
 		if build_mode:
 			cancel_build_mode()
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
 		if build_mode:
 				if selected_array.size() > 0:
-					for each in selected_array:
-						remove_tower_glow(each)
-				selected_array = []
-				get_tree().set_input_as_handled()
+					clear_selected_array()
 				verify_and_build()
+				get_tree().set_input_as_handled()
 				return
 		if event.pressed:
 			# We only want to start a drag if there's no selection.
@@ -303,20 +296,21 @@ func zoom_camera(direction):
 func initiate_build_mode(tower):
 	if build_mode:
 		cancel_build_mode()
-	if selected_tower:
-		selected_tower.get_node("CanvasLayer/ButtonContainer").visible = false
-		selected_tower.get_node("TurretBase").set_material(null)
-		selected_tower.get_node("FacingDirection/TurretSprite").set_material(null)
-		selected_tower = null
+	if selected_array.size()>0:
+		clear_selected_array()
 	
 	build_type = tower.get_name()
 	build_scene = tower
 	build_tower = tower.instance()
-
 	build_mode = true
+	
 	set_tower_preview(build_tower, get_global_mouse_position())
 
-
+func clear_selected_array():
+	if selected_array.size()>0:
+		for each in selected_array:
+			remove_tower_glow(each)
+		selected_array = []
 
 func run_update_tower_preview():
 	var mouse_position = get_global_mouse_position()
@@ -338,22 +332,19 @@ func run_update_tower_preview():
 
 func cancel_build_mode():
 	build_mode = false
-#	print("build mode false")
 	get_node("TowerPreview").free()
 
 
 func verify_and_build():
-	var tower_cost
+	var tower_cost = build_tower.buy_value
 	
-	tower_cost = build_tower.buy_value
-
 	if build_valid and current_gold >= tower_cost:
 		var new_tower = build_scene.instance()
 		new_tower.position = build_location
 		new_tower.built = true
 		if new_tower.get("can_shoot"):
 			new_tower.can_shoot = true
-		map_node.get_node("Towers").add_child(new_tower, true)
+		map_node.get_node("Towers").add_child(new_tower)
 		map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
 		new_tower.get_node("Range/RangeSprite").hide()
 		#new_tower.connect("input_event", self, "_on_SelectArea_input_event")
@@ -399,20 +390,20 @@ func update_tower_preview(new_position, color):
 	if drag_tower.modulate != Color(color):
 		drag_tower.modulate = Color(color)
 
-func select_tower(tower_instance):
-#	print("Select tower was run")
-	var new_tower = tower_instance
-	var tower_parent = new_tower.get_parent()
-	
-	tower_parent.remove_child(new_tower)
-	tower_parent.add_child(new_tower, true)
-	
-	make_tower_glow(new_tower, "single")
-	
-	if selected_tower:
-		remove_tower_glow(selected_tower)
-	
-	selected_tower = new_tower
+#func select_tower(tower_instance):
+##	print("Select tower was run")
+#	var new_tower = tower_instance
+#	var tower_parent = new_tower.get_parent()
+#
+#	tower_parent.remove_child(new_tower)
+#	tower_parent.add_child(new_tower, true)
+#
+#	make_tower_glow(new_tower, "single")
+#
+#	if selected_tower:
+#		remove_tower_glow(selected_tower)
+#
+#	selected_tower = new_tower
 
 
 func make_tower_glow(new_tower, _select_type):
@@ -433,14 +424,14 @@ func remove_tower_glow(old_tower):
 		old_tower.get_node("Range/RangeSprite").hide()
 
 	
-func get_selected_tower():
-	return(selected_tower)
+#func get_selected_tower():
+#	return(selected_tower)
 
 func mass_select_towers(inc_towers):
 	var type_array = []
 	var total_sell = 0
 	
-	selected_tower = null
+#	selected_tower = null
 	selected_array = inc_towers
 	
 	var select_panel = $UserInterface/HeadsUpDisplay/SelectPanel
