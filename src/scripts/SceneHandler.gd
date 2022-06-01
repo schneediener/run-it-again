@@ -6,7 +6,7 @@ var main_menu
 
 func _ready():
 	load_main_menu()
-	
+	OS.window_fullscreen = true
 	if get_node("MainMenu/Margin/VBoxContainer/NewGameSean").connect("pressed", self, "_on_NewGameSean_pressed") != OK:
 		print("Signal connect for _on_NewGameSean_pressed failed")
 
