@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://src/assets/images/crater_cannon_turret.png" type="Texture" id=1]
 [ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
 [ext_resource path="res://src/assets/tilemaps/towerDefense_tilesheet.png" type="Texture" id=6]
 [ext_resource path="res://src/scripts/CannonT1.gd" type="Script" id=8]
@@ -7,57 +8,60 @@
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 32, 32 )
 
-[sub_resource type="CanvasItemMaterial" id=9]
-
-[sub_resource type="CircleShape2D" id=8]
-radius = 250.0
-
-[node name="CannonT1" type="StaticBody2D"]
+[node name="CraterCannon" type="StaticBody2D"]
 collision_mask = 0
 script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 32, 32 )
+position = Vector2( 96, 96 )
+scale = Vector2( 3, 3 )
 shape = SubResource( 10 )
+__meta__ = {
+"_editor_description_": ""
+}
 
-[node name="Range" type="Area2D" parent="."]
-collision_mask = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
-material = SubResource( 9 )
-position = Vector2( 32, 32 )
-shape = SubResource( 8 )
-
-[node name="RangeSprite" type="Sprite" parent="Range"]
-modulate = Color( 1, 1, 1, 0.784314 )
-position = Vector2( 32, 32 )
-scale = Vector2( 0.835484, 0.835484 )
-texture = ExtResource( 3 )
-
-[node name="TurretBase" type="Sprite" parent="."]
-position = Vector2( 2, 2 )
+[node name="TurretBase2" type="Sprite" parent="."]
+position = Vector2( -12, -7 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 6 )
 offset = Vector2( 32, 32 )
 region_enabled = true
 region_rect = Rect2( 1282.14, 450.513, 64, 64 )
 
+[node name="Range" type="Area2D" parent="."]
+position = Vector2( 4, 7 )
+collision_mask = 6
+
+[node name="RangeSprite" type="Sprite" parent="Range"]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 96, 96 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Range"]
+position = Vector2( -34.3675, 0 )
+scale = Vector2( 1.77206, 1 )
+build_mode = 1
+polygon = PoolVector2Array( 45, 39, 1574, 39, 1575, 133, 45, 139 )
+
 [node name="FacingDirection" type="Node2D" parent="."]
-position = Vector2( 32, 32 )
+position = Vector2( 36, 39 )
 
 [node name="TurretSprite" type="Sprite" parent="FacingDirection"]
-position = Vector2( 11, -3 )
-rotation = 1.5708
-texture = ExtResource( 6 )
-region_enabled = true
+position = Vector2( 63, 61 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+offset = Vector2( 210, -10 )
 region_rect = Rect2( 1213.52, 640.664, 64, 64 )
 region_filter_clip = true
 
 [node name="Muzzle" type="Position2D" parent="FacingDirection"]
-position = Vector2( 41, 0 )
+position = Vector2( 230, 59 )
 
 [node name="Flash" type="Sprite" parent="FacingDirection/Muzzle"]
 visible = false
-position = Vector2( 22, -1 )
+position = Vector2( 134, -1 )
 rotation = 1.5708
 texture = ExtResource( 6 )
 region_enabled = true
@@ -65,8 +69,16 @@ region_rect = Rect2( 1343.5, 766, 64, 64 )
 
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
+[node name="TurretBase" type="Sprite" parent="."]
+position = Vector2( -10, 14 )
+scale = Vector2( 2.45313, 2.8 )
+texture = ExtResource( 6 )
+offset = Vector2( 32, 32 )
+region_enabled = true
+region_rect = Rect2( 1282.14, 450.513, 64, 64 )
+
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 0.9
+wait_time = 60.0
 one_shot = true
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
