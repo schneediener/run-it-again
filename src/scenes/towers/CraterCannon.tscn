@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
+[ext_resource path="res://src/assets/tilemaps/towerDefense_tilesheet.png" type="Texture" id=6]
+[ext_resource path="res://src/scripts/CannonT1.gd" type="Script" id=8]
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 32, 32 )
+
+[sub_resource type="CanvasItemMaterial" id=9]
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 250.0
+
+[node name="CannonT1" type="StaticBody2D"]
+collision_mask = 0
+script = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 32, 32 )
+shape = SubResource( 10 )
+
+[node name="Range" type="Area2D" parent="."]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+material = SubResource( 9 )
+position = Vector2( 32, 32 )
+shape = SubResource( 8 )
+
+[node name="RangeSprite" type="Sprite" parent="Range"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 32, 32 )
+scale = Vector2( 0.835484, 0.835484 )
+texture = ExtResource( 3 )
+
+[node name="TurretBase" type="Sprite" parent="."]
+position = Vector2( 2, 2 )
+texture = ExtResource( 6 )
+offset = Vector2( 32, 32 )
+region_enabled = true
+region_rect = Rect2( 1282.14, 450.513, 64, 64 )
+
+[node name="FacingDirection" type="Node2D" parent="."]
+position = Vector2( 32, 32 )
+
+[node name="TurretSprite" type="Sprite" parent="FacingDirection"]
+position = Vector2( 11, -3 )
+rotation = 1.5708
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 1213.52, 640.664, 64, 64 )
+region_filter_clip = true
+
+[node name="Muzzle" type="Position2D" parent="FacingDirection"]
+position = Vector2( 41, 0 )
+
+[node name="Flash" type="Sprite" parent="FacingDirection/Muzzle"]
+visible = false
+position = Vector2( 22, -1 )
+rotation = 1.5708
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 1343.5, 766, 64, 64 )
+
+[node name="BulletContainer" type="Node2D" parent="FacingDirection"]
+
+[node name="FiringRate" type="Timer" parent="."]
+wait_time = 0.9
+one_shot = true
+
+[connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
+[connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
