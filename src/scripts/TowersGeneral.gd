@@ -297,8 +297,11 @@ func fire():
 			#to-do: current_target.play_gun_hit_animation()
 		"laser":
 			pass #shoot the laser
-		"artillery":
-			pass #lob the shell
+		"shell":
+			$FacingDirection.look_at(current_target.global_position)
+			projectile = load("res://src/scenes/projectiles/Shell.tscn").instance()
+			projectile_container.add_child(projectile)
+			projectile.start(muzzle.global_transform, current_target, self)
 	
 	flash()
 	ready = false
