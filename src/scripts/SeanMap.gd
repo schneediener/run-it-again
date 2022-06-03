@@ -91,7 +91,7 @@ func start_new_wave():
 	
 func spawn_dropship():
 	var dropship = load("res://src/scenes/enemies/Dropship_Test.tscn").instance()
-	
+	randomize()
 	var landing_site = randi() % 3 + 1
 	print(landing_site)
 	

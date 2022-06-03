@@ -110,10 +110,10 @@ func spawn_dropship():
 			dropship.endpoint = "right"
 		3:
 			ship_path_3.add_child(dropship)
-			dropship.endpoint = "left"
+			dropship.endpoint = "middle"
 		4: 
 			ship_path_4.add_child(dropship)
-			dropship.endpoint = "right"
+			dropship.endpoint = "middle"
 	
 func finish_level():
 	OS.alert("Congratulations! You won!", "Victory")
@@ -199,7 +199,7 @@ func create_path(character, spawn):
 	match spawn:
 		1, "left": 
 			character.path = path_left
-		2:
+		2, "middle":
 			if middle_last_spawned == "left":
 				character.path = path_right
 				middle_last_spawned = "right"
