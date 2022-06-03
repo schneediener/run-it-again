@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/assets/images/crater_cannon_turret.png" type="Texture" id=1]
 [ext_resource path="res://tutorial_assets/GDQuest Visual Effects/LaserBeam/LaserBeam2D.tscn" type="PackedScene" id=2]
@@ -8,9 +8,6 @@
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 32, 32 )
-
-[sub_resource type="CircleShape2D" id=11]
-radius = 101.5
 
 [node name="CraterCannon" type="StaticBody2D"]
 collision_mask = 0
@@ -50,18 +47,17 @@ build_mode = 1
 polygon = PoolVector2Array( 45, 39, 1574, 39, 1575, 133, 45, 139 )
 
 [node name="FacingDirection" type="Node2D" parent="."]
-position = Vector2( 36, 39 )
+position = Vector2( 95, 96 )
 
 [node name="LaserBeam2D" parent="FacingDirection" instance=ExtResource( 2 )]
 modulate = Color( 4.25882, 0.105882, 0.00392157, 1 )
-position = Vector2( 325, 57 )
+position = Vector2( 263, 3 )
 scale = Vector2( 1, 8 )
 
 [node name="TurretSprite" type="Sprite" parent="FacingDirection"]
-position = Vector2( 63, 61 )
+position = Vector2( 104, 1 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
-offset = Vector2( 210, -10 )
 region_rect = Rect2( 1213.52, 640.664, 64, 64 )
 region_filter_clip = true
 
@@ -91,13 +87,6 @@ region_rect = Rect2( 1282.14, 450.513, 64, 64 )
 wait_time = 60.0
 one_shot = true
 
-[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
-visible = false
-position = Vector2( 1384, 94 )
-collision_layer = 7
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
-shape = SubResource( 11 )
-
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
+[connection signal="enemy_hit" from="FacingDirection/LaserBeam2D" to="." method="_on_LaserBeam2D_enemy_hit"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]

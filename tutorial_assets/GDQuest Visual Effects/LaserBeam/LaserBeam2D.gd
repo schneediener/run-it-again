@@ -14,7 +14,8 @@ export var growth_time := 0.1
 # It plays appearing and disappearing animations when it's not animating.
 # See `appear()` and `disappear()` for more information.
 var is_casting := false setget set_is_casting
-
+var enemy_object
+signal enemy_hit
 onready var fill := $FillLine2D
 onready var tween := $Tween
 onready var casting_particles := $CastingParticles2D
@@ -62,6 +63,8 @@ func cast_beam() -> void:
 		cast_point = to_local(get_collision_point())
 		collision_particles.global_rotation = get_collision_normal().angle()
 		collision_particles.position = cast_point
+		enemy_object = get_collider()
+		emit_signal("enemy_hit", enemy_object)
 
 	fill.points[1] = cast_point
 	beam_particles.position = cast_point * 0.5
