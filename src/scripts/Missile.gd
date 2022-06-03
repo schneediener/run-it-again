@@ -49,7 +49,7 @@ func _on_Lifetime_timeout():
 
 func explode():
 	$BlastRadius.show()
-	var units = get_overlapping_bodies()
+	var units = $BlastRadius.get_overlapping_bodies()
 	if units.size() > 0:
 		for unit in units:
 			if unit.type=="enemy":
