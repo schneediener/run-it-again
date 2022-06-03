@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://src/scripts/Missile.gd" type="Script" id=1]
+[ext_resource path="res://src/scenes/projectiles/Shell.gd" type="Script" id=1]
 [ext_resource path="res://src/assets/tilemaps/onlyObjects_default.png" type="Texture" id=2]
 [ext_resource path="res://tutorial_assets/homing/assets/spr_smoke_strip24.png" type="Texture" id=3]
 
@@ -99,7 +99,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 86.0058
+radius = 10.6514
 
 [node name="Shell" type="Area2D"]
 collision_layer = 8
@@ -112,7 +112,7 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="."]
 visible = false
 rotation = 1.5708
-scale = Vector2( 1.2, 1 )
+scale = Vector2( 2.4, 2 )
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 181.583, 45.8985, 4.12292, 14.5591 )
@@ -130,13 +130,12 @@ show_behind_parent = true
 position = Vector2( 5, 0 )
 rotation = 3.14159
 amount = 20
-lifetime = 0.2
 randomness = 1.0
 local_coords = false
 process_material = SubResource( 6 )
 
 [node name="Explosion" type="Sprite" parent="."]
-scale = Vector2( 4, 4 )
+scale = Vector2( 6, 6 )
 texture = ExtResource( 3 )
 hframes = 24
 frame = 23
@@ -148,10 +147,11 @@ anims/init = SubResource( 8 )
 
 [node name="BlastRadius" type="Area2D" parent="."]
 position = Vector2( -48, -55 )
+scale = Vector2( 8, 8 )
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlastRadius"]
-position = Vector2( 47, 54 )
+position = Vector2( 6.5, 7.125 )
 shape = SubResource( 9 )
 
 [connection signal="body_entered" from="." to="." method="_on_Missile_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://tutorial_assets/PNG/Retina/treeGreen_twigs.png" type="Texture" id=1]
 [ext_resource path="res://tutorial_assets/PNG/Default size/crateWood.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://src/scenes/towers/CraterCannon.tscn" type="PackedScene" id=17]
 [ext_resource path="res://src/scenes/levels/Map2_Drop_Path2.tres" type="Curve2D" id=18]
 [ext_resource path="res://src/scenes/levels/Map2_Drop_Path4.tres" type="Curve2D" id=19]
+[ext_resource path="res://src/scenes/towers/ArtilleryT1.tscn" type="PackedScene" id=20]
 
 [sub_resource type="TileSet" id=1]
 1/name = "terrainTiles_default.png 1"
@@ -533,5 +534,8 @@ curve = ExtResource( 19 )
 [node name="CraterCannon" parent="." instance=ExtResource( 17 )]
 position = Vector2( 898, 149 )
 rotation = -1.5708
+
+[node name="ArtilleryT1" parent="." instance=ExtResource( 20 )]
+position = Vector2( 1267, -984 )
 
 [connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]

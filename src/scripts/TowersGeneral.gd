@@ -33,7 +33,11 @@ func _physics_process(_delta):
 	if built:
 		refresh_target_array()
 		if current_target:
-			track_target()
+			if self.tower_type != "ArtilleryT1":
+				track_target()
+			else:
+				if self.recoil==0:
+					track_target()
 
 func _unhandled_input(event):
 		if event.is_action_pressed("ui_accept"):
@@ -299,6 +303,10 @@ func fire():
 			pass #shoot the laser
 		"shell":
 			$FacingDirection.look_at(current_target.global_position)
+			if self.tower_type=="ArtilleryT1":
+				self.recoil = 1
+				self.recoil_timer.wait_time = self.get_node("FiringRate").wait_time / 4
+				self.recoil_timer.start()
 			projectile = load("res://src/scenes/projectiles/Shell.tscn").instance()
 			projectile_container.add_child(projectile)
 			projectile.start(muzzle.global_transform, current_target, self)
@@ -332,6 +340,8 @@ func flash():
 
 func _on_FiringRate_timeout():
 	ready = true
+	if self.tower_type=="ArtilleryT1":
+		self.recoil = 0
 
 	
 func sell_me():

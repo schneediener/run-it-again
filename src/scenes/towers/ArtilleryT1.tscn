@@ -6,7 +6,7 @@
 [ext_resource path="res://src/assets/tilemaps/towerDefense_tilesheet.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 32, 32 )
+extents = Vector2( 64, 64 )
 
 [sub_resource type="CanvasItemMaterial" id=9]
 
@@ -21,49 +21,52 @@ collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 32, 32 )
+position = Vector2( 64, 64 )
 shape = SubResource( 10 )
-
-[node name="Range2" type="Area2D" parent="."]
-collision_mask = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Range2"]
-material = SubResource( 9 )
-position = Vector2( 32, 32 )
-shape = SubResource( 8 )
-
-[node name="RangeSprite" type="Sprite" parent="Range2"]
-modulate = Color( 0.231373, 1, 0, 0.784314 )
-position = Vector2( 32, 32 )
-scale = Vector2( 2.75806, 2.75806 )
-texture = ExtResource( 3 )
 
 [node name="Range" type="Area2D" parent="."]
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 material = SubResource( 9 )
-position = Vector2( 32, 32 )
-shape = SubResource( 11 )
+position = Vector2( 63, 62 )
+shape = SubResource( 8 )
 
 [node name="RangeSprite" type="Sprite" parent="Range"]
+modulate = Color( 0.231373, 1, 0, 0.784314 )
+position = Vector2( 62, 64 )
+scale = Vector2( 2.75806, 2.75806 )
+texture = ExtResource( 3 )
+
+[node name="Range2" type="Area2D" parent="Range"]
+visible = false
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range/Range2"]
+material = SubResource( 9 )
+position = Vector2( 63, 62 )
+shape = SubResource( 11 )
+
+[node name="RangeSprite" type="Sprite" parent="Range/Range2"]
 modulate = Color( 1, 1, 1, 0.784314 )
 self_modulate = Color( 4.25882, 0.105882, 0.00392157, 1 )
-position = Vector2( 32, 32 )
+position = Vector2( 65, 64 )
 scale = Vector2( 1.33871, 1.33871 )
 texture = ExtResource( 3 )
 
 [node name="TurretBase" type="Sprite" parent="."]
 position = Vector2( 2, 2 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 offset = Vector2( 32, 32 )
 region_enabled = true
 region_rect = Rect2( 1282.14, 450.513, 64, 64 )
 
 [node name="FacingDirection" type="Node2D" parent="."]
-position = Vector2( 32, 32 )
+position = Vector2( 61, 61 )
+scale = Vector2( 2, 2 )
 
-[node name="TurretSprite2" type="Sprite" parent="FacingDirection"]
+[node name="TurretSprite" type="Sprite" parent="FacingDirection"]
 modulate = Color( 0.780392, 0.780392, 0.780392, 1 )
 position = Vector2( 1, 0 )
 rotation = 4.71038
@@ -72,14 +75,16 @@ region_enabled = true
 region_rect = Rect2( 223.875, 131.637, 26.088, 25.9595 )
 region_filter_clip = true
 
-[node name="TurretSprite" type="Sprite" parent="FacingDirection/TurretSprite2"]
+[node name="TurretSprite" type="Sprite" parent="FacingDirection/TurretSprite"]
 show_behind_parent = true
-position = Vector2( -0.0502319, 25 )
+position = Vector2( 0, 25 )
 rotation = -3.13958
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 326.5, 97.4374, 15.1644, 30.4574 )
 region_filter_clip = true
+
+[node name="Timer" type="Timer" parent="FacingDirection/TurretSprite/TurretSprite"]
 
 [node name="Muzzle" type="Position2D" parent="FacingDirection"]
 position = Vector2( 41, 0 )
@@ -99,6 +104,7 @@ region_rect = Rect2( 1280.5, 766, 64, 64 )
 wait_time = 3.5
 one_shot = true
 
-[connection signal="body_exited" from="Range2" to="." method="_on_Range_body_exited"]
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
+[connection signal="body_exited" from="Range/Range2" to="." method="_on_Range_body_exited"]
+[connection signal="timeout" from="FacingDirection/TurretSprite/TurretSprite/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
