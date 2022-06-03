@@ -87,6 +87,5 @@ region_rect = Rect2( 1282.14, 450.513, 64, 64 )
 wait_time = 60.0
 one_shot = true
 
-[connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
 [connection signal="enemy_hit" from="FacingDirection/LaserBeam2D" to="." method="_on_LaserBeam2D_enemy_hit"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
