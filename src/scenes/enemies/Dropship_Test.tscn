@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/scripts/Dropship.gd" type="Script" id=1]
 [ext_resource path="res://src/scenes/enemies/DropshipBody.gd" type="Script" id=2]
 [ext_resource path="res://src/assets/images/RD3_MilliothVector.png" type="Texture" id=3]
 [ext_resource path="res://src/scenes/enemies/JetAnimatiopn.tres" type="SpriteFrames" id=4]
 [ext_resource path="res://src/assets/images/RD3_Shadow.png" type="Texture" id=5]
+[ext_resource path="res://src/scripts/Shadow.gd" type="Script" id=6]
 
 [node name="Dropship" type="PathFollow2D"]
 loop = false
@@ -14,6 +15,7 @@ script = ExtResource( 1 )
 position = Vector2( -104, 58 )
 rotation = 1.5708
 texture = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="DropshipBody" type="KinematicBody2D" parent="."]
 collision_layer = 4
@@ -28,13 +30,13 @@ texture = ExtResource( 3 )
 position = Vector2( -19, 88 )
 rotation = 3.14159
 frames = ExtResource( 4 )
-frame = 1
 playing = true
 
 [node name="Jet2" type="AnimatedSprite" parent="DropshipBody/ShipSprite"]
 position = Vector2( 19, 89 )
 rotation = 3.14159
 frames = ExtResource( 4 )
+frame = 1
 playing = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropshipBody"]
