@@ -175,14 +175,18 @@ func spawn_new_enemy():
 		match next_spawn:
 			1:
 				next_enemy.global_position = spawn_1.global_position
+				next_enemy.spawn_point = next_spawn
 			2:
 				next_enemy.global_position = spawn_2.global_position
+				next_enemy.spawn_point = next_spawn
 			3:
 				next_enemy.global_position = spawn_3.global_position
+				next_enemy.spawn_point = next_spawn
 			_:
 				push_error("error selecting spawn position")
 		
 		$EnemyContainer.add_child(next_enemy, true)
+		next_enemy.spawn_order = enemy_roulette.size()
 		enemy_roulette.erase(next_type)
 		
 		create_path(next_enemy, next_spawn)

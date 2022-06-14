@@ -12,6 +12,9 @@ onready var slow_timer = $SlowTimer
 var slowed = false
 onready var orig_speed = self.speed
 
+var damage_instance_array = []
+var spawn_point
+var spawn_order
 onready var game_scene = get_node("../../..")
 
 var sean_test = true
@@ -91,6 +94,9 @@ func take_damage(damage, slow):
 		
 	health = health-damage
 	
+	var damage_dict = {"damage": damage, "distance": remaining_dist, "slow": slow}
+	damage_instance_array.append(damage_dict)
+	
 	if health <= 0 and !dead:
 		dead = true
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
@@ -98,7 +104,6 @@ func take_damage(damage, slow):
 			game_scene.current_time = game_scene.current_time + 0.8
 		
 		game_scene.current_gold = game_scene.current_gold+new_gold
-		print(new_gold)
 		self.queue_free()
 
 
