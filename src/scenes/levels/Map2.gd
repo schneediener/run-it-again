@@ -185,6 +185,7 @@ func spawn_new_enemy():
 		$EnemyContainer.add_child(next_enemy, true)
 		next_enemy.spawn_order = enemy_roulette.size()
 		next_enemy.spawn_point = next_spawn
+#		next_enemy.spawn_wave = current_wave[0]
 		next_enemy.wave_hist = current_wave[5] #Letting the enemy know which hist dict to fill with its death details
 		enemy_roulette.erase(next_type)
 		

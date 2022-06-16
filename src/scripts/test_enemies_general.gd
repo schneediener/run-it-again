@@ -15,6 +15,7 @@ onready var orig_speed = self.speed
 var damage_instance_array = []
 var spawn_point
 var spawn_order
+#var spawn_wave
 var wave_hist
 onready var game_scene = get_node("../../..")
 
@@ -100,6 +101,7 @@ func take_damage(damage, slow):
 	
 	if health <= 0 and !dead:
 		dead = true
+		death_payload()
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
 		if game_scene.current_time < game_scene.time_max:
 			game_scene.current_time = game_scene.current_time + 0.8
@@ -109,7 +111,6 @@ func take_damage(damage, slow):
 
 func death_payload():
 		var my_final_dict = {
-		"wave": spawn_wave, 
 		"spawn": spawn_point, 
 		"order": spawn_order, 
 		"type": self.creep_type, 
