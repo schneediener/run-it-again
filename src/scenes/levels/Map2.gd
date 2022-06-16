@@ -24,15 +24,15 @@ onready var ship_path_4 = $Dropships/Path_Dropship4
 
 #Array is as follows: Wave Number, Lvl 1 Enemies per wave, lvl 2, lvl3, spawn time
 
-export var wave_1 = ["Wave 1",20,0,0,0.5]
-export var wave_2 = ["Wave 2",30,10,0,0.4]
-export var wave_3 = ["Wave 3",30,16,0,0.3]
-export var wave_4 = ["Wave 4",30,16,2,0.3]
-export var wave_5 = ["Wave 5",30,6,4,0.2]
-export var wave_6 = ["Wave 6",30,6,4,0.2]
-export var wave_7 = ["Wave 7",30,20,6,0.1]
-export var wave_8 = ["Wave 8",50,30,10,0.1]
-export var wave_9 = ["Wave 9",60,30,30,.05]
+export var wave_1 = ["Wave 1",20,0,0,0.5,{}]
+export var wave_2 = ["Wave 2",30,10,0,0.4,{}]
+export var wave_3 = ["Wave 3",30,16,0,0.3,{}]
+export var wave_4 = ["Wave 4",30,16,2,0.3,{}]
+export var wave_5 = ["Wave 5",30,6,4,0.2,{}]
+export var wave_6 = ["Wave 6",30,6,4,0.2,{}]
+export var wave_7 = ["Wave 7",30,20,6,0.1,{}]
+export var wave_8 = ["Wave 8",50,30,10,0.1,{}]
+export var wave_9 = ["Wave 9",60,30,30,.05,{}]
 
 
 var enemy_roulette = []
@@ -175,18 +175,17 @@ func spawn_new_enemy():
 		match next_spawn:
 			1:
 				next_enemy.global_position = spawn_1.global_position
-				next_enemy.spawn_point = next_spawn
 			2:
 				next_enemy.global_position = spawn_2.global_position
-				next_enemy.spawn_point = next_spawn
 			3:
 				next_enemy.global_position = spawn_3.global_position
-				next_enemy.spawn_point = next_spawn
 			_:
 				push_error("error selecting spawn position")
 		
 		$EnemyContainer.add_child(next_enemy, true)
 		next_enemy.spawn_order = enemy_roulette.size()
+		next_enemy.spawn_point = next_spawn
+		next_enemy.wave_hist = current_wave[5] #Letting the enemy know which hist dict to fill with its death details
 		enemy_roulette.erase(next_type)
 		
 		create_path(next_enemy, next_spawn)

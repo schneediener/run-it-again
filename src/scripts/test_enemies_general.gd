@@ -15,6 +15,7 @@ onready var orig_speed = self.speed
 var damage_instance_array = []
 var spawn_point
 var spawn_order
+var wave_hist
 onready var game_scene = get_node("../../..")
 
 var sean_test = true
@@ -106,6 +107,17 @@ func take_damage(damage, slow):
 		game_scene.current_gold = game_scene.current_gold+new_gold
 		self.queue_free()
 
+func death_payload():
+		var my_final_dict = {
+		"wave": spawn_wave, 
+		"spawn": spawn_point, 
+		"order": spawn_order, 
+		"type": self.creep_type, 
+		"interactions":damage_instance_array}
+		
+		wave_hist[str(spawn_order)] = my_final_dict.duplicate()
+
+		game_scene.map_node.enemy_rewind_array.append(my_final_dict.duplicate())
 
 func _on_SlowTimer_timeout():
 	slowed = false
