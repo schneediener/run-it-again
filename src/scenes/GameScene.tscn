@@ -92,7 +92,7 @@ self_modulate = Color( 100, 100, 100, 0.01 )
 position = Vector2( -4, -6.75 )
 scale = Vector2( 3.64444, 2.84722 )
 frames = SubResource( 11 )
-frame = 8
+frame = 4
 speed_scale = 1.25
 playing = true
 centered = false
@@ -101,6 +101,9 @@ centered = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="BuildPanel" type="Panel" parent="UserInterface/HeadsUpDisplay"]
 self_modulate = Color( 1, 1, 1, 0.462745 )
@@ -109,6 +112,9 @@ margin_top = 950.0
 margin_right = 1189.0
 margin_bottom = 1089.0
 rect_scale = Vector2( 0.8, 0.8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBox_BuildMenu" type="HBoxContainer" parent="UserInterface/HeadsUpDisplay/BuildPanel"]
 anchor_left = 0.5
@@ -291,6 +297,49 @@ align = 2
 items = [ "First", null, false, 0, null, "Last", null, false, 1, null, "Strong", null, false, 2, null, "Weak", null, false, 3, null, "Fast", null, false, 4, null, "Slow", null, false, 5, null, "Dropship", null, false, 6, null, "--", null, true, 7, null ]
 selected = 0
 
+[node name="WavePanel" type="Panel" parent="UserInterface/HeadsUpDisplay"]
+self_modulate = Color( 1, 1, 1, 0.462745 )
+show_behind_parent = true
+margin_left = 1167.0
+margin_top = 954.0
+margin_right = 1415.0
+margin_bottom = 1093.0
+rect_scale = Vector2( 0.8, 0.8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PreviousWave" type="TextureButton" parent="UserInterface/HeadsUpDisplay/WavePanel"]
+margin_left = 88.75
+margin_top = 39.9999
+margin_right = 168.75
+margin_bottom = 120.0
+rect_min_size = Vector2( 80, 80 )
+texture_normal = ExtResource( 3 )
+texture_disabled = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UserInterface/HeadsUpDisplay/WavePanel/PreviousWave"]
+position = Vector2( 41, 39 )
+rotation = 4.71239
+scale = Vector2( 3.5, 3.5 )
+texture = ExtResource( 16 )
+region_rect = Rect2( 1345, 640.822, 65, 65 )
+
+[node name="Label" type="Label" parent="UserInterface/HeadsUpDisplay/WavePanel/PreviousWave"]
+margin_left = -22.5
+margin_top = -31.25
+margin_right = 32.5
+margin_bottom = -17.25
+rect_scale = Vector2( 2.5, 2.5 )
+text = "Previous"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="WavePanel" type="Panel" parent="UserInterface"]
 self_modulate = Color( 1, 1, 1, 0.462745 )
 margin_left = -7.0
@@ -405,6 +454,7 @@ script = ExtResource( 15 )
 [connection signal="pressed" from="UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Sell" to="." method="_on_Sell_pressed"]
 [connection signal="pressed" from="UserInterface/HeadsUpDisplay/SelectPanel/HBox_SelectInteract/Upgrade" to="." method="_on_Upgrade_pressed"]
 [connection signal="item_selected" from="UserInterface/HeadsUpDisplay/SelectPanel/TargetOption" to="." method="_on_TargetOption_item_selected"]
+[connection signal="pressed" from="UserInterface/HeadsUpDisplay/WavePanel/PreviousWave" to="." method="_on_PreviousWave_pressed"]
 [connection signal="mouse_entered" from="UserInterface/UpArea" to="." method="_on_UpArea_mouse_entered"]
 [connection signal="mouse_exited" from="UserInterface/UpArea" to="." method="_on_UpArea_mouse_exited"]
 [connection signal="mouse_entered" from="UserInterface/DownArea" to="." method="_on_DownArea_mouse_entered"]

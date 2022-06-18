@@ -11,6 +11,7 @@ onready var end_point_right = get_node("ExitPointRight").position
 
 export var income_per_wave = 50
 export var income_per_kill = 1
+var prev_wave
 var max_waves = 6
 var ready_to_finish
 
@@ -36,6 +37,7 @@ export var wave_9 = ["Wave 9",60,30,30,.05,{}]
 
 
 var enemy_roulette = []
+var next_prev_index
 
 var wave_list = ["start", wave_1, wave_2, wave_3, wave_4, wave_5, wave_6, wave_7, wave_8, wave_9, "finish"]
 
@@ -66,15 +68,26 @@ func _process(_delta):
 			finish_level()
 			ready_to_finish = false
 
+func start_previous_wave():
+	$Spawn/Timer.stop()
+	$PreviousWave/PrevTimer.start()
+	var curr_index = wave_list.find(current_wave)
+	prev_wave = wave_list[curr_index-1]
+	next_prev_index = prev_wave[5].size()
+	
+	
+	
+
 func start_new_wave():
 	$Spawn/Timer.stop()
 	
 	
 	
-	wave_list.erase(current_wave)
+	#wave_list.erase(current_wave)
 	#not sure if ill need to wait between actions here
 	if wave_list.empty() == false:
-		current_wave = wave_list[0]
+		var index = wave_list.find(current_wave)
+		current_wave = wave_list[index+1]
 		if wave_list.size()>1:
 			$Spawn/Timer.wait_time = float(current_wave[4])
 		if current_wave[0] == "Wave 3" or current_wave[0] == "Wave 7" or current_wave[0] == "Wave 9":
@@ -129,15 +142,16 @@ func update_wave_counters():
 	total_spawned = 0
 
 func populate_roulette():
-	if str(current_wave) != "start" or "finish":
-		for _i in range(lvl1_max):
-			enemy_roulette.append("1")
-		for _i in range(lvl2_max):
-			enemy_roulette.append("2")
-		for _i in range(lvl3_max):
-			enemy_roulette.append("3")
 
-func spawn_new_enemy():
+		if str(current_wave) != "start" or "finish":
+			for _i in range(lvl1_max):
+				enemy_roulette.append("1")
+			for _i in range(lvl2_max):
+				enemy_roulette.append("2")
+			for _i in range(lvl3_max):
+				enemy_roulette.append("3")
+			
+func spawn_new_enemy(type):
 	var slow = load("res://src/scenes/enemies/SlowEnemy.tscn")
 	var fast = load("res://src/scenes/enemies/FastEnemy.tscn")
 	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
@@ -148,29 +162,37 @@ func spawn_new_enemy():
 	var spawn_2 = $Spawn/Spawn_2
 	var spawn_3 = $Spawn/Spawn_3
 	var next_spawn
-	
-	if enemy_roulette.empty():
-		game_scene.current_gold=game_scene.current_gold+income_per_wave
-		game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = "0 units remaining"
-		start_new_wave()
-		return
-	
-	var next_type = enemy_roulette[randi() % enemy_roulette.size()]
-	
+	var next_type
+	if type == "curr":
+		if enemy_roulette.empty():
+			game_scene.current_gold=game_scene.current_gold+income_per_wave
+			game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = "0 units remaining"
+			start_new_wave()
+			return
+		
+		next_type = enemy_roulette[randi() % enemy_roulette.size()]
+	elif type == "prev":
+		next_type = prev_wave[5][next_prev_index]["type"]
 	match next_type:
-		"1":
+		"1", "basic":
 			next_enemy = basic
-		"2":
+		"2", "slow":
 			next_enemy = slow
-		"3":
+		"3", "fast":
 			next_enemy = fast
 		_:
 			push_error("enemy type unknown during spawn_new_enemy")
 	
 	if next_enemy:
-		next_spawn = randi() % 3 + 1
+		
+		if type == "curr":
+			next_spawn = randi() % 3 + 1
+		else:
+			next_spawn = prev_wave[5][next_prev_index]["spawn"]
+		
 		next_enemy = next_enemy.instance()
-		game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = str(enemy_roulette.size()) + " units remaining"
+		if type == "curr":
+			game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = str(enemy_roulette.size()) + " units remaining"
 		
 		match next_spawn:
 			1:
@@ -182,13 +204,20 @@ func spawn_new_enemy():
 			_:
 				push_error("error selecting spawn position")
 		
-		$EnemyContainer.add_child(next_enemy, true)
-		next_enemy.spawn_order = enemy_roulette.size()
-		next_enemy.spawn_point = next_spawn
-#		next_enemy.spawn_wave = current_wave[0]
-		next_enemy.wave_hist = current_wave[5] #Letting the enemy know which hist dict to fill with its death details
-		enemy_roulette.erase(next_type)
-		
+		if type == "curr":
+			$EnemyContainer.add_child(next_enemy, true)
+			next_enemy.spawn_order = enemy_roulette.size()
+			next_enemy.spawn_point = next_spawn
+#			next_enemy.spawn_wave = current_wave[0]
+			next_enemy.wave_hist = current_wave[5] #Letting the enemy know which hist dict to fill with its death details
+			enemy_roulette.erase(next_type)
+		else:
+			$PreviousWave/EnemyContainer.add_child(next_enemy, true)
+			next_enemy.receive_death_payload(prev_wave[5][next_prev_index].duplicate(), prev_wave[5])
+			next_prev_index -= 1
+			if next_prev_index == 0:
+				$PreviousWave/PrevTimer.stop()
+				$Spawn/Timer.start()
 		create_path(next_enemy, next_spawn)
 	else:
 		push_error("no enemy")
@@ -223,4 +252,8 @@ func create_path(character, spawn):
 
 
 func _on_Timer_timeout():
-	spawn_new_enemy()
+	spawn_new_enemy("curr")
+
+
+func _on_PrevTimer_timeout():
+	spawn_new_enemy("prev")

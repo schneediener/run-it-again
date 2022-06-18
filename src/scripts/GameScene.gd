@@ -489,3 +489,7 @@ func _on_UpArea_mouse_exited():
 func _on_DownArea_mouse_exited():
 	if camera_move_array[1] == 1:
 		camera_move_array[1] = 0
+
+
+func _on_PreviousWave_pressed():
+	map_node.start_previous_wave()

@@ -12,12 +12,14 @@ onready var slow_timer = $SlowTimer
 var slowed = false
 onready var orig_speed = self.speed
 
+var recorded_payload
+var next_rec_interaction
 var damage_instance_array = []
 var spawn_point
 var spawn_order
 #var spawn_wave
 var wave_hist
-onready var game_scene = get_node("../../..")
+onready var game_scene = get_node("/root/SceneHandler").game_scene
 
 var sean_test = true
 
@@ -42,6 +44,16 @@ func _physics_process(delta):
 		var path_distance = global_position.distance_to(path[0])
 		if path_distance <= 16:
 			path.remove(0)
+	
+	if recorded_payload:
+		if !next_rec_interaction:
+			next_rec_interaction = recorded_payload["interactions"][0]
+		if remaining_dist == next_rec_interaction["distance"]:
+			take_damage(next_rec_interaction["damage"], next_rec_interaction["slow"])
+			var next_index = recorded_payload["interactions"].find(next_rec_interaction)+1
+			if next_index != recorded_payload["interactions"].size():
+				next_rec_interaction = recorded_payload["interactions"][next_index]
+			
 	
 	if $HealthBar.value != health:
 		$HealthBar.value = health
@@ -101,7 +113,7 @@ func take_damage(damage, slow):
 	
 	if health <= 0 and !dead:
 		dead = true
-		death_payload()
+		send_death_payload()
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
 		if game_scene.current_time < game_scene.time_max:
 			game_scene.current_time = game_scene.current_time + 0.8
@@ -109,16 +121,21 @@ func take_damage(damage, slow):
 		game_scene.current_gold = game_scene.current_gold+new_gold
 		self.queue_free()
 
-func death_payload():
+func send_death_payload():
 		var my_final_dict = {
 		"spawn": spawn_point, 
 		"order": spawn_order, 
 		"type": self.creep_type, 
 		"interactions":damage_instance_array}
 		
-		wave_hist[str(spawn_order)] = my_final_dict.duplicate()
+		wave_hist[spawn_order] = my_final_dict.duplicate()
 
-		game_scene.map_node.enemy_rewind_array.append(my_final_dict.duplicate())
+func receive_death_payload(payload, prev_wave):
+	recorded_payload = payload
+	wave_hist = prev_wave
+	spawn_point = payload["spawn"]
+	spawn_order = payload["order"]
+	
 
 func _on_SlowTimer_timeout():
 	slowed = false

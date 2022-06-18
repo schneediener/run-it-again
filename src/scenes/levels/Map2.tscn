@@ -464,6 +464,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="PreviousWave" type="Node2D" parent="."]
+
+[node name="PrevTimer" type="Timer" parent="PreviousWave"]
+
+[node name="EnemyContainer" type="Node2D" parent="PreviousWave"]
+
 [node name="EnemyContainer" type="Node2D" parent="."]
 pause_mode = 1
 
@@ -529,4 +535,5 @@ curve = ExtResource( 13 )
 position = Vector2( 22, -34 )
 curve = ExtResource( 19 )
 
+[connection signal="timeout" from="PreviousWave/PrevTimer" to="." method="_on_PrevTimer_timeout"]
 [connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]
