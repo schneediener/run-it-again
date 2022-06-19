@@ -9,10 +9,12 @@ var type = "enemy"
 var subtype = "creep"
 var remaining_dist = 0
 onready var slow_timer = $SlowTimer
+onready var just_leaked = false
 var slowed = false
 onready var orig_speed = self.speed
 
 var recorded_payload
+var recorded_outcome
 var next_rec_interaction
 var damage_instance_array = []
 var spawn_point
@@ -45,14 +47,14 @@ func _physics_process(delta):
 		if path_distance <= 16:
 			path.remove(0)
 	
-	if recorded_payload:
-		if !next_rec_interaction:
-			next_rec_interaction = recorded_payload["interactions"][0]
-		if remaining_dist == next_rec_interaction["distance"]:
+	if next_rec_interaction:
+		if remaining_dist <= next_rec_interaction["distance"]:
 			take_damage(next_rec_interaction["damage"], next_rec_interaction["slow"])
 			var next_index = recorded_payload["interactions"].find(next_rec_interaction)+1
 			if next_index != recorded_payload["interactions"].size():
 				next_rec_interaction = recorded_payload["interactions"][next_index]
+			else:
+				next_rec_interaction = null
 			
 	
 	if $HealthBar.value != health:
@@ -114,6 +116,8 @@ func take_damage(damage, slow):
 	if health <= 0 and !dead:
 		dead = true
 		send_death_payload()
+		if recorded_outcome == "leaked":
+			game_scene.current_health += 1
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
 		if game_scene.current_time < game_scene.time_max:
 			game_scene.current_time = game_scene.current_time + 0.8
@@ -122,19 +126,30 @@ func take_damage(damage, slow):
 		self.queue_free()
 
 func send_death_payload():
-		var my_final_dict = {
-		"spawn": spawn_point, 
-		"order": spawn_order, 
-		"type": self.creep_type, 
-		"interactions":damage_instance_array}
+	var final_outcome
+	if health <= 0:
+		final_outcome = "dead"
+	else:
+		final_outcome = "leaked"
+	
+	var my_final_dict = {
+	"spawn": spawn_point, 
+	"order": spawn_order, 
+	"type": self.creep_type, 
+	"interactions":damage_instance_array,
+	"outcome": final_outcome}
 		
-		wave_hist[spawn_order] = my_final_dict.duplicate()
+	wave_hist[spawn_order] = my_final_dict.duplicate()
+	
 
 func receive_death_payload(payload, prev_wave):
 	recorded_payload = payload
 	wave_hist = prev_wave
 	spawn_point = payload["spawn"]
 	spawn_order = payload["order"]
+	recorded_outcome = payload["outcome"]
+	next_rec_interaction = payload["interactions"][0]
+	
 	
 
 func _on_SlowTimer_timeout():

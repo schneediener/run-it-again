@@ -79,6 +79,8 @@ func _process(_delta):
 		$UserInterface/HealthCounter.text = str(current_health)
 	if $UserInterface/TimeBar.value != current_time:
 		$UserInterface/TimeBar.value = current_time
+	if $UserInterface/HealthBar.value != current_health:
+		$UserInterface/HealthBar.value = current_health
 	if build_mode:
 		run_update_tower_preview()
 	if dragging:
@@ -169,8 +171,11 @@ func _on_DamageZone_body_entered(body):
 #	print(body.type)
 	
 	if body.type == "enemy":
-		body.free()
-		take_damage()
+		if !body.just_leaked:
+			body.just_leaked = true
+			body.send_death_payload()
+			body.queue_free()
+			take_damage()
 		
 
 #func update_current_health(new_health):
