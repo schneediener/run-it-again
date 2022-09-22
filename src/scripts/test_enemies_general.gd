@@ -7,6 +7,7 @@ var health
 var health_perc
 var type = "enemy"
 var subtype = "creep"
+onready var time_freeze = false
 var remaining_dist = 0
 onready var slow_timer = $SlowTimer
 var slowed = false
@@ -33,7 +34,8 @@ func _physics_process(delta):
 	if path.size() > 0:
 		calc_remaining_dist(self)
 		var target = global_position.direction_to(path[0])
-		velocity = move_and_slide(target * self.speed) * delta
+		if self.time_freeze == false:
+			velocity = move_and_slide(target * self.speed) * delta
 		var path_distance = global_position.distance_to(path[0])
 		if path_distance <= 16:
 			path.remove(0)
