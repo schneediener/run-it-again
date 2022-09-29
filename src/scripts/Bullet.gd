@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "res://src/scripts/temporal_engine.gd"
 
 var type = "bullet"
 var speed = 1750
