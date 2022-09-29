@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "res://src/scripts/temporal_engine.gd"
 
 var velocity = Vector2()
 var path = PoolVector2Array()
