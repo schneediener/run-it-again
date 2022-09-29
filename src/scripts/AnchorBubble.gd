@@ -1,15 +1,16 @@
 extends Node2D
 var freeze_active = true
-var max_slow = -0.18
+var max_slow = -0.5
+var curr_bodies = []
 
 func _process(delta):
-	var curr_bodies = $Area2D.get_overlapping_bodies()
+	curr_bodies = $Area2D.get_overlapping_bodies()
 	
 	if freeze_active:
 		for body in curr_bodies:
 			var distance_to = body.global_position.distance_to($Area2D/CollisionShape2D.global_position)
 			
-			var factor = $Area2D/CollisionShape2D.shape.radius/distance_to
+			var factor = 264/distance_to
 			var total_slow = factor*max_slow
 			var unique_id = self.get_instance_id()
 			if !body.effect_dict.has(unique_id):
@@ -30,3 +31,8 @@ func _on_Timer_timeout():
 func _on_Area2D_body_exited(body):
 	if body.effect_dict.has(self.get_instance_id()):
 		body.effect_dict.erase(self.get_instance_id())
+
+
+func _on_Area2D_body_entered(body):
+	if !curr_bodies.has(body):
+		curr_bodies.append(body)

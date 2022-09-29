@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var type = "bullet"
+var orig_speed = 1750
 var speed = 1750
 var velocity = Vector2()
 var target_velocity = Vector2()
@@ -22,7 +23,11 @@ func start(inc_muzzle, inc_target, inc_orig_tower):
 	look_at(target_position)
 
 func _physics_process(_delta):
+	
+	if temporal_momentum != 1:
+		speed = orig_speed*temporal_momentum
 	if is_instance_valid(target):
+		
 		target_position = target.get_global_position()
 		look_at(target_position)
 		var direction = global_position.direction_to(target_position)
