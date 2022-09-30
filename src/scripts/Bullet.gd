@@ -29,7 +29,8 @@ func _physics_process(_delta):
 	if is_instance_valid(target):
 		
 		target_position = target.get_global_position()
-		look_at(target_position)
+		if temporal_momentum > 0.1:
+			look_at(target_position)
 		var direction = global_position.direction_to(target_position)
 		target_velocity = target_velocity.move_toward(direction * speed, speed * 100)
 		velocity = move_and_slide(target_velocity)
@@ -42,7 +43,7 @@ func _physics_process(_delta):
 			if distance <= 20:
 				queue_free()
 		else:
-			free()
+			queue_free()
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free() 
