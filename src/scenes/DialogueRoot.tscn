@@ -76,9 +76,7 @@ __meta__ = {
 show_behind_parent = true
 position = Vector2( -1, -1 )
 frames = SubResource( 4 )
-frame = 1
 speed_scale = 1.5
-playing = true
 centered = false
 offset = Vector2( 0, -350 )
 
