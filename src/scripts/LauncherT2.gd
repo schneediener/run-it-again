@@ -1,4 +1,4 @@
-extends "res://src/scripts/LauncherGeneral.gd"
+extends TowersGeneral
 
 var tower_type = "LauncherT2"
 var weapon_type = "missile"
