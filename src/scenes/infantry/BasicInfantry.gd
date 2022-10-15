@@ -8,12 +8,16 @@ var upgrade_value
 var sell_value
 var damage = 1
 var tower_type = "Infantry"
-var weapon_type = "basic"
+var weapon_type = "cannon"
 
 var command_position = Vector2()
 var velocity = Vector2()
 var speed = 250
 var path = PoolVector2Array()
+
+func _ready():
+	built = true
+	ready = true
 
 func incoming_movement_command(inc_position):
 	command_position = inc_position

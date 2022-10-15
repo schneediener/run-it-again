@@ -435,7 +435,7 @@ func make_tower_glow(new_tower, _select_type):
 		new_tower.get_node("Range/RangeSprite").show()
 	else:
 		new_tower.get_node("AnimatedSprite").set_material(shader)
-		new_tower.get_node("AnimatedSprite/Sprite").set_material(shader)
+		new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
 	
 #	if select_type == "single":
 #		new_tower.get_node("CanvasLayer/ButtonContainer").visible = true
@@ -451,7 +451,7 @@ func remove_tower_glow(old_tower):
 			old_tower.get_node("Range/RangeSprite").hide()
 		else:
 			old_tower.get_node("AnimatedSprite").set_material(null)
-			old_tower.get_node("AnimatedSprite/Sprite").set_material(null)
+			old_tower.get_node("FacingDirection/TurretSprite").set_material(null)
 
 	
 #func get_selected_tower():
