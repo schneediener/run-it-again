@@ -1,4 +1,6 @@
-extends Node2D
+extends KinematicBody2D
+
+class_name TowersGeneral
 
 var built = false
 onready var target_method = "first"
