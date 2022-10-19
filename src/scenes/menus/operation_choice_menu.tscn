@@ -1,0 +1,297 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://src/assets/images/character_border.png" type="Texture" id=1]
+[ext_resource path="res://src/assets/images/character_portrait-Sheet.png" type="Texture" id=2]
+[ext_resource path="res://src/assets/images/arrow_continue_pressed.png" type="Texture" id=3]
+[ext_resource path="res://src/assets/images/basic_button.png" type="Texture" id=4]
+[ext_resource path="res://src/assets/sounds/voice (1).mp3" type="AudioStream" id=5]
+[ext_resource path="res://src/assets/images/arrow_continue.png" type="Texture" id=6]
+[ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=7]
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 352, 336 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 352, 0, 352, 336 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Gradient" id=2]
+
+[sub_resource type="GradientTexture2D" id=8]
+gradient = SubResource( 2 )
+width = 350
+height = 350
+fill = 1
+
+[sub_resource type="Theme" id=10]
+
+[sub_resource type="Theme" id=11]
+default_font = ExtResource( 7 )
+
+[node name="OperationChoiceRoot" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 0.303497, 0.418403, 0.597656, 1 )
+margin_right = 1920.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PortraitRoot" type="Control" parent="."]
+margin_left = 88.0
+margin_top = 75.0
+margin_right = 128.0
+margin_bottom = 115.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterBorder" type="Sprite" parent="PortraitRoot"]
+position = Vector2( -7.99999, 360 )
+scale = Vector2( 1.04571, 1.04571 )
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 0, -350 )
+
+[node name="CharacterDialogue" type="AnimatedSprite" parent="PortraitRoot/CharacterBorder"]
+show_behind_parent = true
+position = Vector2( 6.69398, 6.41504 )
+scale = Vector2( 0.956284, 1.00467 )
+frames = SubResource( 9 )
+speed_scale = 1.5
+centered = false
+offset = Vector2( 0, -350 )
+
+[node name="CharacterName" type="Label" parent="PortraitRoot/CharacterBorder"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.519
+anchor_bottom = 1.0
+margin_left = -167.0
+margin_top = -426.0
+margin_right = -6.64999
+margin_bottom = -393.0
+rect_scale = Vector2( 2, 2 )
+text = "CHARACTER NAME"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NamePanel" type="Panel" parent="PortraitRoot/CharacterBorder"]
+modulate = Color( 1, 1, 1, 0.768627 )
+show_behind_parent = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+margin_top = -426.0
+margin_right = 342.0
+margin_bottom = -359.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterBackground" type="TextureRect" parent="PortraitRoot"]
+show_behind_parent = true
+margin_left = 0.365723
+margin_top = 0.274292
+margin_right = 350.366
+margin_bottom = 350.274
+texture = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharMessageRoot" type="Control" parent="."]
+margin_left = 88.0
+margin_top = 75.0
+margin_right = 128.0
+margin_bottom = 115.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelDialogue" type="Panel" parent="CharMessageRoot"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 466.0
+margin_top = -40.0
+margin_right = 1710.0
+margin_bottom = 309.0
+theme = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextDialogue" type="RichTextLabel" parent="CharMessageRoot/PanelDialogue"]
+margin_left = 25.0
+margin_top = 25.0
+margin_right = 1145.0
+margin_bottom = 341.0
+theme = SubResource( 11 )
+text = "This is some text and it's very nice to look at and it means something."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextDialogue2" type="RichTextLabel" parent="CharMessageRoot/PanelDialogue"]
+margin_left = 370.0
+margin_top = 20.0
+margin_right = 1898.0
+margin_bottom = 336.0
+theme = SubResource( 11 )
+visible_characters = 0
+percent_visible = 0.0
+text = "There are some who say that they believe in the one who is broken. That is only half the story. Bricks are delicious."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonNext" type="TextureButton" parent="CharMessageRoot/PanelDialogue"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -95.0
+margin_top = -95.0
+margin_right = -15.0
+margin_bottom = -15.0
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CharMessageRoot/PanelDialogue"]
+position = Vector2( 1196, 64 )
+stream = ExtResource( 5 )
+volume_db = 17.623
+pitch_scale = 0.8
+max_distance = 10000.0
+
+[node name="ChoicesRoot" type="Control" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 280.0
+margin_top = -10.0
+margin_right = 320.0
+margin_bottom = 30.0
+rect_scale = Vector2( 4, 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ChoicesRoot"]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 17
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Choice1" type="Label" parent="ChoicesRoot/VBoxContainer"]
+margin_right = 337.0
+margin_bottom = 14.0
+text = "this is the text that is related to choice 1 PINEAPPLE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Choice2" type="Label" parent="ChoicesRoot/VBoxContainer"]
+margin_top = 31.0
+margin_right = 337.0
+margin_bottom = 45.0
+text = "this is the text that is related to choice 2 FRED"
+
+[node name="Choice3" type="Label" parent="ChoicesRoot/VBoxContainer"]
+margin_top = 62.0
+margin_right = 337.0
+margin_bottom = 76.0
+text = "this is the text that is related to choice 3 MISNOMER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActionButtonsRoot" type="Control" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -40.0
+margin_right = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CloseButton" type="TextureButton" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 42.0
+margin_top = -151.0
+margin_right = 162.0
+margin_bottom = -118.0
+rect_scale = Vector2( 3, 3 )
+texture_normal = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CloseButton"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 120.0
+margin_bottom = 33.0
+text = "CLOSE"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SendButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -384.0
+margin_top = -129.0
+margin_right = -264.0
+margin_bottom = -96.0
+rect_scale = Vector2( 3, 3 )
+texture_normal = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SendButton"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 120.0
+margin_bottom = 33.0
+text = "SEND"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
