@@ -11,21 +11,6 @@
 [ext_resource path="res://src/assets/images/red_icon.png" type="Texture" id=9]
 [ext_resource path="res://src/assets/images/green_icon.png" type="Texture" id=10]
 
-[sub_resource type="DynamicFontData" id=12]
-font_path = "res://src/assets/fonts/Vera.ttf"
-
-[sub_resource type="DynamicFont" id=13]
-size = 35
-font_data = SubResource( 12 )
-
-[sub_resource type="Gradient" id=2]
-
-[sub_resource type="GradientTexture2D" id=8]
-gradient = SubResource( 2 )
-width = 350
-height = 350
-fill = 1
-
 [sub_resource type="AtlasTexture" id=14]
 flags = 4
 atlas = ExtResource( 2 )
@@ -43,6 +28,21 @@ animations = [ {
 "name": "New Anim",
 "speed": 5.0
 } ]
+
+[sub_resource type="Gradient" id=2]
+
+[sub_resource type="GradientTexture2D" id=8]
+gradient = SubResource( 2 )
+width = 350
+height = 350
+fill = 1
+
+[sub_resource type="DynamicFontData" id=12]
+font_path = "res://src/assets/fonts/Vera.ttf"
+
+[sub_resource type="DynamicFont" id=13]
+size = 35
+font_data = SubResource( 12 )
 
 [sub_resource type="Theme" id=10]
 
@@ -64,7 +64,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PortraitRoot" type="MarginContainer" parent="."]
+[node name="PortraitContainer" type="MarginContainer" parent="."]
 margin_right = 350.0
 margin_bottom = 350.0
 rect_clip_content = true
@@ -72,7 +72,38 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NamePanel" type="PanelContainer" parent="PortraitRoot"]
+[node name="CharacterControl" type="Control" parent="PortraitContainer"]
+margin_left = 175.0
+margin_top = 175.0
+margin_right = 175.0
+margin_bottom = 175.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CharacterSprite" type="AnimatedSprite" parent="PortraitContainer/CharacterControl"]
+modulate = Color( 1, 0, 0, 1 )
+frames = SubResource( 16 )
+animation = "New Anim"
+frame = 1
+
+[node name="PortraitBorder" type="TextureRect" parent="PortraitContainer"]
+margin_right = 350.0
+margin_bottom = 350.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="PortraitBackground" type="TextureRect" parent="PortraitContainer"]
+show_behind_parent = true
+margin_right = 350.0
+margin_bottom = 350.0
+rect_clip_content = true
+texture = SubResource( 8 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NamePanel" type="PanelContainer" parent="PortraitContainer"]
 modulate = Color( 1, 1, 1, 0.768627 )
 margin_top = 294.0
 margin_right = 350.0
@@ -82,7 +113,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CharacterName" type="Label" parent="PortraitRoot/NamePanel"]
+[node name="CharacterName" type="Label" parent="PortraitContainer/NamePanel"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 343.0
@@ -94,28 +125,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="CharacterBackground" type="TextureRect" parent="PortraitRoot"]
-show_behind_parent = true
-margin_right = 350.0
-margin_bottom = 350.0
-rect_clip_content = true
-texture = SubResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CharacterDialogue" type="AnimatedSprite" parent="PortraitRoot/CharacterBackground"]
-modulate = Color( 1, 0, 0, 1 )
-frames = SubResource( 16 )
-animation = "New Anim"
-frame = 1
-playing = true
-centered = false
-
-[node name="CharacterBorder" type="Sprite" parent="PortraitRoot"]
-texture = ExtResource( 1 )
-centered = false
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 margin_right = 40.0
