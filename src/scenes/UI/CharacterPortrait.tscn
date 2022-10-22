@@ -52,7 +52,7 @@ rect_clip_content = true
 texture = ExtResource( 1 )
 expand = true
 
-[node name="PortraitBackground" type="TextureRect" parent="PortraitBorder"]
+[node name="PortraitBackground" type="TextureRect" parent="."]
 show_behind_parent = true
 margin_right = 350.0
 margin_bottom = 350.0
@@ -63,7 +63,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CharacterControl" type="Control" parent="PortraitBorder"]
+[node name="CharacterControl" type="Control" parent="."]
 show_behind_parent = true
 margin_left = 175.0
 margin_top = 175.0
@@ -75,14 +75,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CharacterSprite" type="AnimatedSprite" parent="PortraitBorder/CharacterControl"]
+[node name="CharacterSprite" type="AnimatedSprite" parent="CharacterControl"]
 modulate = Color( 1, 0, 0, 1 )
 show_behind_parent = true
 frames = SubResource( 16 )
 animation = "New Anim"
 frame = 1
 
-[node name="NamePanel" type="PanelContainer" parent="PortraitBorder"]
+[node name="NamePanel" type="PanelContainer" parent="."]
 modulate = Color( 1, 1, 1, 0.768627 )
 show_behind_parent = true
 margin_top = 294.0
@@ -93,7 +93,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CharacterName" type="Label" parent="PortraitBorder/NamePanel"]
+[node name="CharacterName" type="Label" parent="NamePanel"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 343.0

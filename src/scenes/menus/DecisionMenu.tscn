@@ -1,0 +1,231 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://src/assets/images/basic_button.png" type="Texture" id=1]
+[ext_resource path="res://src/scenes/UI/Decision.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/assets/resources/narrow_40_outline1.tres" type="DynamicFont" id=4]
+[ext_resource path="res://src/scenes/UI/CharacterPortrait.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/scripts/DecisionMenu.gd" type="Script" id=6]
+[ext_resource path="res://src/assets/images/arrow_continue_pressed.png" type="Texture" id=8]
+[ext_resource path="res://src/assets/sounds/voice (1).mp3" type="AudioStream" id=9]
+[ext_resource path="res://src/assets/images/arrow_continue.png" type="Texture" id=10]
+
+[sub_resource type="Theme" id=10]
+
+[sub_resource type="Theme" id=11]
+default_font = ExtResource( 4 )
+
+[node name="DecisionMenu" type="PanelContainer"]
+self_modulate = Color( 0.301961, 0.419608, 0.596078, 1 )
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 1
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1913.0
+margin_bottom = 1073.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 25
+custom_constants/margin_top = 25
+custom_constants/margin_left = 25
+custom_constants/margin_bottom = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RootVBox" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 25.0
+margin_top = 25.0
+margin_right = 1881.0
+margin_bottom = 1041.0
+
+[node name="CharacterHBox" type="HBoxContainer" parent="MarginContainer/RootVBox"]
+margin_right = 1856.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PortraitContainer" parent="MarginContainer/RootVBox/CharacterHBox" instance=ExtResource( 5 )]
+
+[node name="PanelDialogue" type="PanelContainer" parent="MarginContainer/RootVBox/CharacterHBox"]
+margin_left = 354.0
+margin_right = 1856.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="MarginContainer/RootVBox/CharacterHBox/PanelDialogue"]
+position = Vector2( 1196, 64 )
+stream = ExtResource( 9 )
+volume_db = 17.623
+pitch_scale = 0.8
+max_distance = 10000.0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/RootVBox/CharacterHBox/PanelDialogue"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1495.0
+margin_bottom = 343.0
+custom_constants/margin_right = 25
+custom_constants/margin_top = 25
+custom_constants/margin_left = 25
+custom_constants/margin_bottom = 25
+
+[node name="ButtonNext" type="TextureButton" parent="MarginContainer/RootVBox/CharacterHBox/PanelDialogue/MarginContainer"]
+margin_left = 1383.0
+margin_top = 231.0
+margin_right = 1463.0
+margin_bottom = 311.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/RootVBox/CharacterHBox/PanelDialogue/MarginContainer"]
+margin_left = 25.0
+margin_top = 25.0
+margin_right = 1463.0
+margin_bottom = 311.0
+custom_constants/margin_right = 120
+
+[node name="TextDialogue" type="RichTextLabel" parent="MarginContainer/RootVBox/CharacterHBox/PanelDialogue/MarginContainer/MarginContainer"]
+margin_right = 1318.0
+margin_bottom = 286.0
+rect_min_size = Vector2( 350, 0 )
+rect_clip_content = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 11 )
+text = "This is some text and it's very nice to look at and it means something."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextDialogue2" type="RichTextLabel" parent="MarginContainer/RootVBox/CharacterHBox/PanelDialogue/MarginContainer/MarginContainer"]
+visible = false
+margin_right = 1318.0
+margin_bottom = 286.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 11 )
+visible_characters = 0
+percent_visible = 0.0
+text = "There are some who say that they believe in the one who is broken. That is only half the story. Bricks are delicious."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DecisionMargin" type="MarginContainer" parent="MarginContainer/RootVBox"]
+margin_top = 354.0
+margin_right = 1856.0
+margin_bottom = 929.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 17.4
+custom_constants/margin_right = 25
+custom_constants/margin_top = 25
+custom_constants/margin_left = 25
+custom_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/RootVBox/DecisionMargin"]
+margin_left = 605.0
+margin_top = 199.0
+margin_right = 1250.0
+margin_bottom = 376.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+custom_constants/separation = 21
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Decision" parent="MarginContainer/RootVBox/DecisionMargin/VBoxContainer" instance=ExtResource( 3 )]
+margin_right = 645.0
+
+[node name="Decision2" parent="MarginContainer/RootVBox/DecisionMargin/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 66.0
+margin_right = 645.0
+margin_bottom = 111.0
+icon_colour = "Blue"
+label_text = "This is some example text 2"
+
+[node name="Decision3" parent="MarginContainer/RootVBox/DecisionMargin/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 132.0
+margin_right = 645.0
+margin_bottom = 177.0
+icon_colour = "Green"
+label_text = "This is some example text 3"
+
+[node name="ButtonMargin" type="MarginContainer" parent="MarginContainer/RootVBox"]
+margin_top = 933.0
+margin_right = 1856.0
+margin_bottom = 1016.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 25
+custom_constants/margin_top = 25
+custom_constants/margin_left = 25
+custom_constants/margin_bottom = 25
+
+[node name="CloseButton" type="TextureButton" parent="MarginContainer/RootVBox/ButtonMargin"]
+margin_left = 25.0
+margin_top = 25.0
+margin_right = 145.0
+margin_bottom = 58.0
+size_flags_horizontal = 2
+size_flags_vertical = 8
+texture_normal = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MarginContainer/RootVBox/ButtonMargin/CloseButton"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 120.0
+margin_bottom = 33.0
+text = "CLOSE"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SendButton" type="TextureButton" parent="MarginContainer/RootVBox/ButtonMargin"]
+margin_left = 1711.0
+margin_top = 25.0
+margin_right = 1831.0
+margin_bottom = 58.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+texture_normal = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MarginContainer/RootVBox/ButtonMargin/SendButton"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 120.0
+margin_bottom = 33.0
+text = "SEND"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
