@@ -7,7 +7,7 @@
 [ext_resource path="res://src/scripts/UserInterface.gd" type="Script" id=5]
 [ext_resource path="res://src/assets/images/health_bar_progress.png" type="Texture" id=6]
 [ext_resource path="res://src/assets/images/health_bar_border.png" type="Texture" id=7]
-[ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=8]
+[ext_resource path="res://src/assets/resources/narrow_40_outline1.tres" type="DynamicFont" id=8]
 [ext_resource path="res://src/scripts/build_missile.gd" type="Script" id=9]
 [ext_resource path="res://src/scripts/build_gun.gd" type="Script" id=10]
 [ext_resource path="res://src/scripts/build_minigun.gd" type="Script" id=11]
@@ -19,6 +19,7 @@
 [ext_resource path="res://tutorial_assets/UI/PNG/red_cross.png" type="Texture" id=17]
 [ext_resource path="res://src/scripts/InfantryBuild.gd" type="Script" id=18]
 [ext_resource path="res://src/assets/images/basic_infantry.png" type="Texture" id=19]
+
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4

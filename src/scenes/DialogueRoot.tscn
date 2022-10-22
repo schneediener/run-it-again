@@ -5,7 +5,7 @@
 [ext_resource path="res://src/assets/images/arrow_continue_pressed.png" type="Texture" id=3]
 [ext_resource path="res://src/scenes/DialogueRoot.gd" type="Script" id=4]
 [ext_resource path="res://src/assets/images/arrow_continue.png" type="Texture" id=5]
-[ext_resource path="res://src/scenes/fonts/narrow_40_outline1.tres" type="DynamicFont" id=6]
+[ext_resource path="res://src/assets/resources/narrow_40_outline1.tres" type="DynamicFont" id=6]
 [ext_resource path="res://src/assets/sounds/voice (1).mp3" type="AudioStream" id=7]
 
 [sub_resource type="Theme" id=1]
