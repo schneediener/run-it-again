@@ -16,11 +16,20 @@ __meta__ = {
 margin_right = 606.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 550, 0 )
-mouse_filter = 0
+mouse_filter = 1
 input_pass_on_modal_close_click = false
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
 text = "This is some example text."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Choice1"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 601.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -32,3 +41,9 @@ margin_right = 645.0
 margin_bottom = 40.0
 size_flags_vertical = 4
 texture_normal = ExtResource( 1 )
+
+[connection signal="button_down" from="Choice1/Button" to="." method="_on_Button_button_down"]
+[connection signal="button_up" from="Choice1/Button" to="." method="_on_Button_button_up"]
+[connection signal="mouse_entered" from="Choice1/Button" to="." method="_on_Button_mouse_entered"]
+[connection signal="mouse_exited" from="Choice1/Button" to="." method="_on_Button_mouse_exited"]
+[connection signal="pressed" from="Choice1/Button" to="." method="_on_Button_pressed"]
