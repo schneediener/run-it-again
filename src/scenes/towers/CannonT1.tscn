@@ -66,7 +66,7 @@ region_rect = Rect2( 1343.5, 766, 64, 64 )
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 0.9
+wait_time = 0.25
 one_shot = true
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
