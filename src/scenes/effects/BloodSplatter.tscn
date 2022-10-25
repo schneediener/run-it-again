@@ -4,13 +4,20 @@
 [ext_resource path="res://src/scripts/BloodSplatter.gd" type="Script" id=2]
 
 [node name="Node2D" type="CPUParticles2D"]
-emitting = false
-amount = 16
-one_shot = true
+amount = 50
+lifetime = 0.4
 explosiveness = 1.0
 texture = ExtResource( 1 )
+direction = Vector2( 2, 0 )
+spread = 79.47
 gravity = Vector2( 0, 0 )
-initial_velocity = 290.0
-initial_velocity_random = 1.0
-scale_amount_random = 0.5
+initial_velocity = 178.28
+initial_velocity_random = 0.83
+linear_accel = -100.0
+damping = 100.0
+damping_random = 0.66
+scale_amount = 0.1
+scale_amount_random = 0.34
+hue_variation = -0.04
+hue_variation_random = 0.23
 script = ExtResource( 2 )
