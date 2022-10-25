@@ -13,6 +13,7 @@ var slowed = false
 onready var orig_speed = self.speed
 
 onready var game_scene = get_node("../../..")
+onready var blood = load("res://src/scenes/effects/BloodSplatter.tscn")
 
 var sean_test = true
 
@@ -80,7 +81,7 @@ func set_health_tint():
 func get_distance():
 	return remaining_dist
 
-func take_damage(damage, slow):
+func take_damage(damage, slow, body):
 	var dead
 	var new_gold
 	
@@ -93,6 +94,11 @@ func take_damage(damage, slow):
 	
 	if health <= 0 and !dead:
 		dead = true
+		var blood_instance = blood.instance()
+		get_tree().current_scene.add_child(blood_instance)
+		blood_instance.global_position = self.global_position
+		blood_instance.rotation = global_position.angle_to_point(body)
+		blood_instance.emitting = true
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
 		if game_scene.current_time < game_scene.time_max:
 			game_scene.current_time = game_scene.current_time + 0.8
@@ -111,7 +117,8 @@ func _on_HitDetection_body_entered(body):
 		if body.target==self:
 			var damage = body.damage
 			var slow
+			var direction = body.global_position
 			if body.get("slow"):
 				slow = true
 			body.free()
-			take_damage(damage, slow)
+			take_damage(damage, slow, direction)

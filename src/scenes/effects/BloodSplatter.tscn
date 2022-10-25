@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/assets/images/blood_splatter_text.png" type="Texture" id=1]
+[ext_resource path="res://src/scripts/BloodSplatter.gd" type="Script" id=2]
+
+[node name="Node2D" type="CPUParticles2D"]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource( 1 )
+gravity = Vector2( 0, 0 )
+initial_velocity = 290.0
+initial_velocity_random = 1.0
+scale_amount_random = 0.5
+script = ExtResource( 2 )
