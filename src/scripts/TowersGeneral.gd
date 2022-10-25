@@ -284,6 +284,20 @@ func fire():
 	
 	
 	if self.audio_player != null:
+		var random_int = randi() % 5
+		var random_amount
+		match random_int:
+			0:
+				random_amount = 0.20
+			1:
+				random_amount = -0.20
+			2:
+				random_amount = 0
+			3:
+				random_amount = -0.40
+			4:
+				random_amount = 0.40
+		audio_player.pitch_scale = 1.5 - random_amount
 		audio_player.play()
 	
 	match self.weapon_type:

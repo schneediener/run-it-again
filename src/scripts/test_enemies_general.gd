@@ -13,6 +13,7 @@ var slowed = false
 onready var orig_speed = self.speed
 
 onready var game_scene = get_node("../../..")
+onready var death_sound = load("res://src/assets/sounds/Creature_Alien_Death_01.ogg")
 
 var sean_test = true
 
@@ -93,6 +94,11 @@ func take_damage(damage, slow):
 	
 	if health <= 0 and !dead:
 		dead = true
+		var stream_player = AudioStreamPlayer2D.new()
+		stream_player.global_position = self.global_position
+		get_tree().current_scene.add_child(stream_player)
+		stream_player.stream = death_sound
+		stream_player.play()
 		new_gold = game_scene.map_node.income_per_kill*self.gold_multi
 		if game_scene.current_time < game_scene.time_max:
 			game_scene.current_time = game_scene.current_time + 0.8

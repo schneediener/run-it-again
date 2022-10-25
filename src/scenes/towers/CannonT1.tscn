@@ -67,14 +67,14 @@ region_rect = Rect2( 1343.5, 766, 64, 64 )
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 2.7
+wait_time = 1.35
 one_shot = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( 73, 31 )
 stream = ExtResource( 1 )
+volume_db = -19.244
 pitch_scale = 1.89
-attenuation = 1.56917
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
