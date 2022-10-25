@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Bluezone_BC0271_tank_artillery_cannon_shot_012.ogg-2f05cc6e3781ca3ada7aaf1e015a985e.oggstr"
+
+[deps]
+
+source_file="res://src/assets/sounds/Bluezone_BC0271_tank_artillery_cannon_shot_012.ogg"
+dest_files=[ "res://.import/Bluezone_BC0271_tank_artillery_cannon_shot_012.ogg-2f05cc6e3781ca3ada7aaf1e015a985e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

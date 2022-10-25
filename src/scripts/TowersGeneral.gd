@@ -11,6 +11,7 @@ onready var weapon_range = $Range
 onready var ready = true
 onready var game_scene = get_node("/root/SceneHandler").game_scene
 var type = "tower"
+var audio_player = null
 
 signal array_refreshed
 signal target_acquired
@@ -280,6 +281,10 @@ func fire():
 	var projectile
 	var muzzle = self.get_node("FacingDirection/Muzzle")
 	var cooldown = self.get_node("FiringRate")
+	
+	
+	if self.audio_player != null:
+		audio_player.play()
 	
 	match self.weapon_type:
 		"cannon":

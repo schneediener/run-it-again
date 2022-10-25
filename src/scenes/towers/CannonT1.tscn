@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://src/assets/sounds/Bluezone_BC0271_tank_artillery_cannon_shot_012.ogg" type="AudioStream" id=1]
 [ext_resource path="res://tutorial_assets/range_overlay.png" type="Texture" id=3]
 [ext_resource path="res://src/assets/tilemaps/towerDefense_tilesheet.png" type="Texture" id=6]
 [ext_resource path="res://src/scripts/CannonT1.gd" type="Script" id=8]
@@ -66,8 +67,14 @@ region_rect = Rect2( 1343.5, 766, 64, 64 )
 [node name="BulletContainer" type="Node2D" parent="FacingDirection"]
 
 [node name="FiringRate" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 2.7
 one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 73, 31 )
+stream = ExtResource( 1 )
+pitch_scale = 1.89
+attenuation = 1.56917
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]

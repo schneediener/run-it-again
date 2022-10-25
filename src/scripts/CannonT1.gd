@@ -7,4 +7,7 @@ var buy_value = 150
 var muzzle_count = 1
 var upgrade_value = 450
 var sell_value = 150
-var damage = 0.75
+var damage = 9
+
+func _process(delta):
+	audio_player = $AudioStreamPlayer2D
