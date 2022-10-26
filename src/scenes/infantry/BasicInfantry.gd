@@ -2,7 +2,7 @@ extends TowersGeneral
 
 
 #var upgrade_path = load("res://src/scenes/towers/CannonT2.tscn")
-var buy_value = 150
+var buy_value = 0
 var muzzle_count = 1
 var upgrade_value
 var sell_value
