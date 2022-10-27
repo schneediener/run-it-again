@@ -13,26 +13,25 @@ script = ExtResource( 2 )
 position = Vector2( 64, 71.5 )
 shape = SubResource( 1 )
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Shadow" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 0.34902 )
-margin_left = -17.0
-margin_top = 20.0
-margin_right = 127.0
-margin_bottom = 113.0
+margin_left = -8.0
+margin_top = 37.0
+margin_right = 81.0
+margin_bottom = 115.0
 rect_rotation = -9.6
 rect_scale = Vector2( 0.8, 1.2 )
+mouse_filter = 2
 texture = ExtResource( 1 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="OfficeBuilding" type="TextureRect" parent="."]
 margin_right = 128.0
 margin_bottom = 128.0
-texture_normal = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
+texture = ExtResource( 1 )
 
 [connection signal="body_entered" from="." to="." method="_on_MissionLocation_body_entered"]

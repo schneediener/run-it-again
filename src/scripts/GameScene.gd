@@ -22,6 +22,8 @@ var pause_menu
 onready var spacebar_pause = false
 onready var esc_pause = false
 
+var manpower = 3
+
 var dragging = false  # Are we currently dragging?
 var selected_array = []  # Array of selected units.
 var selected_array_type
@@ -366,6 +368,10 @@ func verify_and_build():
 		var new_tower = build_scene.instance()
 		new_tower.global_position = map_node.infantry_spawn.global_position
 		map_node.get_node("Towers").add_child(new_tower)
+		manpower -= 1
+		$UserInterface/HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Infantry/Label2.text = str(manpower) + " left"
+		if manpower == 0:
+			$UserInterface/HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Infantry.disabled = true
 	else:
 		if build_valid and current_gold >= tower_cost:
 			var new_tower = build_scene.instance()

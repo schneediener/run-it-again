@@ -94,6 +94,7 @@ self_modulate = Color( 100, 100, 100, 0.01 )
 position = Vector2( -4, -6.75 )
 scale = Vector2( 3.64444, 2.84722 )
 frames = SubResource( 11 )
+frame = 6
 speed_scale = 1.25
 playing = true
 centered = false
@@ -213,6 +214,7 @@ margin_right = 410.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
 texture_normal = ExtResource( 3 )
+texture_disabled = ExtResource( 1 )
 expand = true
 script = ExtResource( 18 )
 
@@ -223,6 +225,17 @@ scale = Vector2( 0.714207, 0.714207 )
 texture = ExtResource( 19 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 60, 63.2636 )
+
+[node name="Label2" type="Label" parent="UserInterface/HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Infantry"]
+margin_left = -2.0
+margin_top = -30.0
+margin_right = 38.0
+margin_bottom = -16.0
+rect_scale = Vector2( 2.5, 2.5 )
+text = "3 left"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SelectPanel" type="Panel" parent="UserInterface/HeadsUpDisplay"]
 self_modulate = Color( 1, 1, 1, 0.462745 )
