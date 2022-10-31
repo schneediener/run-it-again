@@ -123,19 +123,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextDialogue2" type="RichTextLabel" parent="."]
-margin_left = 370.0
-margin_top = 740.0
-margin_right = 1898.0
-margin_bottom = 1056.0
-theme = SubResource( 5 )
-visible_characters = 0
-percent_visible = 0.0
-text = "There are some who say that they believe in the one who is broken. That is only half the story. Bricks are delicious."
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="ButtonNext" type="TextureButton" parent="."]
 anchor_left = 1.0
 anchor_top = 1.0
