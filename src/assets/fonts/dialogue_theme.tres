@@ -1,6 +1,5 @@
-[gd_resource type="Theme" load_steps=8 format=2]
+[gd_resource type="Theme" load_steps=7 format=2]
 
-[ext_resource path="res://src/assets/fonts/dogica_16.tres" type="DynamicFont" id=1]
 [ext_resource path="res://src/assets/fonts/FifteenNarrow.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://src/assets/fonts/OTF/dogicabold.otf" type="DynamicFontData" id=3]
 
@@ -10,8 +9,8 @@ extra_spacing_bottom = 20
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=4]
-resource_name = "fifteen_narrow_16"
-size = 55
+resource_name = "fifteen_narrow_42"
+size = 42
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFontData" id=1]
@@ -33,6 +32,6 @@ RichTextLabel/constants/table_hseparation = 3
 RichTextLabel/constants/table_vseparation = 3
 RichTextLabel/fonts/bold_font = SubResource( 3 )
 RichTextLabel/fonts/italics_font = SubResource( 4 )
-RichTextLabel/fonts/normal_font = ExtResource( 1 )
+RichTextLabel/fonts/normal_font = SubResource( 3 )
 RichTextLabel/styles/focus = null
 RichTextLabel/styles/normal = null
