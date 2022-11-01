@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/scripts/NotificationIcon.gd" type="Script" id=1]
+[ext_resource path="res://src/assets/images/office.png" type="Texture" id=2]
+[ext_resource path="res://tutorial_assets/UI/PNG/yellow_button12.png" type="Texture" id=3]
+[ext_resource path="res://src/assets/fonts/dogica_16.tres" type="DynamicFont" id=4]
+
+[node name="NotificationIcon" type="PanelContainer"]
+self_modulate = Color( 0, 0, 0, 0.34902 )
+margin_right = 293.0
+margin_bottom = 134.0
+script = ExtResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 286.0
+margin_bottom = 127.0
+
+[node name="Control" type="HBoxContainer" parent="MarginContainer"]
+margin_right = 279.0
+margin_bottom = 120.0
+custom_constants/separation = 23
+
+[node name="Label" type="Label" parent="MarginContainer/Control"]
+margin_top = 37.0
+margin_right = 136.0
+margin_bottom = 83.0
+custom_fonts/font = ExtResource( 4 )
+text = "0:45"
+
+[node name="TextureButton" type="TextureButton" parent="MarginContainer/Control"]
+margin_left = 159.0
+margin_right = 279.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 120, 120 )
+size_flags_horizontal = 10
+size_flags_vertical = 3
+texture_normal = ExtResource( 3 )
+expand = true
+
+[node name="Sprite" type="Sprite" parent="MarginContainer/Control/TextureButton"]
+position = Vector2( 12, 12 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

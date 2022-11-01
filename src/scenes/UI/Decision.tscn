@@ -9,9 +9,6 @@ margin_right = 1250.0
 margin_bottom = 45.0
 custom_constants/separation = 20
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Icon" type="TextureButton" parent="."]
 margin_top = 5.0
@@ -34,14 +31,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="Choice1"]
+[node name="Button" type="Button" parent="Choice1" groups=["decision_buttons"]]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 601.0
 margin_bottom = 45.0
 size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="button_down" from="Choice1/Button" to="." method="_on_Button_button_down"]
 [connection signal="button_up" from="Choice1/Button" to="." method="_on_Button_button_up"]

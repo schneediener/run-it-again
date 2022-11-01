@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://tutorial_assets/UI/PNG/grey_button10.png" type="Texture" id=1]
 [ext_resource path="res://src/assets/tilemaps/towerDefense_tilesheet.png" type="Texture" id=2]
@@ -19,6 +19,8 @@
 [ext_resource path="res://tutorial_assets/UI/PNG/red_cross.png" type="Texture" id=17]
 [ext_resource path="res://src/scripts/InfantryBuild.gd" type="Script" id=18]
 [ext_resource path="res://src/assets/images/basic_infantry.png" type="Texture" id=19]
+[ext_resource path="res://src/scenes/UI/NotificationIcon.tscn" type="PackedScene" id=20]
+[ext_resource path="res://src/scenes/menus/DecisionMenu.tscn" type="PackedScene" id=21]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -94,7 +96,7 @@ self_modulate = Color( 100, 100, 100, 0.01 )
 position = Vector2( -4, -6.75 )
 scale = Vector2( 3.64444, 2.84722 )
 frames = SubResource( 11 )
-frame = 6
+frame = 9
 speed_scale = 1.25
 playing = true
 centered = false
@@ -431,6 +433,16 @@ margin_bottom = -207.0
 custom_fonts/normal_font = ExtResource( 8 )
 text = "400"
 fit_content_height = true
+
+[node name="NotificationIcon" parent="UserInterface" instance=ExtResource( 20 )]
+visible = false
+margin_left = 1614.0
+margin_top = 235.0
+margin_right = 1907.0
+margin_bottom = 369.0
+
+[node name="DecisionMenu" parent="UserInterface" instance=ExtResource( 21 )]
+visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 960, 540 )

@@ -30,6 +30,8 @@ var selected_array_type
 var drag_start  # Location where drag began.
 var select_rect = RectangleShape2D.new()  # Collision shape for drag box.
 
+onready var dialogue_menu = get_node("UserInterface/DecisionMenu")
+
 var camera_move_array = [0,0,0,0]
 
 func _ready():
@@ -66,7 +68,10 @@ func _on_Upgrade_pressed():
 	
 	clear_selected_array()
 
-
+func reset_notification_icon():
+	$UserInterface/NotificationIcon/Timer.wait_time = 30
+	$UserInterface/NotificationIcon/Timer.start()
+	$UserInterface/NotificationIcon.show()
 
 func _on_Sell_pressed():
 	for tower in selected_array:

@@ -41,6 +41,3 @@ func _on_Button_button_down():
 
 func _on_Button_button_up():
 	pressed = false
-
-func _on_Button_pressed():
-	pass # Handled by parent e.g. "move to this next dialogue scene"
