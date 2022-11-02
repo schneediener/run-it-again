@@ -9,6 +9,9 @@ func _ready():
 	OS.window_fullscreen = true
 	if get_node("MainMenu/Margin/VBoxContainer/NewGameSean").connect("pressed", self, "_on_NewGameSean_pressed") != OK:
 		print("Signal connect for _on_NewGameSean_pressed failed")
+		
+	if get_node("MainMenu/Margin/VBoxContainer/NewGameSean2").connect("pressed", self, "_on_NewGameSean2_pressed") != OK:
+		print("Signal connect for _on_NewGameSean_pressed failed")
 
 	if get_node("MainMenu/Margin/VBoxContainer/NewGameTest").connect("pressed", self, "_on_NewGameTest_pressed") != OK:
 		print("Signal connect for _on_NewGameTest_pressed failed")
@@ -34,6 +37,18 @@ func _on_NewGameSean_pressed():
 	add_child(game_scene)
 	
 #	game_scene.add_child(sean_game)
+
+func _on_NewGameSean2_pressed():
+#	self.queue_free()
+#	get_tree().change_scene("res://src/scenes/levels/SeanMap.tscn")
+	if main_menu and is_instance_valid(main_menu):
+		main_menu.queue_free()
+		main_menu = null
+	game_scene = load("res://src/scenes/GameScene.tscn").instance()
+	game_scene.map_node = "map_context"
+	current_level = "map_context"
+	add_child(game_scene)
+
 func _on_NewGameTest_pressed():
 	if main_menu and is_instance_valid(main_menu):
 		main_menu.queue_free()

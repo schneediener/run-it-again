@@ -12,7 +12,7 @@ onready var slow_timer = $SlowTimer
 var slowed = false
 onready var orig_speed = self.speed
 
-onready var game_scene = get_node("../../..")
+onready var game_scene = get_node("/root/SceneHandler").game_scene
 
 var sean_test = true
 

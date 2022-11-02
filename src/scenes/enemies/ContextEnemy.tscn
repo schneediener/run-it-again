@@ -3,25 +3,27 @@
 [ext_resource path="res://src/assets/images/enemy_health_over_texture.png" type="Texture" id=1]
 [ext_resource path="res://src/assets/images/icon.png" type="Texture" id=2]
 [ext_resource path="res://src/assets/images/enemy_health_progress_texture.png" type="Texture" id=3]
-[ext_resource path="res://src/scripts/test_enemy1.gd" type="Script" id=4]
+[ext_resource path="res://src/scenes/enemies/ContextEnemy.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 27.6667, 26.5 )
 
-[node name="TestEnemy1" type="KinematicBody2D"]
+[node name="ContextEnemy" type="KinematicBody2D"]
 position = Vector2( 97, 45 )
 collision_layer = 3
 collision_mask = 3
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
+look_ahead = 250
+num_rays = 32
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -0.5 )
+rotation = -0.734784
 shape = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.803922, 0, 1, 1 )
+rotation = 1.5708
 texture = ExtResource( 2 )
 
 [node name="HitDetection" type="Area2D" parent="."]
