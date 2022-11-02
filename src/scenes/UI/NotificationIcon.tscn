@@ -10,6 +10,9 @@ self_modulate = Color( 0, 0, 0, 0.34902 )
 margin_right = 293.0
 margin_bottom = 134.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_left = 7.0

@@ -18,7 +18,7 @@ func _ready():
 			next_scenario = "end"
 
 func _process(delta):
-	$MarginContainer/Control/Label.text = "0:" + str($Timer.time_left)
+	$MarginContainer/Control/Label.text = "0:" + str(stepify($Timer.time_left, 1))
 
 func _on_Timer_timeout():
 	game_scene.dialogue_menu.show()
