@@ -50,6 +50,7 @@ version_control/plugin_name="GitAPI"
 shortcut=false
 screen=false
 terminal=true
+lf=true
 
 [gui]
 

@@ -15,6 +15,7 @@ var max_waves = 6
 var ready_to_finish
 
 var middle_last_spawned
+onready var infantry_spawn = $InfantrySpawn
 
 onready var ship_path_1 = $Dropships/Path_Dropship1
 onready var ship_path_2 = $Dropships/Path_Dropship2
