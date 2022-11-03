@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var velocity = Vector2()
-var path = PoolVector2Array()
+
 var distance_travelled = 0
 var health
 var health_perc
@@ -13,6 +13,8 @@ var slowed = false
 onready var orig_speed = self.speed
 
 onready var game_scene = get_node("/root/SceneHandler").game_scene
+onready var path = game_scene.map_node.get_node("Path2D")
+onready var path_follow = path.get_node("PathFollow2D")
 
 var sean_test = true
 
@@ -25,18 +27,18 @@ func _ready():
 	set_health_tint()
 #	print(global_position)
 	
-func _physics_process(delta):
-	if slowed:
-		self.speed = orig_speed*0.6
-	else:
-		self.speed = orig_speed
-	if path.size() > 0:
-		calc_remaining_dist(self)
-		var target = global_position.direction_to(path[0])
-		velocity = move_and_slide(target * self.speed) * delta
-		var path_distance = global_position.distance_to(path[0])
-		if path_distance <= 16:
-			path.remove(0)
+#func _physics_process(delta):
+#	if slowed:
+#		self.speed = orig_speed*0.6
+#	else:
+#		self.speed = orig_speed
+#	if path.curve.get_baked_points().size() > 0:
+#		calc_remaining_dist(self)
+#		var target = global_position.direction_to(path[0])
+#		velocity = move_and_slide(target * self.speed) * delta
+#		var path_distance = global_position.distance_to(path[0])
+#		if path_distance <= 16:
+#			path.remove(0)
 	
 	if $HealthBar.value != health:
 		$HealthBar.value = health

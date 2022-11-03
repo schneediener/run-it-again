@@ -21,7 +21,8 @@ position = Vector2( 32, 32 )
 shape = SubResource( 10 )
 
 [node name="Range" type="Area2D" parent="."]
-collision_mask = 6
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 material = SubResource( 9 )

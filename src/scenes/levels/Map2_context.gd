@@ -5,7 +5,7 @@ onready var nav_2d: Navigation2D = $Navigation2D
 onready var line_2d: Line2D = $Line2D
 
 onready var game_scene = get_node("../")
-var path
+onready var path = $Path2D
 onready var end_point_left = get_node("ExitPointLeft").position
 onready var end_point_right = get_node("ExitPointRight").position
 
@@ -35,7 +35,7 @@ export var wave_7 = ["Wave 7",30,20,6,0.1]
 export var wave_8 = ["Wave 8",50,30,10,0.1]
 export var wave_9 = ["Wave 9",60,30,30,.05]
 
-
+var view_points
 var enemy_roulette = []
 
 var wave_list = ["start", wave_1, wave_2, wave_3, wave_4, wave_5, wave_6, wave_7, wave_8, wave_9, "finish"]
@@ -54,6 +54,7 @@ var total_max
 var total_spawned
 
 func _ready():
+	
 	$WaveTimer.wait_time = 5
 	$WaveTimer.start()
 	yield ($WaveTimer, "timeout")
@@ -67,6 +68,14 @@ func _process(_delta):
 			finish_level()
 			ready_to_finish = false
 
+#SEANS TEST SHIT
+#func initial_path_creation(spawn, end):
+#	var temp_path = nav_2d.get_simple_path(spawn, end, true)
+#	for i in temp_path:
+#		$Path2D.curve.add_point(i)
+#
+#	view_points = $Path2D.curve.get_baked_points()
+#	pass
 func start_new_wave():
 	$Spawn/Timer.stop()
 	
@@ -145,6 +154,8 @@ func spawn_new_enemy():
 	var basic = load("res://src/scenes/enemies/ContextEnemy.tscn")
 	var _tank = load("res://src/scenes/enemies/Tank.tscn")
 	
+#	initial_path_creation($Spawn.global_position, $ExitPointLeft.global_position)
+	
 	var next_enemy
 	var spawn_1 = $Spawn
 	var spawn_2 = $Spawn/Spawn_2
@@ -187,7 +198,7 @@ func spawn_new_enemy():
 		$EnemyContainer.add_child(next_enemy, true)
 		enemy_roulette.erase(next_type)
 		
-		create_path(next_enemy, next_spawn)
+		#create_path(next_enemy, next_spawn)
 	else:
 		push_error("no enemy")
 	

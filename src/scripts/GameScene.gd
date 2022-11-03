@@ -63,12 +63,13 @@ func _ready():
 		map_node = temp_map
 	elif map_node == "map_context":
 		var temp_map = load("res://src/scenes/levels/Map2_context.tscn").instance()
+		map_node = temp_map
 		add_child(temp_map)
 		if get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
 			push_error("damage zone left connect failed")
 		if get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
 			push_error("damage zone right connect failed")
-		map_node = temp_map
+		
 		
 func _on_Upgrade_pressed():
 	for tower in selected_array:

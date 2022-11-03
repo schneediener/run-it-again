@@ -10,16 +10,12 @@ extents = Vector2( 27.6667, 26.5 )
 
 [node name="ContextEnemy" type="KinematicBody2D"]
 position = Vector2( 97, 45 )
-collision_layer = 3
-collision_mask = 3
+collision_layer = 131072
+collision_mask = 131079
 script = ExtResource( 4 )
+max_speed = 250
 look_ahead = 250
-num_rays = 32
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -0.5 )
-rotation = -0.734784
-shape = SubResource( 7 )
+num_rays = 64
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 0.803922, 0, 1, 1 )
@@ -27,8 +23,9 @@ rotation = 1.5708
 texture = ExtResource( 2 )
 
 [node name="HitDetection" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
-collision_mask = 8
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection"]
 position = Vector2( 0.800003, -0.5 )
@@ -46,6 +43,11 @@ texture_progress = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="."]
+position = Vector2( -76, -6 )
+rotation = -0.734784
+polygon = PoolVector2Array( 51.7051, 14.3731, 77.4517, 75.374, 10.7375, 58.2212, 29.2232, 31.7963 )
 
 [node name="SlowTimer" type="Timer" parent="."]
 
