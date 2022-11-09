@@ -15,7 +15,7 @@ collision_mask = 131079
 script = ExtResource( 4 )
 max_speed = 250
 look_ahead = 250
-num_rays = 64
+num_rays = 90
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 0.803922, 0, 1, 1 )

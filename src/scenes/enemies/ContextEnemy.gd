@@ -66,7 +66,7 @@ func set_danger():
 				[self])
 		if result:
 			var distance_to = look_ahead/((position.distance_to(result.position)+0.1)/2)
-			danger[i] = distance_to
+			danger[i] = 1
 		else: 
 			danger[i] = 0.0
 
