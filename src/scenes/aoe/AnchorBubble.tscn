@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/scenes/enemies/BasicEnemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/scripts/AnchorBubble.gd" type="Script" id=2]
+[ext_resource path="res://src/assets/images/bubbles-png-11407.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 264.004
+
+[node name="AnchorBubble" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Area2D"]
+modulate = Color( 1, 0.054902, 0.054902, 0.352941 )
+position = Vector2( 1.50001, 43.5 )
+scale = Vector2( 0.386429, 0.387958 )
+texture = ExtResource( 3 )
+
+[node name="TestEnemy1" parent="." instance=ExtResource( 1 )]
+position = Vector2( -89, 148 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 40.0
+autostart = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

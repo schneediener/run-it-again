@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "res://src/scripts/temporal_engine.gd"
 
 var velocity = Vector2()
 
@@ -7,6 +7,7 @@ var health
 var health_perc
 var type = "enemy"
 var subtype = "creep"
+onready var time_freeze = false
 var remaining_dist = 0
 onready var slow_timer = $SlowTimer
 var slowed = false
@@ -16,7 +17,7 @@ onready var game_scene = get_node("/root/SceneHandler").game_scene
 onready var path = game_scene.map_node.get_node("Path2D")
 onready var path_follow = path.get_node("PathFollow2D")
 
-var sean_test = true
+#var sean_test = true
 
 func _ready():
 	self.speed = self.speed
@@ -51,7 +52,6 @@ func calculate_health_perc():
 	var perc = round((float(health)/self.max_health)* 100)
 	health_perc = perc
 	
-
 func calc_remaining_dist(body):
 	var temp_dist
 	var curr_index = 0
