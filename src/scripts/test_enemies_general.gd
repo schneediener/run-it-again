@@ -14,12 +14,15 @@ var slowed = false
 onready var orig_speed = self.speed
 
 onready var game_scene = get_node("/root/SceneHandler").game_scene
-onready var path = game_scene.map_node.get_node("Path2D")
-onready var path_follow = path.get_node("PathFollow2D")
+onready var path #= game_scene.map_node.get_node("Path2D")
+onready var path_follow #= path.get_node("PathFollow2D")
 
 #var sean_test = true
 
 func _ready():
+	if get_node("/root/SceneHandler").current_level != "map_1":
+		path = game_scene.map_node.get_node("Path2D")
+		path_follow = path.get_node("PathFollow2D")
 	self.speed = self.speed
 	$HealthBar.value = self.max_health
 	$HealthBar.max_value = self.max_health

@@ -32,7 +32,8 @@ func _on_NewGameSean_pressed():
 		main_menu.queue_free()
 		main_menu = null
 	game_scene = load("res://src/scenes/GameScene.tscn").instance()
-	game_scene.map_node = "map_1"
+	game_scene.map_node = load("res://src/scenes/levels/SeanMap.tscn").instance()
+	game_scene.add_child(game_scene.map_node)
 	current_level = "map_1"
 	add_child(game_scene)
 	
@@ -45,7 +46,8 @@ func _on_NewGameSean2_pressed():
 		main_menu.queue_free()
 		main_menu = null
 	game_scene = load("res://src/scenes/GameScene.tscn").instance()
-	game_scene.map_node = "map_context"
+	game_scene.map_node = load("res://src/scenes/levels/Map2_context.tscn").instance()
+	game_scene.add_child(game_scene.map_node)
 	current_level = "map_context"
 	add_child(game_scene)
 
@@ -54,8 +56,8 @@ func _on_NewGameTest_pressed():
 		main_menu.queue_free()
 		main_menu = null
 	game_scene = load("res://src/scenes/GameScene.tscn").instance()
-	game_scene.map_node = "map_2"
-	current_level = "map_2"
+	game_scene.map_node = load("res://src/scenes/levels/Map2.tscn").instance()
+	game_scene.add_child(game_scene.map_node)
 	add_child(game_scene)
 	
 func _on_SaveAndQuit_pressed():

@@ -19,6 +19,7 @@ var shader = ShaderMaterial.new()
 var current_time = 150
 var time_max = 150
 var pause_menu
+onready var scene_handler = get_parent()
 onready var spacebar_pause = false
 onready var esc_pause = false
 
@@ -47,24 +48,24 @@ func _ready():
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 			i.connect("pressed", self, "initiate_build_mode", [i.related_tower])
 	
-	if map_node == "map_1":
+	if scene_handler.current_level == "map_1":
 		var temp_map = load("res://src/scenes/levels/SeanMap.tscn").instance()
 		add_child(temp_map)
 		if get_node("SeanMap/ExitPoint/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
 			push_error("damage zone connect failed")
 		map_node = temp_map
-	elif map_node == "map_2":
-		var temp_map = load("res://src/scenes/levels/Map2.tscn").instance()
-		add_child(temp_map)
+	elif scene_handler.current_level == "map_2":
+#		var temp_map = load("res://src/scenes/levels/Map2.tscn").instance()
+#		add_child(temp_map)
 		if get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
 			push_error("damage zone left connect failed")
 		if get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
 			push_error("damage zone right connect failed")
-		map_node = temp_map
-	elif map_node == "map_context":
-		var temp_map = load("res://src/scenes/levels/Map2_context.tscn").instance()
-		map_node = temp_map
-		add_child(temp_map)
+#		map_node = temp_map
+	elif scene_handler.current_level == "map_context":
+#		var temp_map = load("res://src/scenes/levels/Map2_context.tscn").instance()
+#		map_node = temp_map
+#		add_child(temp_map)
 		if get_node("Map2/ExitPointLeft/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
 			push_error("damage zone left connect failed")
 		if get_node("Map2/ExitPointRight/DamageZone").connect("body_entered", self, "_on_DamageZone_body_entered") != OK:
