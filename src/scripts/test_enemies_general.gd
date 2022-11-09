@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "res://src/scripts/temporal_engine.gd"
 
 var velocity = Vector2()
 var path = PoolVector2Array()
@@ -7,14 +7,17 @@ var health
 var health_perc
 var type = "enemy"
 var subtype = "creep"
+onready var time_freeze = false
 var remaining_dist = 0
 onready var slow_timer = $SlowTimer
 var slowed = false
 onready var orig_speed = self.speed
-
+onready var temporal_momentum = 1
 onready var game_scene = get_node("../../..")
 
-var sean_test = true
+#var sean_test = true
+
+var effect_dict = {}
 
 func _ready():
 	self.speed = self.speed
@@ -26,6 +29,7 @@ func _ready():
 #	print(global_position)
 	
 func _physics_process(delta):
+	calc_temporal_momentum()
 	if slowed:
 		self.speed = orig_speed*0.6
 	else:
@@ -33,7 +37,8 @@ func _physics_process(delta):
 	if path.size() > 0:
 		calc_remaining_dist(self)
 		var target = global_position.direction_to(path[0])
-		velocity = move_and_slide(target * self.speed) * delta
+		if self.time_freeze == false:
+			velocity = move_and_slide(target * (self.speed * self.temporal_momentum)) * delta
 		var path_distance = global_position.distance_to(path[0])
 		if path_distance <= 16:
 			path.remove(0)
@@ -49,7 +54,14 @@ func calculate_health_perc():
 	var perc = round((float(health)/self.max_health)* 100)
 	health_perc = perc
 	
-
+func calc_temporal_momentum():
+	var value_array = effect_dict.values()
+	var temp_modifier = 0
+	for value in value_array:
+		temp_modifier += value
+	
+	temporal_momentum = 1+temp_modifier
+	
 func calc_remaining_dist(body):
 	var temp_dist
 	var curr_index = 0
