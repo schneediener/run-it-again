@@ -10,7 +10,7 @@ extents = Vector2( 32, 32 )
 [sub_resource type="CircleShape2D" id=1]
 radius = 407.166
 
-[node name="MissileT2" type="StaticBody2D"]
+[node name="MissileT2" type="KinematicBody2D"]
 collision_mask = 0
 script = ExtResource( 1 )
 
@@ -81,5 +81,4 @@ wait_time = 1.8
 one_shot = true
 
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
-[connection signal="pressed" from="SelectTower" to="." method="_on_SelectTower_pressed"]
 [connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]

@@ -1,4 +1,4 @@
-extends "res://src/scripts/TowersGeneral.gd"
+extends TowersGeneral
 
 var tower_type = "MissileT1"
 var upgrade_path = null

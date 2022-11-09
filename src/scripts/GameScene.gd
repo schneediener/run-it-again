@@ -22,10 +22,15 @@ var pause_menu
 onready var spacebar_pause = false
 onready var esc_pause = false
 
+var manpower = 3
+
 var dragging = false  # Are we currently dragging?
 var selected_array = []  # Array of selected units.
+var selected_array_type
 var drag_start  # Location where drag began.
 var select_rect = RectangleShape2D.new()  # Collision shape for drag box.
+
+onready var dialogue_menu = get_node("UserInterface/DecisionMenu")
 
 var camera_move_array = [0,0,0,0]
 
@@ -63,7 +68,10 @@ func _on_Upgrade_pressed():
 	
 	clear_selected_array()
 
-
+func reset_notification_icon():
+	$UserInterface/NotificationIcon/Timer.wait_time = 30
+	$UserInterface/NotificationIcon/Timer.start()
+	$UserInterface/NotificationIcon.show()
 
 func _on_Sell_pressed():
 	for tower in selected_array:
@@ -204,6 +212,10 @@ func start_time():
 	get_tree().paused = false
 	$UserInterface/PauseEffect.hide()
 
+func make_movement_command():
+	for each in selected_array:
+		if each.tower_type == "Infantry":
+			each.incoming_movement_command(get_global_mouse_position())
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ig_space"):
@@ -213,7 +225,10 @@ func _unhandled_input(event):
 			stop_time()
 	if event.is_action_pressed("ui_cancel"):
 		if selected_array.size()>0:
-			clear_selected_array()
+			if selected_array_type=="towers":
+				clear_selected_array()
+			else:
+				make_movement_command()
 		if build_mode:
 			cancel_build_mode()
 		
@@ -262,6 +277,19 @@ func select_box(click_type):
 			else:
 				selected_array.erase(each.collider)
 				remove_tower_glow(each.collider)
+			if !each.collider.tower_type == "Infantry":
+				if selected_array_type == null:
+					selected_array_type = "towers"
+				elif selected_array_type == "infantry":
+					selected_array_type = "mixed"
+			else:
+				if selected_array_type == null:
+					selected_array_type = "infantry"
+				elif selected_array_type == "towers":
+					selected_array_type = "mixed"
+	
+	
+	
 	if click_type == "drag" or click_type == "shift":
 		if selected_array.size()>0:
 			mass_select_towers(selected_array)
@@ -298,19 +326,22 @@ func initiate_build_mode(tower):
 		cancel_build_mode()
 	if selected_array.size()>0:
 		clear_selected_array()
-	
 	build_type = tower.get_name()
 	build_scene = tower
 	build_tower = tower.instance()
-	build_mode = true
 	
-	set_tower_preview(build_tower, get_global_mouse_position())
+	if build_tower.tower_type == "Infantry":
+		verify_and_build()
+	else:
+		build_mode = true
+		set_tower_preview(build_tower, get_global_mouse_position())
 
 func clear_selected_array():
 	if selected_array.size()>0:
 		for each in selected_array:
 			remove_tower_glow(each)
 		selected_array = []
+		selected_array_type = null
 
 func run_update_tower_preview():
 	var mouse_position = get_global_mouse_position()
@@ -338,23 +369,32 @@ func cancel_build_mode():
 func verify_and_build():
 	var tower_cost = build_tower.buy_value
 	
-	if build_valid and current_gold >= tower_cost:
+	if build_tower.tower_type == "Infantry":
 		var new_tower = build_scene.instance()
-		new_tower.position = build_location
-		new_tower.built = true
-		if new_tower.get("can_shoot"):
-			new_tower.can_shoot = true
+		new_tower.global_position = map_node.infantry_spawn.global_position
 		map_node.get_node("Towers").add_child(new_tower)
-		map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
-		new_tower.get_node("Range/RangeSprite").hide()
-		#new_tower.connect("input_event", self, "_on_SelectArea_input_event")
-		current_gold_set(current_gold-tower_cost)
-		
-		cancel_build_mode()
-	elif build_valid and current_gold < tower_cost:
-		OS.alert('NOT ENOUGH MOOLAH')
+		manpower -= 1
+		$UserInterface/HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Infantry/Label2.text = str(manpower) + " left"
+		if manpower == 0:
+			$UserInterface/HeadsUpDisplay/BuildPanel/HBox_BuildMenu/Infantry.disabled = true
 	else:
-		OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')
+		if build_valid and current_gold >= tower_cost:
+			var new_tower = build_scene.instance()
+			new_tower.position = build_location
+			new_tower.built = true
+			if new_tower.get("can_shoot"):
+				new_tower.can_shoot = true
+			map_node.get_node("Towers").add_child(new_tower)
+			map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
+			new_tower.get_node("Range/RangeSprite").hide()
+			#new_tower.connect("input_event", self, "_on_SelectArea_input_event")
+			current_gold_set(current_gold-tower_cost)
+
+			cancel_build_mode()
+		elif build_valid and current_gold < tower_cost:
+			OS.alert('NOT ENOUGH MOOLAH')
+		else:
+			OS.alert('Invalid build location - Also make Sean change me to a nicer message in-game!', 'Error')
 
 func set_tower_preview(tower_type, mouse_position):
 #	print (tower_type)
@@ -407,9 +447,13 @@ func update_tower_preview(new_position, color):
 
 
 func make_tower_glow(new_tower, _select_type):
-	new_tower.get_node("TurretBase").set_material(shader)
-	new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
-	new_tower.get_node("Range/RangeSprite").show()
+	if !new_tower.tower_type == "Infantry":
+		new_tower.get_node("TurretBase").set_material(shader)
+		new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
+		new_tower.get_node("Range/RangeSprite").show()
+	else:
+		new_tower.get_node("AnimatedSprite").set_material(shader)
+		new_tower.get_node("FacingDirection/TurretSprite").set_material(shader)
 	
 #	if select_type == "single":
 #		new_tower.get_node("CanvasLayer/ButtonContainer").visible = true
@@ -419,9 +463,13 @@ func make_tower_glow(new_tower, _select_type):
 
 func remove_tower_glow(old_tower):
 	if is_instance_valid(old_tower):
-		old_tower.get_node("TurretBase").set_material(null)
-		old_tower.get_node("FacingDirection/TurretSprite").set_material(null)
-		old_tower.get_node("Range/RangeSprite").hide()
+		if !old_tower.tower_type == "Infantry":
+			old_tower.get_node("TurretBase").set_material(null)
+			old_tower.get_node("FacingDirection/TurretSprite").set_material(null)
+			old_tower.get_node("Range/RangeSprite").hide()
+		else:
+			old_tower.get_node("AnimatedSprite").set_material(null)
+			old_tower.get_node("FacingDirection/TurretSprite").set_material(null)
 
 	
 #func get_selected_tower():
@@ -444,7 +492,8 @@ func mass_select_towers(inc_towers):
 	#do the shit that makes them glow 
 	for tower in selected_array:
 		make_tower_glow(tower, "mass")
-		total_sell = total_sell + tower.sell_value
+		if !tower.tower_type == "Infantry":
+			total_sell = total_sell + tower.sell_value
 		if type_array.find(tower.tower_type) == -1:
 			type_array.append(tower.tower_type)
 	

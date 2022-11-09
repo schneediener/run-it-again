@@ -1,0 +1,117 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://src/assets/tilemaps/towerDefense_tilesheet.png" type="Texture" id=1]
+[ext_resource path="res://src/scenes/infantry/BasicInfantry.gd" type="Script" id=2]
+[ext_resource path="res://src/assets/images/basic_infantry.png" type="Texture" id=3]
+[ext_resource path="res://src/assets/images/basic_infantry_gun.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 320, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 384, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 448, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 512, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 576, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 640, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=12]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=13]
+radius = 15.0
+height = 34.0
+
+[node name="BasicInfantry" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 12 )
+speed_scale = 1.4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 13 )
+
+[node name="Range" type="Area2D" parent="."]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Range"]
+scale = Vector2( 2.01292, 1.29491 )
+polygon = PoolVector2Array( 0, 0, 356, -377, 363, 322 )
+
+[node name="FacingDirection" type="Node2D" parent="."]
+position = Vector2( 9, 22 )
+
+[node name="Muzzle" type="Position2D" parent="FacingDirection"]
+position = Vector2( 28, -1 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Flash" type="Sprite" parent="FacingDirection/Muzzle"]
+visible = false
+position = Vector2( 22, -1 )
+rotation = 1.5708
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 1343.5, 766, 64, 64 )
+
+[node name="BulletContainer" type="Node2D" parent="FacingDirection"]
+
+[node name="TurretSprite" type="Sprite" parent="FacingDirection"]
+position = Vector2( -1, -1 )
+texture = ExtResource( 4 )
+offset = Vector2( -3, -10 )
+
+[node name="FiringRate" type="Timer" parent="."]
+
+[connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
+[connection signal="timeout" from="FiringRate" to="." method="_on_FiringRate_timeout"]
