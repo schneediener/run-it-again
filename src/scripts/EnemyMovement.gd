@@ -1,46 +1,60 @@
-extends KinematicBody2D
+extends EnemyGeneral
 
+var look_ahead = 250
+var num_rays = 90
 
-
-export var max_speed = 250
-export var steer_force = 0.1
-export var look_ahead = 250
-export var num_rays = 90
-var type = "enemy"
-var subtype="creep"
 # context array
 var ray_directions = []
 var interest = []
 var danger = []
 
+onready var orig_speed = self.speed
+
 var chosen_dir = Vector2.ZERO
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
 
-onready var game_scene = get_node("/root/SceneHandler").game_scene
+var endpoint
+
 onready var path = game_scene.map_node.get_node("Path2D")
 onready var path_follow = path.get_node("PathFollow2D")
 
 func _ready():
+	var speed_random = randi() % 2
+	if speed_random == 0:
+		orig_speed += 100
+	self.speed = orig_speed
+	calc_endpoint()
 	interest.resize(num_rays)
 	danger.resize(num_rays)
 	ray_directions.resize(num_rays)
 	for i in num_rays:
 		var angle = i * 2 * PI / num_rays
 		ray_directions[i] = Vector2.RIGHT.rotated(angle)
-	var speed_random = randi() % 2
-	if speed_random == 0:
-		max_speed += 100
+	
 
 func _physics_process(delta):
+	if slowed:
+		self.speed = orig_speed*0.6
+	else:
+		self.speed = orig_speed
 	set_interest()
 	set_danger()
 	choose_direction()
-	var desired_velocity = chosen_dir.rotated(rotation) * max_speed
-	velocity = velocity.linear_interpolate(desired_velocity, steer_force)
+	var desired_velocity = chosen_dir.rotated(rotation) * self.speed
+	velocity = velocity.linear_interpolate(desired_velocity, self.steer_force)
 	rotation = velocity.angle()
 	move_and_slide(velocity * 100 * delta)
+	calc_remaining_dist()
 
+func calc_endpoint():
+	var points = path.curve.get_baked_points()
+	var size_int = points.size()
+	endpoint = points[size_int-1]
+
+func calc_remaining_dist():
+	if endpoint:
+		remaining_dist = global_position.distance_to(endpoint)
 
 func set_interest():
 	# Set interest in each slot based on world direction
