@@ -281,22 +281,23 @@ func select_box(click_type):
 	var intersect_query
 	intersect_query = space.intersect_shape(query)
 	for each in intersect_query:
-		if each.collider.type == "tower":
-			if !selected_array.has(each.collider):
-				selected_array.append(each.collider)
-			else:
-				selected_array.erase(each.collider)
-				remove_tower_glow(each.collider)
-			if !each.collider.tower_type == "Infantry":
-				if selected_array_type == null:
-					selected_array_type = "towers"
-				elif selected_array_type == "infantry":
-					selected_array_type = "mixed"
-			else:
-				if selected_array_type == null:
-					selected_array_type = "infantry"
-				elif selected_array_type == "towers":
-					selected_array_type = "mixed"
+		if each.collider.get_class() != "TileMap":
+			if each.collider.type == "tower":
+				if !selected_array.has(each.collider):
+					selected_array.append(each.collider)
+				else:
+					selected_array.erase(each.collider)
+					remove_tower_glow(each.collider)
+				if !each.collider.tower_type == "Infantry":
+					if selected_array_type == null:
+						selected_array_type = "towers"
+					elif selected_array_type == "infantry":
+						selected_array_type = "mixed"
+				else:
+					if selected_array_type == null:
+						selected_array_type = "infantry"
+					elif selected_array_type == "towers":
+						selected_array_type = "mixed"
 	
 	
 	

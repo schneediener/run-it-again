@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://tutorial_assets/PNG/Retina/treeGreen_twigs.png" type="Texture" id=1]
 [ext_resource path="res://tutorial_assets/PNG/Default size/crateWood.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://src/scenes/levels/Map2_Drop_Path4.tres" type="Curve2D" id=19]
 [ext_resource path="res://src/scenes/map_element/InfantrySpawn.tscn" type="PackedScene" id=20]
 [ext_resource path="res://src/scenes/map_element/MissionLocation.tscn" type="PackedScene" id=21]
+[ext_resource path="res://src/scenes/aoe/AnchorBubble.tscn" type="PackedScene" id=22]
 [ext_resource path="res://src/assets/images/barricadeWood.png" type="Texture" id=23]
 
 [sub_resource type="TileSet" id=1]
@@ -566,5 +567,8 @@ curve = ExtResource( 19 )
 [node name="ContextEnemy2" parent="." instance=ExtResource( 17 )]
 position = Vector2( 1656, -1047 )
 rotation = 1.52018
+
+[node name="AnchorBubble" parent="." instance=ExtResource( 22 )]
+position = Vector2( 735, 853 )
 
 [connection signal="timeout" from="Spawn/Timer" to="." method="_on_Timer_timeout"]

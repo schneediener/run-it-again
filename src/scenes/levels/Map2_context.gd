@@ -10,7 +10,7 @@ onready var end_point_left = get_node("ExitPointLeft").position
 onready var end_point_right = get_node("ExitPointRight").position
 
 export var income_per_wave = 50
-export var income_per_kill = 1
+export var income_per_kill = 5
 var max_waves = 6
 var ready_to_finish
 
