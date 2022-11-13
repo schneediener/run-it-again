@@ -32,7 +32,6 @@ func _ready():
 		var angle = i * 2 * PI / num_rays
 		ray_directions[i] = Vector2.RIGHT.rotated(angle)
 	
-
 func _physics_process(delta):
 	if slowed:
 		self.speed = orig_speed*0.6
@@ -41,7 +40,7 @@ func _physics_process(delta):
 	set_interest()
 	set_danger()
 	choose_direction()
-	var desired_velocity = chosen_dir.rotated(rotation) * self.speed
+	var desired_velocity = chosen_dir.rotated(rotation) * (self.speed * self.temporal_momentum)
 	velocity = velocity.linear_interpolate(desired_velocity, self.steer_force)
 	rotation = velocity.angle()
 	move_and_slide(velocity * 100 * delta)
