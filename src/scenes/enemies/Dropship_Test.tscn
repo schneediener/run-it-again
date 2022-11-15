@@ -30,20 +30,20 @@ texture = ExtResource( 3 )
 position = Vector2( -19, 88 )
 rotation = 3.14159
 frames = ExtResource( 4 )
+frame = 1
 playing = true
 
 [node name="Jet2" type="AnimatedSprite" parent="DropshipBody/ShipSprite"]
 position = Vector2( 19, 89 )
 rotation = 3.14159
 frames = ExtResource( 4 )
-frame = 1
 playing = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropshipBody"]
 position = Vector2( 1.55021, 3.05359 )
 rotation = 1.5708
 scale = Vector2( 1.03346, 1.02679 )
-polygon = PoolVector2Array( -29, -70, -65, -32, -64, 23, -36, 63, 31, 68, 61, 27, 62, -35, 22, -72 )
+polygon = PoolVector2Array( -13.5986, -15.0466, -65, -32, -64, 23, -36, 63, 31, 68, 61, 27, 62, -35, 6.72145, -16.0206 )
 
 [node name="Guns" type="Node2D" parent="DropshipBody"]
 
@@ -56,6 +56,7 @@ polygon = PoolVector2Array( -29, -70, -65, -32, -64, 23, -36, 63, 31, 68, 61, 27
 [node name="Sprite" type="Sprite" parent="DropshipBody/Guns/Gun2"]
 
 [node name="Spawn" type="Position2D" parent="DropshipBody"]
+position = Vector2( 62, 0 )
 
 [node name="SpawnTimer" type="Timer" parent="DropshipBody/Spawn"]
 

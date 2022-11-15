@@ -132,4 +132,4 @@ func spawn_next_enemy(temp_type):
 		enemy_container.add_child(new_enemy)
 		new_enemy.global_position = $DropshipBody/Spawn.global_position
 		
-		game_scene.map_node.create_path(new_enemy, endpoint)
+#		game_scene.map_node.create_path(new_enemy, endpoint)

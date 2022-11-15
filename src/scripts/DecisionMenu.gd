@@ -49,6 +49,8 @@ var retreat_3 = "[i]*static*[/i]"
 var retreat_array = [Color(0,0,0,1), "Alpha 3", 0.8, retreat_1, retreat_2, retreat_3]
 var array_array = [array_a, array_b, array_c, array_d, decision_array]
 
+var finish_state
+
 var current_array = array_a
 var curr_max = current_array.size()
 var curr_int = 3
@@ -94,12 +96,15 @@ func decision_selected(decision):
 	match decision.get_node("../../").label_text:
 		"Retreat at once":
 			current_array = retreat_array
+			finish_state = "bad"
 		"Silent approval":
 			current_text.bbcode_text = passive
+			finish_state = "bad"
 		"Complete the mission at any cost":
 			current_text.bbcode_text = determined
 			curr_int = 3
 			curr_max = current_array.size()
+			finish_state = "good"
 	trigger_timer()
 	$MarginContainer/RootVBox/DecisionMargin.hide()
 
@@ -110,6 +115,11 @@ func trigger_timer():
 	
 
 func _on_ButtonNext_pressed():
+	match finish_state:
+			"bad":
+				game_scene.map_node.finish_level("bad")
+			"good":
+				game_scene.map_node.finish_level("good")
 	curr_int += 1
 	if curr_int == curr_max:
 		trigger_timer()
@@ -121,10 +131,11 @@ func _on_ButtonNext_pressed():
 	if current_array[1] == "decision_time":
 		$MarginContainer/RootVBox/DecisionMargin.show()
 		current_text.visible_characters = 100
-		return
 	current_text.visible_characters = 0
+	if current_array == decision_array:
+		curr_int = 1
 	current_text.bbcode_text = current_array[curr_int]
-	character_sprite.modulate = current_array[0]
-	character_name.text = current_array[1]
-	character_pitch = current_array[2]
-
+	if current_array != decision_array:
+		character_sprite.modulate = current_array[0]
+		character_name.text = current_array[1]
+		character_pitch = current_array[2]

@@ -7,7 +7,7 @@
 [ext_resource path="res://tutorial_assets/PNG/Retina/treeGreen_large.png" type="Texture" id=5]
 [ext_resource path="res://tutorial_assets/PNG/Default size/crateMetal.png" type="Texture" id=6]
 [ext_resource path="res://tutorial_assets/PNG/Retina/treeBrown_large.png" type="Texture" id=7]
-[ext_resource path="res://src/scenes/levels/Map2.gd" type="Script" id=8]
+[ext_resource path="res://src/scripts/Map2.gd" type="Script" id=8]
 [ext_resource path="res://tutorial_assets/PNG/Default size/treeGreen_large.png" type="Texture" id=9]
 [ext_resource path="res://tutorial_assets/PNG/Default size/treeBrown_large.png" type="Texture" id=10]
 [ext_resource path="res://src/assets/images/Empty.png" type="Texture" id=11]
@@ -22,6 +22,7 @@
 [ext_resource path="res://src/scenes/map_element/InfantrySpawn.tscn" type="PackedScene" id=20]
 [ext_resource path="res://src/scenes/map_element/MissionLocation.tscn" type="PackedScene" id=21]
 [ext_resource path="res://src/scenes/enemies/BasicEnemy.tscn" type="PackedScene" id=22]
+
 
 [sub_resource type="TileSet" id=1]
 1/name = "terrainTiles_default.png 1"
