@@ -11,6 +11,7 @@ extents = Vector2( 32, 32 )
 radius = 407.166
 
 [node name="MissileT2" type="KinematicBody2D"]
+collision_layer = 128
 collision_mask = 0
 script = ExtResource( 1 )
 

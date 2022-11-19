@@ -141,7 +141,8 @@ func populate_roulette():
 func spawn_new_enemy():
 	var slow = load("res://src/scenes/enemies/SlowEnemy.tscn")
 	var fast = load("res://src/scenes/enemies/FastEnemy.tscn")
-	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
+#	var basic = load("res://src/scenes/enemies/BasicEnemy.tscn")
+	var basic = load("res://src/scenes/enemies/ContextEnemy.tscn")
 	var _tank = load("res://src/scenes/enemies/Tank.tscn")
 	
 	var next_enemy

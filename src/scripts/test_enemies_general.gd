@@ -1,22 +1,25 @@
 extends "res://src/scripts/temporal_engine.gd"
 
-var velocity = Vector2()
-var path = PoolVector2Array()
-var distance_travelled = 0
+class_name EnemyGeneral
+
 var health
 var health_perc
 var type = "enemy"
 var subtype = "creep"
 onready var time_freeze = false
-var remaining_dist = 0
+var remaining_dist
+
 onready var slow_timer = $SlowTimer
 var slowed = false
-onready var orig_speed = self.speed
-onready var game_scene = get_node("../../..")
+
+onready var game_scene = get_node("/root/SceneHandler").game_scene
+#onready var path #= game_scene.map_node.get_node("Path2D")
+#onready var path_follow #= path.get_node("PathFollow2D")
 
 #var sean_test = true
 
 func _ready():
+	
 	self.speed = self.speed
 	$HealthBar.value = self.max_health
 	$HealthBar.max_value = self.max_health
@@ -26,18 +29,15 @@ func _ready():
 #	print(global_position)
 	
 func _physics_process(delta):
-	if slowed:
-		self.speed = orig_speed*0.6
-	else:
-		self.speed = orig_speed
-	if path.size() > 0:
-		calc_remaining_dist(self)
-		var target = self.global_position.direction_to(path[0])
-		if self.time_freeze == false:
-			velocity = move_and_slide(target * (self.speed * self.temporal_momentum)) * delta
-		var path_distance = global_position.distance_to(path[0])
-		if path_distance <= 16:
-			path.remove(0)
+	
+#	
+#	if path.curve.get_baked_points().size() > 0:
+#		calc_remaining_dist(self)
+#		var target = global_position.direction_to(path[0])
+#		velocity = move_and_slide(target * self.speed) * delta
+#		var path_distance = global_position.distance_to(path[0])
+#		if path_distance <= 16:
+#			path.remove(0)
 	
 	if $HealthBar.value != health:
 		$HealthBar.value = health
@@ -49,19 +49,7 @@ func calculate_health_perc():
 #	var perc = (health/self.max_health)*100
 	var perc = round((float(health)/self.max_health)* 100)
 	health_perc = perc
-	
-func calc_remaining_dist(body):
-	var temp_dist
-	var curr_index = 0
-	temp_dist = body.global_position.distance_to(path[0])
-	
-	for i in body.path:
-		curr_index = curr_index+1
-		if curr_index != body.path.size():
-			var distance = i.distance_to(body.path[curr_index])
-			temp_dist = temp_dist+distance
-	
-	body.remaining_dist=temp_dist
+
 
 func set_health_tint():
 	if health_perc == 100:

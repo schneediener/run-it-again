@@ -9,7 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "EditorVCSInterface",
+"base": "KinematicBody2D",
+"class": "EnemyGeneral",
+"language": "GDScript",
+"path": "res://src/scripts/test_enemies_general.gd"
+}, {
+"base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://src/scripts/TowersGeneral.gd"
 } ]
 _global_script_class_icons={
+"EnemyGeneral": "",
 "GitAPI": "",
 "TowersGeneral": ""
 }

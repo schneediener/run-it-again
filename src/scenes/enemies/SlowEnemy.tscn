@@ -11,7 +11,7 @@ extents = Vector2( 30, 29.5833 )
 [node name="SlowEnemy" type="KinematicBody2D"]
 position = Vector2( 97, 45 )
 collision_layer = 2
-collision_mask = 0
+collision_mask = 2
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true

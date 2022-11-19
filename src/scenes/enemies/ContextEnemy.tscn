@@ -3,36 +3,30 @@
 [ext_resource path="res://src/assets/images/enemy_health_over_texture.png" type="Texture" id=1]
 [ext_resource path="res://src/assets/images/icon.png" type="Texture" id=2]
 [ext_resource path="res://src/assets/images/enemy_health_progress_texture.png" type="Texture" id=3]
-[ext_resource path="res://src/scripts/TestEnemy3.gd" type="Script" id=4]
+[ext_resource path="res://src/scenes/enemies/new_ContextEnemy.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 29.1667, 28.75 )
+extents = Vector2( 34.5833, 31.25 )
 
-[node name="FastEnemy" type="KinematicBody2D"]
+[node name="ContextEnemy" type="KinematicBody2D"]
 position = Vector2( 97, 45 )
-collision_layer = 2
-collision_mask = 2
+collision_layer = 131074
+collision_mask = 131078
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -0.5 )
-shape = SubResource( 7 )
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.803922, 0, 1, 1 )
+rotation = 1.5708
+texture = ExtResource( 2 )
 
 [node name="HitDetection" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection"]
-position = Vector2( 0, -0.500004 )
+position = Vector2( 0.5, -1.5 )
 scale = Vector2( 1.2, 1.2 )
 shape = SubResource( 7 )
-
-[node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0, 0.627451, 0, 0.803922 )
-texture = ExtResource( 2 )
 
 [node name="HealthBar" type="TextureProgress" parent="."]
 margin_left = -38.0
@@ -45,6 +39,12 @@ texture_progress = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="."]
+position = Vector2( -62.4762, -5.60916 )
+rotation = -0.734784
+scale = Vector2( 0.898076, 0.898377 )
+polygon = PoolVector2Array( 44.1873, 19.71, 77.4517, 75.374, 16.0293, 50.873, 29.2232, 31.7963 )
 
 [node name="SlowTimer" type="Timer" parent="."]
 

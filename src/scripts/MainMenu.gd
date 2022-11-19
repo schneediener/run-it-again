@@ -9,3 +9,7 @@ func _on_NewGameSean_pressed():
 func _on_Settings_pressed():
 	var settings_menu = load("res://src/scenes/menus/SettingsMenu.tscn").instance()
 	get_parent().add_child(settings_menu)
+
+
+func _on_NewGameSean2_pressed():
+	pass # Replace with function body.
