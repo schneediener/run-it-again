@@ -1,7 +1,7 @@
 extends EnemyGeneral
 
 var look_ahead = 250
-var num_rays = 90
+var num_rays = 16
 
 # context array
 var ray_directions = []
