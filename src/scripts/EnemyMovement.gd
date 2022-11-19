@@ -34,14 +34,14 @@ func _ready():
 	
 func _physics_process(delta):
 	if slowed:
-		self.speed = orig_speed*0.6
+		self.speed = (orig_speed*0.6)*temporal_momentum
 	else:
-		self.speed = orig_speed
+		self.speed = orig_speed*temporal_momentum
 	set_interest()
 	set_danger()
 	choose_direction()
 	var desired_velocity = chosen_dir.rotated(rotation) * (self.speed * self.temporal_momentum)
-	velocity = velocity.linear_interpolate(desired_velocity, self.steer_force)
+	velocity = velocity.linear_interpolate(desired_velocity, (self.steer_force * self.temporal_momentum))
 	rotation = velocity.angle()
 	move_and_slide(velocity * 100 * delta)
 	calc_remaining_dist()
@@ -78,10 +78,10 @@ func set_danger():
 	for i in num_rays:
 		var result = space_state.intersect_ray(position,
 				position + ray_directions[i].rotated(rotation) * look_ahead,
-				[self])
+				[self], self.collision_mask)
 		if result:
-			var distance_to = look_ahead/((position.distance_to(result.position)+0.1)/2)
-			danger[i] = 1
+				var distance_to = look_ahead/((position.distance_to(result.position)+0.1)/2)
+				danger[i] = 1
 		else: 
 			danger[i] = 0.0
 

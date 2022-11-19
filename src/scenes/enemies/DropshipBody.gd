@@ -1,8 +1,12 @@
-extends KinematicBody2D
+extends "res://src/scripts/temporal_engine.gd"
 
 var type = "enemy"
 var subtype = "dropship"
+
 onready var game_scene = get_node("/root/SceneHandler").game_scene
+
+func _physics_process(delta):
+	get_parent().speed = get_parent().orig_speed*temporal_momentum
 
 func take_damage(damage, _slow):
 	var dead

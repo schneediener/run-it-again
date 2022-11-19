@@ -282,7 +282,7 @@ func select_box(click_type):
 	intersect_query = space.intersect_shape(query)
 	for each in intersect_query:
 		if each.collider.get_class() != "TileMap":
-			if each.collider.type == "tower":
+			if each.collider.type == "tower" or "infantry":
 				if !selected_array.has(each.collider):
 					selected_array.append(each.collider)
 				else:

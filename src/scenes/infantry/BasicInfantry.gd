@@ -13,16 +13,20 @@ var weapon_type = "cannon"
 var command_position = Vector2()
 var velocity = Vector2()
 var speed = 250
+export var orig_speed = 250
 var path = PoolVector2Array()
 
 func _ready():
 	built = true
 	ready = true
+	type = "infantry"
 
 func incoming_movement_command(inc_position):
 	command_position = inc_position
 
 func _physics_process(delta):
+	speed = orig_speed*temporal_momentum
+	
 	if command_position:
 		look_at(command_position)
 		var target_vector = global_position.direction_to(command_position)

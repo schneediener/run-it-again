@@ -6,7 +6,7 @@ var upgrade_path = load("res://src/scenes/towers/LauncherT2.tscn")
 var buy_value = 150
 var upgrade_value = 250
 var sell_value = 150
-var damage = 10
+var damage = 8
 var muzzle_count = 1
 
 var delay = 0.5

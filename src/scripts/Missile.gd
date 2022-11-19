@@ -1,7 +1,12 @@
-extends Area2D
+extends "res://src/scripts/temporal_engine.gd"
 
-export var speed = 450
-export var steer_force = 50.0
+export var orig_speed = 450
+export var orig_steer_force = 50.0
+
+var speed = 559
+var steer_force = 50.0
+
+var type = "missile"
 
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
@@ -30,18 +35,17 @@ func seek():
 	return steer
 	
 func _physics_process(delta):
+	speed = orig_speed * temporal_momentum
+	steer_force = orig_steer_force * temporal_momentum
+	$Particles2D.speed_scale = 1 * temporal_momentum
+	$AnimationPlayer.playback_speed = 1 * temporal_momentum
+	
 	acceleration += seek()
 	velocity += acceleration * delta
 	velocity = velocity.clamped(speed)
 	rotation = velocity.angle()
 	position += velocity * delta
 	
-func _on_Missile_body_entered(body):
-	if body.get("type"):
-		if body.type=="enemy" and body==target and !exploded:
-			exploded = true
-			explode()
-
 func _on_Lifetime_timeout():
 	if !exploded:
 		exploded = true
@@ -62,3 +66,9 @@ func explode():
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 	
+
+
+func _on_Area2D_body_entered(body):
+	if body==target and !exploded:
+		exploded = true
+		explode()

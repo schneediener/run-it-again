@@ -15,7 +15,6 @@ extents = Vector2( 32, 32 )
 radius = 142.688
 
 [node name="MinigunT1" type="KinematicBody2D"]
-collision_layer = 128
 collision_mask = 0
 script = ExtResource( 1 )
 

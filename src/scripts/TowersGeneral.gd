@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "res://src/scripts/temporal_engine.gd"
 
 class_name TowersGeneral
 
@@ -12,6 +12,8 @@ onready var ready = true
 onready var game_scene = get_node("/root/SceneHandler").game_scene
 var type = "tower"
 
+var firing_cooldown
+
 signal array_refreshed
 signal target_acquired
 
@@ -19,6 +21,7 @@ func _ready():
 	target_method = "first"
 	pause_mode = Node.PAUSE_MODE_STOP
 	$FiringRate.wait_time = ($FiringRate.wait_time / 2)
+	firing_cooldown = 60*$FiringRate.wait_time
 	#old code below
 	#new code below
 	if self.connect("array_refreshed", self, "_on_array_refreshed") != OK:
@@ -27,6 +30,10 @@ func _ready():
 		push_error("target_acquired signal connect failed")
 
 func _physics_process(_delta):
+	if firing_cooldown > 0:
+		firing_cooldown -= 1*temporal_momentum
+	else:
+		ready = true
 	#old code below
 
 #	maintain_upgrade_button()
@@ -305,6 +312,7 @@ func fire():
 	flash()
 	ready = false
 	cooldown.start()
+	firing_cooldown = 60*$FiringRate.wait_time
 
 func flash():
 	var flash_sprite1 = get_node("FacingDirection/Muzzle/Flash")
@@ -330,7 +338,8 @@ func flash():
 		flash_sprite2.hide()
 
 func _on_FiringRate_timeout():
-	ready = true
+#	ready = true
+	pass
 
 	
 func sell_me():
