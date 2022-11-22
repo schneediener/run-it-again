@@ -1,20 +1,27 @@
 extends Node2D
-var freeze_active = true
+var built = false
 var max_slow = 0.99
 var curr_bodies = []
+
+#var upgrade_path = load("res://src/scenes/towers/CannonT2.tscn")
+var time_cost = 30
+var buy_value = 0
+var upgrade_value
+var sell_value
+var tower_type = "effect"
 
 func _process(delta):
 	curr_bodies = $Area2D.get_overlapping_bodies()
 	
-	if freeze_active:
+	if built:
 		for body in curr_bodies:
 			var distance_to = body.global_position.distance_to($Area2D/CollisionShape2D.global_position)
 			var total_slow
 			var factor = distance_to/$Area2D/CollisionShape2D.shape.radius
-			if body.type=="enemy":
-				total_slow = (factor - 1) * max_slow
-			else:
-				total_slow = (factor - 1) * (max_slow+0.5)
+#			if body.type=="enemy":
+			total_slow = (factor - 1) * max_slow
+#			else:
+#				total_slow = (factor - 1) * (max_slow+0.5)
 			total_slow = clamp(total_slow, -max_slow, 0)
 			var unique_id = self.get_instance_id()
 			#if is_instance_valid(body):
@@ -27,7 +34,7 @@ func expire_bubble():
 	var curr_bodies = $Area2D.get_overlapping_bodies()
 	for body in curr_bodies:
 		body.effect_dict.erase(self.get_instance_id())
-	freeze_active = false
+	built = false
 	self.queue_free()
 func _on_Timer_timeout():
 	expire_bubble()

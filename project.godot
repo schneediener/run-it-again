@@ -57,6 +57,7 @@ shortcut=false
 screen=false
 terminal=true
 lf=true
+physics=false
 
 [gui]
 

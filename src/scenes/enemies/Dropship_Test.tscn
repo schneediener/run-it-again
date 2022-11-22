@@ -30,13 +30,13 @@ texture = ExtResource( 3 )
 position = Vector2( -19, 88 )
 rotation = 3.14159
 frames = ExtResource( 4 )
-frame = 1
 playing = true
 
 [node name="Jet2" type="AnimatedSprite" parent="DropshipBody/ShipSprite"]
 position = Vector2( 19, 89 )
 rotation = 3.14159
 frames = ExtResource( 4 )
+frame = 1
 playing = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropshipBody"]

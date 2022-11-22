@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/scripts/Missile.gd" type="Script" id=1]
 [ext_resource path="res://tutorial_assets/homing/assets/towerDefense_tilesheet.png" type="Texture" id=2]
@@ -101,7 +101,10 @@ tracks/1/keys = {
 [sub_resource type="CircleShape2D" id=9]
 radius = 79.0063
 
-[node name="Missile" type="Area2D"]
+[sub_resource type="CircleShape2D" id=10]
+radius = 37.0
+
+[node name="Missile" type="KinematicBody2D"]
 collision_layer = 8
 collision_mask = 7
 script = ExtResource( 1 )
@@ -135,7 +138,6 @@ local_coords = false
 process_material = SubResource( 6 )
 
 [node name="Explosion" type="Sprite" parent="."]
-visible = false
 scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 hframes = 24
@@ -146,7 +148,6 @@ anims/explode = SubResource( 7 )
 anims/init = SubResource( 8 )
 
 [node name="BlastRadius" type="Area2D" parent="."]
-visible = false
 position = Vector2( -48, -55 )
 collision_mask = 6
 
@@ -154,5 +155,12 @@ collision_mask = 6
 position = Vector2( 47, 54 )
 shape = SubResource( 9 )
 
-[connection signal="body_entered" from="." to="." method="_on_Missile_body_entered"]
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 10 )
+
 [connection signal="timeout" from="Lifetime" to="." method="_on_Lifetime_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

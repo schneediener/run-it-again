@@ -282,7 +282,7 @@ func select_box(click_type):
 	intersect_query = space.intersect_shape(query)
 	for each in intersect_query:
 		if each.collider.get_class() != "TileMap":
-			if each.collider.type == "tower":
+			if each.collider.type == "tower" or "infantry":
 				if !selected_array.has(each.collider):
 					selected_array.append(each.collider)
 				else:
@@ -396,8 +396,14 @@ func verify_and_build():
 			if new_tower.get("can_shoot"):
 				new_tower.can_shoot = true
 			map_node.get_node("Towers").add_child(new_tower)
-			map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
-			new_tower.get_node("Range/RangeSprite").hide()
+			if new_tower.tower_type != "effect":
+				map_node.get_node("Navigation2D/TowerExclusion").set_cellv(build_tile, 9)
+				new_tower.get_node("Range/RangeSprite").hide()
+			else:
+				if current_time > new_tower.time_cost:
+					current_time -= new_tower.time_cost
+				else:
+					new_tower.queue_free()
 			#new_tower.connect("input_event", self, "_on_SelectArea_input_event")
 			current_gold_set(current_gold-tower_cost)
 

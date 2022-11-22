@@ -1,6 +1,7 @@
 extends Node2D
 
 var drop_point
+export var orig_speed = 450
 var speed = 450
 var health = 30
 var shield = 10
@@ -110,8 +111,6 @@ func set_health_tint():
 		$HealthBar.tint_progress = Color(255, 255, 0)
 	elif health_perc <=24:
 		$HealthBar.tint_progress = Color(255, 0, 0)
-	else:
-		$HealthBar.visible = false
 func spawn_next_enemy(temp_type):
 	var new_enemy
 	var enemy_container = game_scene.map_node.get_node("EnemyContainer")
