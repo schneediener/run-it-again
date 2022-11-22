@@ -30,6 +30,7 @@ var selected_array = []  # Array of selected units.
 var selected_array_type
 var drag_start  # Location where drag began.
 var select_rect = RectangleShape2D.new()  # Collision shape for drag box.
+onready var ending_popup = $UserInterface/EndingPopup
 
 onready var dialogue_menu = get_node("UserInterface/DecisionMenu")
 

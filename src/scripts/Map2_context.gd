@@ -131,12 +131,13 @@ func spawn_dropship():
 			dropship.endpoint = "middle"
 	
 func finish_level(type):
+	get_tree().paused = true
+	game_scene.ending_popup.show()
 	if type == "good":
-		OS.alert("Congratulations! You won!", "Victory")
+		pass
+#		OS.alert("Congratulations! You won!", "Victory")
 	else:
-		OS.alert("Everyone died.")
-	if get_tree().reload_current_scene() != OK:
-		push_error("couldnt reload current scene after victory")
+		game_scene.ending_popup.label_text = "MISSION FAILED"
 
 func update_wave_counters():
 	lvl1_max = current_wave[1]
