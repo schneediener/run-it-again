@@ -21,5 +21,6 @@ func _process(delta):
 	$MarginContainer/Control/Label.text = "0:" + str(stepify($Timer.time_left, 1))
 
 func _on_Timer_timeout():
-	game_scene.dialogue_menu.show()
-	game_scene.dialogue_menu.playing = true
+	if game_scene.map_node.ready_to_finish == false:
+		game_scene.dialogue_menu.show()
+		game_scene.dialogue_menu.playing = true

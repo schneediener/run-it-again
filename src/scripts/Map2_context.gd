@@ -107,8 +107,6 @@ func start_new_wave():
 		elif current_wave[0] == "Finale":
 			if mission_complete:
 				ready_to_finish = true
-	else:
-		ready_to_finish = true
 	
 func spawn_dropship():
 	var dropship = load("res://src/scenes/enemies/Dropship_Test.tscn").instance()
