@@ -32,9 +32,9 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Run-it-again"
+config/name="Run It Again"
 run/main_scene="res://src/scenes/SceneHandler.tscn"
-config/icon="res://src/assets/images/icon.png"
+config/icon="res://src/assets/images/project_icon.png"
 
 [display]
 
