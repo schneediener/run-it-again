@@ -10,6 +10,7 @@ extents = Vector2( 34.5833, 31.25 )
 
 [node name="ContextEnemy" type="KinematicBody2D"]
 position = Vector2( 97, 45 )
+scale = Vector2( 0.2, 0.2 )
 collision_layer = 131074
 collision_mask = 131078
 script = ExtResource( 4 )
