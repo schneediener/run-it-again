@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/assets/images/enemy_health_over_texture.png" type="Texture" id=1]
-[ext_resource path="res://src/assets/images/icon.png" type="Texture" id=2]
+[ext_resource path="res://src/assets/images/placeholder_enemy.png" type="Texture" id=2]
 [ext_resource path="res://src/assets/images/enemy_health_progress_texture.png" type="Texture" id=3]
 [ext_resource path="res://src/scripts/TestEnemy2.gd" type="Script" id=4]
 
