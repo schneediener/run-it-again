@@ -165,9 +165,11 @@ func spawn_new_enemy():
 #	initial_path_creation($Spawn.global_position, $ExitPointLeft.global_position)
 	
 	var next_enemy
-	var spawn_1 = $Spawn
-	var spawn_2 = $Spawn/Spawn_2
-	var spawn_3 = $Spawn/Spawn_3
+	var x_1 = $Spawn.points[0].x
+	var x_2 = $Spawn.points[1].x
+	var y_1 = $Spawn.global_position.y
+	
+	var spawn_point = Vector2(rand_range(x_1, x_2), y_1)
 	var next_spawn
 	
 	if enemy_roulette.empty():
@@ -189,20 +191,11 @@ func spawn_new_enemy():
 			push_error("enemy type unknown during spawn_new_enemy")
 	
 	if next_enemy:
-		next_spawn = randi() % 3 + 1
+#		next_spawn = randi() % 3 + 1
 		next_enemy = next_enemy.instance()
 		game_scene.get_node("UserInterface/WavePanel/EnemyCounter").text = str(enemy_roulette.size()) + " units remaining"
-		var spawn_offset_randi = randi() % 5
-		match next_spawn:
-			1:
-				next_enemy.global_position = (spawn_1.global_position + Vector2(0,spawn_offset_randi*30))
-				
-			2:
-				next_enemy.global_position = (spawn_2.global_position + Vector2(0,spawn_offset_randi*30))
-			3:
-				next_enemy.global_position = (spawn_3.global_position + Vector2(0,spawn_offset_randi*30))
-			_:
-				push_error("error selecting spawn position")
+#		var spawn_offset_randi = randi() % 5
+		next_enemy.global_position = spawn_point
 		
 		$EnemyContainer.add_child(next_enemy, true)
 		enemy_roulette.erase(next_type)

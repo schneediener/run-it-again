@@ -1,6 +1,6 @@
 extends EnemyGeneral
 
-var look_ahead = 250
+var look_ahead = 150
 var num_rays = 16
 
 # context array
@@ -22,7 +22,7 @@ onready var path_follow = path.get_node("PathFollow2D")
 func _ready():
 	var speed_random = randi() % 2
 	if speed_random == 0:
-		orig_speed += 100
+		orig_speed += 50
 	self.speed = orig_speed
 	calc_endpoint()
 	interest.resize(num_rays)

@@ -280,9 +280,11 @@ func select_box(click_type):
 	query.transform = Transform2D(0, (drag_end + drag_start) / 2)
 	var intersect_query
 	intersect_query = space.intersect_shape(query)
+	
 	for each in intersect_query:
+		var temp_class = each.collider.get_class()
 		if each.collider.get_class() != "TileMap":
-			if each.collider.type == "tower" or "infantry":
+			if each.collider.type == "tower" or each.collider.type == "infantry":
 				if !selected_array.has(each.collider):
 					selected_array.append(each.collider)
 				else:
